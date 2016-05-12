@@ -1,0 +1,12 @@
+# Java
+/build/
+
+# Eclipse
+/.classpath
+/.project
+/.settings/
+
+
+# Maven
+/log/
+/target/
