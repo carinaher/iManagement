@@ -90,7 +90,7 @@ public class StudentController {
 		DataFactory df = new DataFactory();
 
 		for (int i = 0; i < 100; i++){
-			StudentModel sm = new StudentModel(df.getFirstName(), df.getFirstName(), df.getLastName(),df.getLastName(),df.getEmailAddress(),df.getNumberBetween(2013, 2015),df.getNumberBetween(1,3));
+			StudentModel sm = new StudentModel(df.getFirstName(), df.getFirstName(), df.getLastName(),df.getLastName(),df.getEmailAddress(),df.getNumberBetween(2013, 2016),df.getNumberBetween(1,4));
 			studentRepository.save(sm);}
 
 		return "forward:list";

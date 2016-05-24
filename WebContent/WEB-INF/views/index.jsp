@@ -6,58 +6,59 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="includes/bootstrapMeta.inc"%>
-<title>student Manager Spring Data JPA</title>
+<%@include file="includes/bootstrapMeta.inc" %>
+<title>iManagment</title>
 <%@include file="includes/bootstrapCss.css"%>
-<%@include file="includes/treeView.css"%>
-
+<%@include file="includes/treeView.css"%> 
 
 
 </head>
 <body>
 	<div class="container">
 		<center>
-			<h1>${type}</h1>
-			<br>
-			<!--  search by Id ----------------------------------------------------------- -->
-			<form action="findById" method="post">
-				Find by Id: <input type="text" name="id"> <input
-					type="submit" value="Do it">
-			</form>
-			<hr>
+		<h1>Students</h1>
+	
+		<!--  Error message ----------------------------------------------------------- -->
+		<c:if test="${not empty errorMessage}">
+			<div class="alert alert-danger" role="alert">${errorMessage}</div>
+		</c:if>
+		<!--  Error message ----------------------------------------------------------- -->
 
-			<!--  paging ----------------------------------------------------------- -->
-			<form action="getPage" method="post">
-				Paging: Page:<input type="text" name="page" value="0"> 
-				Size:<input type="text" name="size" value="10">
-				 <input type="submit" value="Do it">
-			</form>
-			<hr>
+		<!--  Warning message ----------------------------------------------------------- -->
+		<c:if test="${not empty warningMessage}">
+			<div class="alert alert-warning" role="warning">
+				${warningMessage}</div>
+		</c:if>
+		<!--  Warning message ----------------------------------------------------------- -->
 
-			<!--  Search + Fill ----------------------------------------------------------- -->
-			<div class="row">
-				<form method="post" action="find">
-					<label for="searchString">Search:</label> 
-					<select name="type">
-						<option value="findAll" selected="selected">findAll</option>
-						<option value="findByLastName">findByLastName</option>
-						<option value="findByFirstName">findByFirstName</option>
+		<!--   message ----------------------------------------------------------- -->
+		<c:if test="${not empty message}">
+			<div class="alert alert-success" role="warning">
+				${message}</div>
+		</c:if>
+		<!--   message ----------------------------------------------------------- -->
+
+
+		<!--  2 simple buttons ----------------------------------------------------------- -->
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<p>
 					
-					</select> <input type="text" name="searchString"> <input
-						type="submit" value="Do it">
-				</form>
+					<a href="fill">
+						<button type="button" class="btn btn-success">Fill List</button>
+					</a>
+				</p>
 			</div>
-
-			<!--  Search + Fill ----------------------------------------------------------- -->
-			<h3>Count: ${count}</h3>
-		</center>
-
-
+		</div>
+		<!--  2 simple buttons ----------------------------------------------------------- -->
 
 		<!--  list all students ----------------------------------------------------------- -->
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				<h1>students</h1>
+				
+				
+
+				<br>
 				<table data-toggle="table" class="table table-striped">
 					<thead>
 						<tr>
@@ -67,9 +68,7 @@
 							<th>Last Name</th>
 							<th>Year</th>
 							<th>Group</th>
-							<th>Action <a href="fill"><button type="button"
-										class="btn btn-success">Fill List</button></a>
-							</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -91,6 +90,7 @@
 		<!--  list all students ----------------------------------------------------------- -->
 	</div>
 	<!--  end of container -->
-	<%@include file="includes/bootstrapJs.js"%>
+ <%@include file="includes/bootstrapJs.js"%> 
+
 </body>
 </html>
