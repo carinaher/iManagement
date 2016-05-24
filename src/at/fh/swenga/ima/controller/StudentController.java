@@ -58,23 +58,13 @@ public class StudentController {
 		int count = 0;
 
 		switch (type) {
-		case "findAll":
-			students = studentRepository.findAll(); // fill list with all the
-														// employees
-			break; // has to be there
-
-		/*case "findByLastName":
-			students = studentRepository.findByLastName(searchString);
+		case "":
 			break;
 
-		case "findByFirstName":
-			students = studentRepository.findByFirstName(searchString);
-
-			break;*/
 
 		default:
-			students = studentRepository.findAll(); // if no case matches,
-														// this is executed
+			students = studentRepository.findAll();
+	
 		}
 
 		model.addAttribute("students", students);
@@ -99,10 +89,9 @@ public class StudentController {
 		// Creates always the same data
 		DataFactory df = new DataFactory();
 
-
+		for (int i = 0; i < 100; i++){
 			StudentModel sm = new StudentModel(df.getFirstName(), df.getFirstName(), df.getLastName(),df.getLastName(),df.getEmailAddress(),df.getNumberBetween(2013, 2015),df.getNumberBetween(1,3));
-
-			studentRepository.save(sm);
+			studentRepository.save(sm);}
 
 		return "forward:list";
 	}

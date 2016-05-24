@@ -22,8 +22,10 @@ public class StudentModel implements java.io.Serializable {
 	String lastName;
 	String githubUser;
 	String eMail;
+	@Column(nullable = true)
 	int year;
-	int group;
+	@Column(nullable = true)
+	int groupId;
 	
 
 	
@@ -35,8 +37,8 @@ public class StudentModel implements java.io.Serializable {
 		
 	}
 	
-	public StudentModel( String userName, String firstName, String lastName, String githubUser, String eMail,
-			int year, int group) {
+	public StudentModel(String userName, String firstName, String lastName, String githubUser, String eMail,int year, int groupId) {
+
 		super();
 		this.userName = userName;
 		this.firstName = firstName;
@@ -44,7 +46,7 @@ public class StudentModel implements java.io.Serializable {
 		this.githubUser = githubUser;
 		this.eMail = eMail;
 		this.year = year;
-		this.group = group;
+		this.groupId = groupId;
 	}
 
 
@@ -133,16 +135,16 @@ public class StudentModel implements java.io.Serializable {
 
 
 
-	public int getGroup() {
-		return group;
+	public int getGroupId() {
+		return groupId;
 	}
 
 
 
-	public void setGroup(int group) {
-		this.group = group;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
-	
+
 	
 	
 	

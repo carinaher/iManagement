@@ -80,7 +80,7 @@
 								<td>${student.firstName}</td>
 								<td>${student.lastName}</td>
 								<td>${student.year}</td>
-								<td>${student.group}</td>
+								<td>${student.groupId}</td>
 								<td><a href="delete?id=${student.id}">Delete</a></td>
 							</tr>
 						</c:forEach>
