@@ -30,7 +30,7 @@ public class StudentController {
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 
-		return "index";
+		return "studentIndex";
 	}
 
 	@RequestMapping(value = { "/getPage" })
