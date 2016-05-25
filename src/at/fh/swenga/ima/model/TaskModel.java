@@ -25,8 +25,8 @@ public class TaskModel {
 	private Boolean status;
 	private Date dueDate;
 
-	public TaskModel(){
-		
+	public TaskModel() {
+
 	}
 
 	public TaskModel(int id, String taskName, String description, Boolean status, Date dueDate) {
@@ -77,7 +77,5 @@ public class TaskModel {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-
-	
 
 }

@@ -10,6 +10,4 @@ import at.fh.swenga.ima.model.StudentModel;
 @Transactional
 public interface StudentRepository extends JpaRepository<StudentModel, Integer> {
 
-	
-
 }
