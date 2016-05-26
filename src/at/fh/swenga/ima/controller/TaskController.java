@@ -24,6 +24,7 @@ public class TaskController {
 		List<TaskModel> tasks = taskRepository.findAll();
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("type", "findAll");
+		model.addAttribute("pageTitle", "Task List");
 
 		return "taskIndex";
 	}

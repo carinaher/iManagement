@@ -12,8 +12,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Easy Admin Panel an Admin Panel Category Flat Bootstrap
-	Responsive Website Template | Tables :: w3layouts</title>
+<title>${pageTitle} | iManagement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
@@ -68,11 +67,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!--logo and iconic logo start-->
 			<div class="logo">
 				<h1>
-					<a href="index.html">Easy <span>Admin</span></a>
+					<a href="/iManagement">Easy <span>Admin</span></a>
 				</h1>
 			</div>
 			<div class="logo-icon text-center">
-				<a href="index.html"><i class="lnr lnr-home"></i> </a>
+				<a href="/iManagement"><i class="lnr lnr-home"></i> </a>
 			</div>
 
 			<!--logo and iconic logo end-->
@@ -80,7 +79,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				<!--sidebar nav start-->
 				<ul class="nav nav-pills nav-stacked custom-nav">
-					<li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+					<li><a href="/iManagement"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
 					<li class="menu-list"><a href="#"><i class="lnr lnr-cog"></i>
 							<span>Components</span></a>
 						<ul class="sub-menu-list">

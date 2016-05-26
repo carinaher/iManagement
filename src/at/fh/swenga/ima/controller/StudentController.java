@@ -21,11 +21,12 @@ public class StudentController {
 	@Autowired
 	StudentRepository studentRepository;
 
-	@RequestMapping(value = { "/", "list" })
+	@RequestMapping(value = { "/student", "list" })
 	public String index(Model model) {
 		List<StudentModel> students = studentRepository.findAll();
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
+		model.addAttribute("pageTitle", "Student List");
 
 		return "studentIndex";
 	}
@@ -40,7 +41,7 @@ public class StudentController {
 	 * 
 	 * return "index"; }
 	 */
-	@RequestMapping(value = { "/find" })
+	@RequestMapping(value = { "/findStudent" })
 	// search for Requestparameter with the name type and store it in the string
 	// type
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
@@ -58,18 +59,18 @@ public class StudentController {
 
 		model.addAttribute("students", students);
 		model.addAttribute("count", count);
-		return "index";
+		return "studentIndex";
 	}
 
-	@RequestMapping(value = { "/findById" })
+	@RequestMapping(value = { "/findStudentById" })
 	public String findById(@RequestParam("id") StudentModel s, Model model) {
 		List<StudentModel> students = new ArrayList<>();
 		students.add(s);
 		model.addAttribute("students", students);
-		return "index";
+		return "studentIndex";
 	}
 
-	@RequestMapping("/fill")
+	@RequestMapping("/fillStudent")
 	@Transactional
 	public String fillData(Model model) {
 
@@ -105,14 +106,14 @@ public class StudentController {
 		
 		studentRepository.save(students);
 
-		return "forward:list";
+		return "forward:/student";
 	}
 
-	@RequestMapping("/delete")
+	@RequestMapping("/deleteStudent")
 	public String deleteData(Model model, @RequestParam int id) {
 		studentRepository.delete(id);
 
-		return "forward:list";
+		return "forward:/student";
 	}
 
 	@ExceptionHandler(Exception.class)
