@@ -567,7 +567,7 @@ footer  p a:hover{
     margin: 0;
     text-decoration: none;
     display: inline-block;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
 }
 .logo a span{
 	color:#000;

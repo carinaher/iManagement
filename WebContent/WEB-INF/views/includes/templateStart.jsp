@@ -67,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!--logo and iconic logo start-->
 			<div class="logo">
 				<h1>
-					<a href="/iManagement">Easy <span>Admin</span></a>
+					<a href="/iManagement"><span>iMA</span>NAGEMENT</a>
 				</h1>
 			</div>
 			<div class="logo-icon text-center">
