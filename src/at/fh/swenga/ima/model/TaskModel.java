@@ -24,14 +24,16 @@ public class TaskModel {
 	private String description;
 	private Boolean status;
 	private Date dueDate;
+	
+	
+	
 
 	public TaskModel() {
 
 	}
 
-	public TaskModel(int id, String taskName, String description, Boolean status, Date dueDate) {
+	public TaskModel(String taskName, String description, Boolean status, Date dueDate) {
 		super();
-		this.id = id;
 		this.taskName = taskName;
 		this.description = description;
 		this.status = status;
