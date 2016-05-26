@@ -1,7 +1,6 @@
-# iManagement
+![iManagement](imanagement.jpg "iManagement")
 
-## SWENGA Projekt Informationsmanagement JG 2014
-
+# SWENGA Projekt Informationsmanagement JG 2014
 Team:
 
 > Daniel Folk
@@ -13,3 +12,4 @@ Team:
 > Andreas Seebacher
 
 > Verena Skerbinz
+
