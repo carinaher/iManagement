@@ -39,7 +39,7 @@
 								<td>${task.description}</td>
 								<td>${task.status}</td>
 								<td><fmt:formatDate value="${task.dueDate}" pattern="dd.MM.yyyy"/></td>
-								<td><a href="delete?id=${task.id}">Delete</a></td>
+								<td><a href="deleteTask?id=${task.id}">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

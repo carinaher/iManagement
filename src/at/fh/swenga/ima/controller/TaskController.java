@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.TaskRepository;
 import at.fh.swenga.ima.model.TaskModel;
@@ -45,6 +46,13 @@ public class TaskController {
 		return "forward:/task";
 	}
 
+	@RequestMapping("/deleteTask")
+	public String deleteData(Model model, @RequestParam int id) {
+		taskRepository.delete(id);
+
+		return "forward:/task";
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 		return "showError";
