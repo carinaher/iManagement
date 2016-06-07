@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Task")
@@ -23,6 +25,7 @@ public class TaskModel {
 	private String taskName;
 	private String description;
 	private Boolean status;
+	@Temporal(TemporalType.DATE)
 	private Date dueDate;
 	
 	

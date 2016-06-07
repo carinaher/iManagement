@@ -14,7 +14,7 @@
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
 						<p>
-							<a href="fillStudent">
+							<a href="fillStudents">
 								<button type="button" class="btn btn-success">Fill List</button>
 							</a>
 						</p>

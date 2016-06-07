@@ -70,16 +70,16 @@ public class StudentController {
 		return "studentIndex";
 	}
 
-	@RequestMapping("/fillStudent")
+	@RequestMapping("/fillStudents")
 	@Transactional
 	public String fillData(Model model) {
 
 		List<StudentModel> students = new ArrayList<>();
-		students.add(new StudentModel("Folkdani13", "Daniel", "Folk", "Folkdani13", "daniel.folk@edu-fh.joanneum.at",14, 1));
-		students.add(new StudentModel("Seebacha14", "Andreas", "Seebacher", "Andseeb","andreas.seebacher@edu-fh.joanneum.at", 14, 1));
-		students.add(new StudentModel("Lichtene05", "Alexander", "Lichtenegger", "AlexanderLichtenegger","alexander.lichtenegger@edu-fh.joanneum.at", 14, 1));
-		students.add(new StudentModel("Skerbinz13", "Verena", "Skerbinz", "Verisker","verena.skerbinz@edu-fh.joanneum.at", 14, 1));
-		students.add(new StudentModel("Herzocar14", "Carina", "Herzog", "Carinaher", "carina.herzog@edu-fh.joanneum.at",14, 1));
+		students.add(new StudentModel("folkdani13", "Daniel", "Folk", "Folkdani13", "daniel.folk@edu-fh.joanneum.at",14, 1));
+		students.add(new StudentModel("seebacha14", "Andreas", "Seebacher", "andseeb","andreas.seebacher@edu-fh.joanneum.at", 14, 1));
+		students.add(new StudentModel("lichtene05", "Alexander", "Lichtenegger", "AlexanderLichtenegger","alexander.lichtenegger@edu-fh.joanneum.at", 14, 1));
+		students.add(new StudentModel("skerbinz13", "Verena", "Skerbinz", "verisker","verena.skerbinz@edu-fh.joanneum.at", 14, 1));
+		students.add(new StudentModel("herzocar14", "Carina", "Herzog", "carinaher", "carina.herzog@edu-fh.joanneum.at",14, 1));
 		
 		students.add(new StudentModel("bajricam14", "Amar", "Bajric", "amarbajric", "Amar.Bajric@edu-fh.joanneum.at",14, 2));
 		students.add(new StudentModel("fuchsmic14", "Michael", "Fuchs", "deKilla", "Michael.Fuchs@edu-fh.joanneum.at",14, 1));
@@ -97,7 +97,7 @@ public class StudentController {
 		students.add(new StudentModel("ortmann14", "Thomas", "Ortmann", "tortmann", "Thomas.Ortmann@edu-fh.joanneum.at",14, 1));
 		students.add(new StudentModel("rexhajrr13", "Rrolf", "Rexhaj", "rexhajrr13", "Rrolf.Rexhaj@edu-fh.joanneum.at",14, 2));
 		students.add(new StudentModel("schneida13", "Andreas", "Schneider", "zerberuss", "Andreas.Schneider2@edu-fh.joanneum.at",14, 2));
-		students.add(new StudentModel("spalekni", "Nina", "Spalek", "NSpalek", "Nina.Spalek@edu-fh.joanneum.at",14, 1));
+		students.add(new StudentModel("spalekni14", "Nina", "Spalek", "NSpalek", "Nina.Spalek@edu-fh.joanneum.at",14, 1));
 		students.add(new StudentModel("spanning13", "Florian", "Spanninger", "spanning13", "Florian.Spanninger@edu-fh.joanneum.at",14, 2));
 		students.add(new StudentModel("steinkel14", "Wolfgang", "Steinkellner", "steinkel14", "Wolfgang.Steinkellner@edu-fh.joanneum.at",14, 2));
 		students.add(new StudentModel("wagenede14", "Maximilian", "Wageneder", "mwageneder", "Maximilian.Wageneder@edu-fh.joanneum.at",14, 1));

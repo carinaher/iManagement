@@ -19,7 +19,7 @@ public class TaskController {
 	@Autowired
 	TaskRepository taskRepository;
 
-	@RequestMapping(value = { "/task", "listTask" })
+	@RequestMapping(value = { "/task", "list" })
 	public String index(Model model) {
 		List<TaskModel> tasks = taskRepository.findAll();
 		model.addAttribute("tasks", tasks);
