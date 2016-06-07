@@ -2,14 +2,20 @@ package at.fh.swenga.ima.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.StudentRepository;
@@ -116,6 +122,39 @@ public class StudentController {
 		return "forward:/student";
 	}
 
+	@RequestMapping(value = "/addStudent", method = RequestMethod.GET)
+	public String showAddStudentForm(Model model) {
+		return "studentEdit";
+	}
+	
+	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
+	public String addStudent(@Valid @ModelAttribute StudentModel newStudentModel, BindingResult bindingResult,
+			Model model) {
+ 
+		if (bindingResult.hasErrors()) {
+			String errorMessage = "";
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				errorMessage += fieldError.getField() + " is invalid<br>";
+			}
+			// put the errors into the model
+			model.addAttribute("errorMessage", errorMessage);
+			return "forward:/student";
+		}
+ 
+		//Optional<StudentModel> student = studentRepository.findOne(newStudentModel.getId());
+		StudentModel student = studentRepository.findStudentById(newStudentModel.getId());
+ 
+		if (student != null) {
+			model.addAttribute("errorMessage", "Student already exists!<br>");
+		} else {
+			studentRepository.save(newStudentModel);
+			model.addAttribute("message", "New student " + newStudentModel.getId() + " added.");
+		}
+ 
+		return "forward:/student";
+	}
+	
+	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 

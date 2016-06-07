@@ -17,6 +17,9 @@
 							<a href="fillStudents">
 								<button type="button" class="btn btn-success">Fill List</button>
 							</a>
+							<a href="addStudent">
+								<button type="button" class="btn btn-success">Add Student</button>
+							</a>
 						</p>
 					</div>
 				</div>
@@ -42,6 +45,7 @@
 								<td>${student.year}</td>
 								<td>${student.groupId}</td>
 								<td><a href="deleteStudent?id=${student.id}">Delete</a></td>
+								
 							</tr>
 						</c:forEach>
 					</tbody>
