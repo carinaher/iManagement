@@ -6,6 +6,26 @@
 
 <jsp:include page="includes/templateStart.jsp"/>
 
+<!--  Error message ----------------------------------------------------------- -->
+		<c:if test="${not empty errorMessage}">
+			<div class="alert alert-danger" role="alert">${errorMessage}</div>
+		</c:if>
+		<!--  Error message ----------------------------------------------------------- -->
+
+		<!--  Warning message ----------------------------------------------------------- -->
+		<c:if test="${not empty warningMessage}">
+			<div class="alert alert-warning" role="warning">
+				${warningMessage}</div>
+		</c:if>
+		<!--  Warning message ----------------------------------------------------------- -->
+
+		<!--   message ----------------------------------------------------------- -->
+		<c:if test="${not empty message}">
+			<div class="alert alert-success" role="warning">
+				${message}</div>
+		</c:if>
+		<!--   message ----------------------------------------------------------- -->
+
 <div id="page-wrapper">
 	<div class="graphs">
 		<h3 class="blank1">Student Table</h3>
@@ -44,7 +64,10 @@
 								<td>${student.lastName}</td>
 								<td>${student.year}</td>
 								<td>${student.groupId}</td>
-								<td><a href="deleteStudent?id=${student.id}">Delete</a></td>
+								<td>
+								<a href="deleteStudent?id=${student.id}">Delete</a>
+								<a href="editStudent?id=${student.id}">Edit</a>
+								</td>
 								
 							</tr>
 						</c:forEach>

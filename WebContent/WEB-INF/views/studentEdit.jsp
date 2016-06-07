@@ -16,7 +16,7 @@
 	<c:otherwise>
 		<c:set var="legend">New Student</c:set>
 		<c:set var="formAction">addStudent</c:set>
-		<c:set var="readonly"></c:set>
+		<c:set var="readonly">readonly</c:set>
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
@@ -31,13 +31,23 @@
 				<table class="table">
 					<form class="form-horizontal" method="post" action="${formAction}">
 					<fieldset>
+						
+							
+						<! ----------------  id --------------- -->
+						<div class="form-group">
+							<label for="inputId" class="col-md-2 control-label">ID</label>
+							<div class="col-md-10">
+								<input class="form-control" id="inputId" type="text" name="id"
+									${readonly} value="<c:out value="${student.id}"/>">
+							</div>
+						</div>
 											
 						<! ----------------  userName ---------------- -->
 						<div class="form-group">
 							<label for="inputUserName" class="col-md-2 control-label">Username</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputUserName" type="text" name="userName"
-									${readonly} value="<c:out value="${student.userName}"/>">
+									value="<c:out value="${student.userName}"/>">
 							</div>
 						</div>
 						
@@ -46,7 +56,7 @@
 							<label for="inputFirstName" class="col-md-2 control-label">First Name</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputFirstName" type="text" name="firstName"
-									${readonly} value="<c:out value="${student.firstName}"/>">
+									value="<c:out value="${student.firstName}"/>">
 							</div>
 						</div>
 						
@@ -55,7 +65,7 @@
 							<label for="inputLastName" class="col-md-2 control-label">Last Name</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputLastName" type="text" name="lastName"
-									${readonly} value="<c:out value="${student.lastName}"/>">
+									value="<c:out value="${student.lastName}"/>">
 							</div>
 						</div>
 						
@@ -64,7 +74,7 @@
 							<label for="inputGithubUser" class="col-md-2 control-label">Github User</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputGithubUser" type="text" name="githubUser"
-									${readonly} value="<c:out value="${student.githubUser}"/>">
+									value="<c:out value="${student.githubUser}"/>">
 							</div>
 						</div>
 						
@@ -73,7 +83,7 @@
 							<label for="inputEMail" class="col-md-2 control-label">E-Mail</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputEMail" type="text" name="eMail"
-									${readonly} value="<c:out value="${student.eMail}"/>">
+									value="<c:out value="${student.eMail}"/>">
 							</div>
 						</div>
 						
@@ -82,7 +92,7 @@
 							<label for="inputYear" class="col-md-2 control-label">Year</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputYear" type="text" name="year"
-									${readonly} value="<c:out value="${student.year}"/>">
+									value="<c:out value="${student.year}"/>">
 							</div>
 						</div>
 						
@@ -91,7 +101,7 @@
 							<label for="inputGroupId" class="col-md-2 control-label">Group ID</label>
 							<div class="col-md-10">
 								<input class="form-control" id="inputGroupId" type="text" name="groupId"
-									${readonly} value="<c:out value="${student.groupId}"/>">
+									value="<c:out value="${student.groupId}"/>">
 							</div>
 						</div>
 						
@@ -99,7 +109,7 @@
 						<div class="form-group">
 							<div class="col-md-10 col-md-offset-2">
 								<button type="submit" class="btn btn-primary">Submit</button>
-								<a href="listStudents">
+								<a href="student">
 									<button type="button" class="btn btn-default">Cancel</button>
 								</a>
 							</div>
