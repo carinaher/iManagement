@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Error</title>
 </head>
 <body>
-	<h1>Fehler</h1>
+	<h1>Error</h1>
 	Message: <%=exception.getMessage() %><br>
 	<br>
 	Exception:    ${requestScope["javax.servlet.error.exception"]}<br>
@@ -24,6 +24,6 @@
 	Request-URI:  ${pageContext.errorData.requestURI}<br>
 	Servlet Name: ${pageContext.errorData.servletName}<br>
 	<br>
-	<a href="./">Zurück</a>
+	<a href="./">Back</a>
 </body>
 </html>
