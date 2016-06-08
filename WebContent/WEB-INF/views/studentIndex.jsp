@@ -33,13 +33,15 @@
 			<div class="bs-example4" data-example-id="contextual-table">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
-						<p>
+						<p>					
 							<a href="fillStudents">
 								<button type="button" class="btn btn-success">Fill List</button>
 							</a>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<a href="addStudent">
 								<button type="button" class="btn btn-success">Add Student</button>
 							</a>
+							</sec:authorize>
 						</p>
 					</div>
 				</div>
@@ -65,8 +67,10 @@
 								<td>${student.year}</td>
 								<td>${student.groupId}</td>
 								<td>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
 								<a href="deleteStudent?id=${student.id}">Delete</a>
 								<a href="editStudent?id=${student.id}">Edit</a>
+								</sec:authorize>
 								</td>
 								
 							</tr>
@@ -79,4 +83,14 @@
 		</div>
 	</div>
 </div>
+
+<c:url value="/logout" var="logoutUrl" />
+		<form action="${ logoutUrl}" method="post">
+			<input type="hidden" name="${_csrf.parameterName }"
+				value="${ _csrf.token}" /> <input class="btn btn-xs btn-danger"
+				type="submit" value="Logout" />
+		</form>
+
+
+
 <jsp:include page="includes/templateEnd.jsp"/>
