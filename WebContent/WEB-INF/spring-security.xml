@@ -15,6 +15,9 @@
 		<intercept-url pattern="/deleteStudent" access="hasRole('ADMIN')" /> 	<!-- nun kann ein User keine Students mehr löschen -->
 		<intercept-url pattern="/editStudent" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Students mehr editieren -->
 		<intercept-url pattern="/addStudent" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Students mehr erstellen -->
+		<intercept-url pattern="/deleteTask" access="hasRole('ADMIN')" /> 	<!-- nun kann ein User keine Tasks mehr löschen -->
+		<intercept-url pattern="/editTask" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Tasks mehr editieren -->
+		<intercept-url pattern="/addTask" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Tasks mehr erstellen -->
 		<intercept-url pattern="/**" access="hasRole('USER')" /> 				<!-- /** => jede url nach dem Slash, egal wie viele / noch kommen -->
 		<form-login login-page="/login" />
 		<form-login default-target-url ="/" always-use-default-target="true" login-page="/login"/>
