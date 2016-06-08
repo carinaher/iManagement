@@ -16,7 +16,7 @@
 	<c:otherwise>
 		<c:set var="legend">New Student</c:set>
 		<c:set var="formAction">addStudent</c:set>
-		<c:set var="readonly">readonly</c:set>
+		<c:set var="readonly"></c:set>
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
@@ -32,7 +32,7 @@
 					<form class="form-horizontal" method="post" action="${formAction}">
 					<fieldset>
 						
-							
+						
 						<! ----------------  id --------------- -->
 						<div class="form-group">
 							<label for="inputId" class="col-md-2 control-label">ID</label>
@@ -41,7 +41,7 @@
 									${readonly} value="<c:out value="${student.id}"/>">
 							</div>
 						</div>
-											
+												
 						<! ----------------  userName ---------------- -->
 						<div class="form-group">
 							<label for="inputUserName" class="col-md-2 control-label">Username</label>

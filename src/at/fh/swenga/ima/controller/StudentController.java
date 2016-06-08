@@ -140,8 +140,7 @@ public class StudentController {
 			return "forward:/student";
 		}
  
-		//Optional<StudentModel> student = studentRepository.findOne(newStudentModel.getId());
-		StudentModel student = studentRepository.findStudentById(newStudentModel.getId());
+		StudentModel student = studentRepository.findById(newStudentModel.getId());
  
 		if (student != null) {
 			model.addAttribute("errorMessage", "Student already exists!<br>");
@@ -155,7 +154,7 @@ public class StudentController {
 	
 	@RequestMapping(value = "/editStudent", method = RequestMethod.GET)
 	public String showEditStudentForm(Model model, @RequestParam int id) {
-		StudentModel student = studentRepository.findStudentById(id);
+		StudentModel student = studentRepository.findById(id);
 		if (student != null) {
 			model.addAttribute("student", student);
 			return "studentEdit";
@@ -178,12 +177,11 @@ public class StudentController {
 			return "forward:/student";
 		}
  
-		StudentModel student = studentRepository.findStudentById(editedStudentModel.getId());
+		StudentModel student = studentRepository.findById(editedStudentModel.getId());
  
 		if (student == null) {
 			model.addAttribute("errorMessage", "Student" + editedStudentModel.getId() + "does not exist!<br>");
 		} else {
-			//student.setId(editedStudentModel.getId());
 			student.setUserName(editedStudentModel.getUserName());
 			student.setFirstName(editedStudentModel.getFirstName());
 			student.setLastName(editedStudentModel.getLastName());
