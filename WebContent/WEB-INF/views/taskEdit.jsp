@@ -5,6 +5,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <jsp:include page="includes/templateStart.jsp" />
+<link
+	href="http://www.malot.fr/bootstrap-datetimepicker/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"
+	rel="stylesheet">
 
 <!--  add or edit?  ----------------------------------------------------------- -->
 <c:choose>
@@ -37,9 +40,8 @@
 							<div class="form-group">
 								<label for="inputId" class="col-md-2 control-label">Id</label>
 								<div class="col-md-10">
-									<input class="form-control" id="inputId" type="text"
-										name="id" ${readonly}
-										value="<c:out value="${task.id}"/>">
+									<input class="form-control" id="inputId" type="text" name="id"
+										${readonly} value="<c:out value="${task.id}"/>">
 								</div>
 							</div>
 
@@ -50,8 +52,7 @@
 									Name</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputTaskName" type="text"
-										name="taskName" ${readonly}
-										value="<c:out value="${task.taskName}"/>">
+										name="taskName" value="<c:out value="${task.taskName}"/>">
 								</div>
 							</div>
 
@@ -60,7 +61,7 @@
 								<label for="inputDescription" class="col-md-2 control-label">Description</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputDescription" type="text"
-										name="description" ${readonly}
+										name="description"
 										value="<c:out value="${task.description}"/>">
 								</div>
 							</div>
@@ -70,8 +71,7 @@
 								<label for="inputStatus" class="col-md-2 control-label">Status</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputStatus" type="text"
-										name="status" ${readonly}
-										value="<c:out value="${task.status}"/>">
+										name="status" value="<c:out value="${task.status}"/>">
 								</div>
 							</div>
 
@@ -81,7 +81,7 @@
 									Date</label>
 								<div class="col-md-10">
 									<input class="form_datetime" id="inputDueDate"
-										placeholder="DueDate" type="text" readonly name="dueDate"
+										placeholder="Due Date" type="text" readonly name="dueDate"
 										value="<fmt:formatDate value="${task.dueDate}" pattern="dd.MM.yyyy"/>">
 								</div>
 							</div>
@@ -91,14 +91,11 @@
 							<div class="form-group">
 								<div class="col-md-10 col-md-offset-2">
 									<button type="submit" class="btn btn-primary">Submit</button>
-									<a href="listTasks">
+									<a href="task">
 										<button type="button" class="btn btn-default">Cancel</button>
 									</a>
 								</div>
 							</div>
-
-
-
 						</fieldset>
 					</form>
 				</table>

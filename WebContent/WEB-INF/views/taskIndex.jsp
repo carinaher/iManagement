@@ -5,6 +5,26 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <jsp:include page="includes/templateStart.jsp"/>
 
+<!--  Error message ----------------------------------------------------------- -->
+		<c:if test="${not empty errorMessage}">
+			<div class="alert alert-danger" role="alert">${errorMessage}</div>
+		</c:if>
+		<!--  Error message ----------------------------------------------------------- -->
+
+		<!--  Warning message ----------------------------------------------------------- -->
+		<c:if test="${not empty warningMessage}">
+			<div class="alert alert-warning" role="warning">
+				${warningMessage}</div>
+		</c:if>
+		<!--  Warning message ----------------------------------------------------------- -->
+
+		<!--   message ----------------------------------------------------------- -->
+		<c:if test="${not empty message}">
+			<div class="alert alert-success" role="warning">
+				${message}</div>
+		</c:if>
+		<!--   message ----------------------------------------------------------- -->
+
 
 <div id="page-wrapper">
 	<div class="graphs">
@@ -42,7 +62,8 @@
 								<td>${task.description}</td>
 								<td>${task.status}</td>
 								<td><fmt:formatDate value="${task.dueDate}" pattern="dd.MM.yyyy"/></td>
-								<td><a href="deleteTask?id=${task.id}">Delete</a></td>
+								<td><a href="deleteTask?id=${task.id}">Delete</a>
+								<a href="editTask?id=${task.id}">Edit</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
