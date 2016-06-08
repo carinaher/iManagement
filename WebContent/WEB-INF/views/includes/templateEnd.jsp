@@ -9,8 +9,8 @@
 <!--footer section start-->
 <footer>
 	<p>
-		&copy 2015 Easy Admin Panel. All Rights Reserved | Design by <a
-			href="https://w3layouts.com/" target="_blank">w3layouts.</a>
+		&copy 2015 Easy Admin Panel. All Rights Reserved | designed by <a
+			href="https://w3layouts.com/" target="_blank">w3layouts. </a>  | modified by IMA14
 	</p>
 </footer>
 <!--footer section end-->

@@ -337,24 +337,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="clearfix"></div>
 							</ul>
 						</div>
-						<div class="social_icons">
-							<div class="col-md-4 social_icons-left">
-								<a href="#" class="yui"><i class="fa fa-facebook i1"></i><span>300<sup>+</sup>
-										Likes
-								</span></a>
-							</div>
-							<div class="col-md-4 social_icons-left pinterest">
-								<a href="#"><i class="fa fa-google-plus i1"></i><span>500<sup>+</sup>
-										Shares
-								</span></a>
-							</div>
-							<div class="col-md-4 social_icons-left twi">
-								<a href="#"><i class="fa fa-twitter i1"></i><span>500<sup>+</sup>
-										Tweets
-								</span></a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
+						
 						<div class="clearfix"></div>
 					</div>
 				</div>
