@@ -34,22 +34,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </script>
 <!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="resources/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="resources/css/style.css" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet">
+<link href="resources/css/font-awesome.css" rel="stylesheet">
 <!-- jQuery -->
 <!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="resources/css/icon-font.min.css" type='text/css' />
 <!-- //lined-icons -->
 <!-- chart -->
-<script src="js/Chart.js"></script>
+<script src="resources/js/Chart.js"></script>
 <!-- //chart -->
 <!--animate-->
-<link href="css/animate.css" rel="stylesheet" type="text/css"
+<link href="resources/css/animate.css" rel="stylesheet" type="text/css"
 	media="all">
-<script src="js/wow.min.js"></script>
+<script src="resources/js/wow.min.js"></script>
 <script>
 	new WOW().init();
 </script>
@@ -60,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	rel='stylesheet' type='text/css'>
 <!---//webfonts--->
 <!-- Meters graphs -->
-<script src="js/jquery-1.10.2.min.js"></script>
+<script src="resources/js/jquery-1.10.2.min.js"></script>
 <!-- Placed js at the end of the document so the pages load faster -->
 
 </head>
@@ -298,7 +298,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									class="dropdown-toggle" data-toggle="dropdown"
 									aria-expanded="false">
 										<div class="profile_img">
-											<span style="background: url(images/1.jpg) no-repeat center">
+											<span style="background: url(resources/images/1.jpg) no-repeat center">
 											</span>
 											<div class="user-name">
 												<p>
