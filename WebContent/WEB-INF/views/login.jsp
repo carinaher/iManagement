@@ -4,7 +4,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<jsp:include page="includes/templateStart.jsp"/>
+<jsp:include page="includes/templateLogin.jsp"/>
 
 <title>iManagement Login</title>
 <body>
@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<c:url value="/login" var="loginUrl" />
-				<form action="${loginUrl}" method="post">
+				<form class="login-form" action="${loginUrl}" method="post">
 					<h2 class="form-signin-heading">Please log in</h2>
 					<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message != null}">
 						<div class="alert alert-danger" role="alert">
