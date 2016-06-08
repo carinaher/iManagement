@@ -117,7 +117,6 @@ h1, h2, h3, h4, h5 {
  }
  .login-form{
  	padding:8%;
- 	margin:100px auto;	
  	background:#FFF;
 	border-radius:2em;
 	-webkit-border-radius:2em;
@@ -520,7 +519,7 @@ footer  p {
     font-size: 14px;
 }
 footer  p a{
-	color:#76B82A;
+	color:#F44336;
 }
 footer  p a:hover{
 	text-decoration:underline;
@@ -966,11 +965,6 @@ ul.nav li a span {
     -o-box-shadow: 1px 0 3px rgba(0,0,0,.15);
 }
 
-.header-section-transparent {
-    background:transparent;
-    box-shadow: none;
-}
-
 .header-section::after {
     clear: both;
     display: block;
@@ -987,7 +981,7 @@ ul.nav li a span {
     cursor: pointer;
     float: left;
     color: #fff;
-    background: #76B82A;
+    background: #F44336;
     border: none;
     border-radius: 100%;
     -moz-transition: all 0.2s ease-out 0s;
@@ -1861,10 +1855,6 @@ ul.dropdown-menu.drp-mnu li a i {
 .main-content4{
 	min-height: 2275px !important;
 }
-.main-content7{
-	min-height: 900px !important;
-}
-
 /*-- switches1 --*/
 .switches1 {
     margin:2.3em 1em 0;
