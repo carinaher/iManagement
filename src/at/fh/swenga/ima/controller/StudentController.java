@@ -2,7 +2,6 @@ package at.fh.swenga.ima.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -154,6 +153,48 @@ public class StudentController {
 		return "forward:/student";
 	}
 	
+	@RequestMapping(value = "/editStudent", method = RequestMethod.GET)
+	public String showEditStudentForm(Model model, @RequestParam int id) {
+		StudentModel student = studentRepository.findStudentById(id);
+		if (student != null) {
+			model.addAttribute("student", student);
+			return "studentEdit";
+		} else {
+			model.addAttribute("errorMessage", "Couldn't find student " + id);
+			return "forward:/student";
+		}
+	}
+	
+	@RequestMapping(value = "/editStudent", method = RequestMethod.POST)
+	public String editStudent(@Valid @ModelAttribute StudentModel editedStudentModel, BindingResult bindingResult,
+			Model model) {
+ 
+		if (bindingResult.hasErrors()) {
+			String errorMessage = "";
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				errorMessage += fieldError.getField() + " is invalid<br>";
+			}
+			model.addAttribute("errorMessage", errorMessage);
+			return "forward:/student";
+		}
+ 
+		StudentModel student = studentRepository.findStudentById(editedStudentModel.getId());
+ 
+		if (student == null) {
+			model.addAttribute("errorMessage", "Student" + editedStudentModel.getId() + "does not exist!<br>");
+		} else {
+			//student.setId(editedStudentModel.getId());
+			student.setUserName(editedStudentModel.getUserName());
+			student.setFirstName(editedStudentModel.getFirstName());
+			student.setLastName(editedStudentModel.getLastName());
+			student.setGithubUser(editedStudentModel.getGithubUser());
+			student.seteMail(editedStudentModel.geteMail());
+			model.addAttribute("message", "Changed student " + editedStudentModel.getId());
+			studentRepository.save(student);
+		}
+ 
+		return "forward:/student";
+	}
 	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
