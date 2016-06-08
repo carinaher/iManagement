@@ -1,5 +1,6 @@
 package at.fh.swenga.ima.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.TaskRepository;
+import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Controller
@@ -43,9 +45,10 @@ public class TaskController {
 
 		// Creates always the same data
 		DataFactory df = new DataFactory();
+		Date now = new Date();
 
 		for (int i = 0; i < 10; i++) {
-			TaskModel tm = new TaskModel(df.getFirstName(), df.getFirstName(), df.chance(50), df.getBirthDate());
+			TaskModel tm = new TaskModel(df.getFirstName(), df.getFirstName(), df.chance(50), df.getDateBetween(now,df.getDate(2017, 1, 1) ));
 			taskRepository.save(tm);
 		}
 
@@ -85,6 +88,49 @@ public class TaskController {
 		} else {
 			taskRepository.save(newTaskModel);
 			model.addAttribute("message", "New task " + newTaskModel.getId() + " added.");
+		}
+ 
+		return "forward:/task";
+	}
+	
+	@RequestMapping(value = "/editTask", method = RequestMethod.GET)
+	public String showEditTaskForm(Model model, @RequestParam int id) {
+		TaskModel task = taskRepository.findTaskById(id);
+		if (task != null) {
+			model.addAttribute("task", task);
+			return "taskEdit";
+		} else {
+			model.addAttribute("errorMessage", "Couldn't find task " + id);
+			return "forward:/task";
+		}
+	}
+	
+	@RequestMapping(value = "/editTask", method = RequestMethod.POST)
+	public String editTask(@Valid @ModelAttribute TaskModel editedTaskModel, BindingResult bindingResult,
+			Model model) {
+ 
+		if (bindingResult.hasErrors()) {
+			String errorMessage = "";
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				errorMessage += fieldError.getField() + " is invalid<br>";
+			}
+			model.addAttribute("errorMessage", errorMessage);
+			return "forward:/student";
+		}
+ 
+		TaskModel task = taskRepository.findTaskById(editedTaskModel.getId());
+ 
+		if (task == null) {
+			model.addAttribute("errorMessage", "Task" + editedTaskModel.getId() + "does not exist!<br>");
+		} else {
+			//student.setId(editedTaskModel.getId());
+			task.setId(editedTaskModel.getId());
+			task.setTaskName(editedTaskModel.getTaskName());
+			task.setDescription(editedTaskModel.getDescription());
+			task.setStatus(editedTaskModel.getStatus());
+			task.setDueDate(editedTaskModel.getDueDate());
+			model.addAttribute("message", "Changed task " + editedTaskModel.getId());
+			taskRepository.save(task);
 		}
  
 		return "forward:/task";

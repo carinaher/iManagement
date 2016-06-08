@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Task")
@@ -25,7 +27,10 @@ public class TaskModel {
 	private String taskName;
 	private String description;
 	private Boolean status;
-	@Temporal(TemporalType.DATE)
+	
+	@NotNull(message = "{0} is required")
+	@DateTimeFormat(pattern = "dd.MM.yyyy")
+	@Future(message = "{0} must be in the future")
 	private Date dueDate;
 	
 	
