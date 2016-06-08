@@ -17,6 +17,9 @@
 							<a href="fillTasks">
 								<button type="button" class="btn btn-success">Fill List</button>
 							</a>
+							<a href="addTask">
+								<button type="button" class="btn btn-success">Add Task</button>
+							</a>
 						</p>
 					</div>
 				</div>
