@@ -135,7 +135,7 @@ public class TaskController {
  
 		return "forward:/task";
 	}
-	
+
 	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
