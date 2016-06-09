@@ -7,7 +7,7 @@
 	<http>
 		<csrf />
 		<!-- !!!!!!!!!!!!!!!!!!!!! Reihenfolge wichtig! /** IMMER zum schluss!!! -->
-		<intercept-url pattern="/css/**" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/fonts/**" access="permitAll" />
 		<intercept-url pattern="/images/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />
