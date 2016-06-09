@@ -8,9 +8,6 @@
 		<csrf />
 		<!-- !!!!!!!!!!!!!!!!!!!!! Reihenfolge wichtig! /** IMMER zum schluss!!! -->
 		<intercept-url pattern="/resources/**" access="permitAll" />
-		<intercept-url pattern="/fonts/**" access="permitAll" />
-		<intercept-url pattern="/images/**" access="permitAll" />
-		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/deleteStudent" access="hasRole('ADMIN')" /> 	<!-- nun kann ein User keine Students mehr löschen -->
 		<intercept-url pattern="/editStudent" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Students mehr editieren -->
