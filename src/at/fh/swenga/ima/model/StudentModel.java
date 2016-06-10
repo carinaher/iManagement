@@ -27,8 +27,6 @@ public class StudentModel implements java.io.Serializable {
 	@Column(nullable = true)
 	int groupId;
 
-	// Passwort kommt in eigenes Model "User" -> für Anmeldung
-
 	// Picture???
 
 	public StudentModel() {
