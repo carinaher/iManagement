@@ -32,6 +32,7 @@
 				</form>
 			</div>
 		</div>
+		<div class="col-md-4 col-md-offset-4"><a href="fillDatabase">Fill Database</a></div>
 	</div>
 	<!--  End of container -->
 

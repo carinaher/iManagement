@@ -26,13 +26,13 @@ public class User implements java.io.Serializable {
 
 	public User() {}
 
-	public User(int id, String userName, String password, boolean enabled) {
+	public User(String userName, String password, boolean enabled) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
 	}
-	public User(int id, String userName, String password, boolean enabled, Set<UserRole> userRole) {
+	public User(String userName, String password, boolean enabled, Set<UserRole> userRole) {
 		super();
 		this.userName = userName;
 		this.password = password;

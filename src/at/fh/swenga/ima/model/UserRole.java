@@ -15,21 +15,28 @@ import javax.persistence.Table;
 public class UserRole implements java.io.Serializable {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_role_id", unique = true, nullable = false)
-	private Integer userRoleId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int userRoleId;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "username", nullable = false)
 	private User user;
 	@Column(name = "role", nullable = false, length = 45)
 	private String role;
 	
+
+	public UserRole() {};
+	public UserRole(User user, String role) {
+		super();
+		this.user = user;
+		this.role = role;
+	}
 	
 	
 	public int getUserRoleId() {
 		return userRoleId;
 	}
-	public void setUserRoleId(Integer userRoleId) {
+	public void setUserRoleId(int userRoleId) {
 		this.userRoleId = userRoleId;
 	}
 	public User getUserModel() {
