@@ -57,6 +57,7 @@
 								<th>Username</th>
 								<th>First Name</th>
 								<th>Last Name</th>
+								<th>GitHub Username</th>
 								<th>Year</th>
 								<th>Group</th>
 								<th>Action</th>
@@ -70,6 +71,7 @@
 									<td>${student.userName}</td>
 									<td>${student.firstName}</td>
 									<td>${student.lastName}</td>
+									<td>${student.githubUser}</td>
 									<td>${student.year}</td>
 									<td>${student.groupId}</td>
 									<td><sec:authorize access="hasRole('ROLE_ADMIN')">
