@@ -11,6 +11,8 @@
 <p><a href="student"><button type="button" class="btn btn-success">Student List</button></a></p>
 <br>
 <p><a href="task"><button type="button" class="btn btn-success">Task List</button></a></p>
+<br>
+<p><a href="editPassword"><button type="button" class="btn btn-success">Change Password</button></a></p>
 </div>
 
 
