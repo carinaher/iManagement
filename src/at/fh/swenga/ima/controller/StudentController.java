@@ -123,6 +123,7 @@ public class StudentController {
 
 	@RequestMapping(value = "/addStudent", method = RequestMethod.GET)
 	public String showAddStudentForm(Model model) {
+		model.addAttribute("pageTitle", "Add Student");
 		return "studentEdit";
 	}
 	
@@ -157,6 +158,7 @@ public class StudentController {
 		StudentModel student = studentRepository.findById(id);
 		if (student != null) {
 			model.addAttribute("student", student);
+			model.addAttribute("pageTitle", "Edit Student");
 			return "studentEdit";
 		} else {
 			model.addAttribute("errorMessage", "Couldn't find student " + id);

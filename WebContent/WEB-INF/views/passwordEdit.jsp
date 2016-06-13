@@ -6,6 +6,8 @@
 
 <jsp:include page="includes/templateStart.jsp" />
 
+<jsp:include page="includes/messages.jsp" />
+
 <c:set var="legend">Change password for user "${user.username}"</c:set>
 <c:set var="formAction">editPassword</c:set>
 <c:set var="readonly"></c:set>

@@ -328,4 +328,3 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				
 			</div>
 			<!-- //header-ends -->
-			<jsp:include page="messages.jsp" />
