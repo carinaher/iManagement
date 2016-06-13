@@ -6,7 +6,7 @@
 
 <jsp:include page="includes/templateStart.jsp" />
 
-<c:set var="legend">Change Password</c:set>
+<c:set var="legend">Change password for user "${user.username}"</c:set>
 <c:set var="formAction">editPassword</c:set>
 <c:set var="readonly"></c:set>
 
@@ -25,14 +25,6 @@
 						
 					<form class="form-horizontal" method="post" action="${formAction}"  data-toggle="validator">
 					<fieldset>
-						<!-- ----------------  userName ---------------- -->
-						<div class="form-group">
-							<label for="inputUserName" class="col-md-2 control-label">Username</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputUserName" type="text" name="userName"
-									value="<c:out value="${user.username}"/>">
-							</div>
-						</div>
 						
 						<!-- old password -->										
 					    <div class="form-group">
