@@ -20,6 +20,11 @@
 							<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
 						</div>
 					</c:if>
+					<c:if test="${param['pw-changed'] == true}">
+						<div class="alert alert-danger" role="alert">
+							<c:out value="${param['pw-changed']}" />
+						</div>
+					</c:if>
 					<label for="inputEmail" class="sr-only">Email address</label>
 					<input type="text" id="username" class="form-control" 
 						placeholder="User" required autofocus name="username">
