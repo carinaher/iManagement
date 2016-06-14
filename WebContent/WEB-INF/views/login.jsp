@@ -20,9 +20,9 @@
 							<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
 						</div>
 					</c:if>
-					<c:if test="${param['pw-changed'] == true}">
+					<c:if test="${not empty param['message']}">
 						<div class="alert alert-danger" role="alert">
-							<c:out value="${param['pw-changed']}" />
+							<c:out value="${param['message']}" />
 						</div>
 					</c:if>
 					<label for="inputEmail" class="sr-only">Email address</label>

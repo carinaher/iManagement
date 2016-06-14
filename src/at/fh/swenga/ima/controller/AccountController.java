@@ -68,14 +68,21 @@ public class AccountController {
 			user.setPassword(hashedNewPassword);
 			userRepository.save(user);
 			model.addAttribute("message", "Password for user \"" + userDetails.getUsername() + "\" has been changed.");
-			
-			
-			// logout
+
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			new SecurityContextLogoutHandler().logout(request, response, auth);;
-			
 			return "redirect:/login?pw-changed=true";
 		}
+		
 
+	}
+	
+
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout(Model model, HttpServletRequest request, HttpServletResponse response) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		new SecurityContextLogoutHandler().logout(request, response, auth);;
+		return "redirect:/login";
 	}
 }
