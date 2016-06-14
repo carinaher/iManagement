@@ -32,7 +32,7 @@
 					<form class="form-horizontal" method="post" action="${formAction}">
 						<fieldset>
 
-							<! ----------------  id --------------- -->
+							<!-- ----------------  id --------------- -->
 							<div class="form-group">
 								<label for="inputId" class="col-md-2 control-label">ID</label>
 								<div class="col-md-10">
@@ -41,7 +41,7 @@
 								</div>
 							</div>
 
-							<! ----------------  userName ---------------- -->
+							<!-- ----------------  userName ---------------- -->
 							<div class="form-group">
 								<label for="inputUserName" class="col-md-2 control-label">Username</label>
 								<div class="col-md-10">
@@ -50,7 +50,7 @@
 								</div>
 							</div>
 
-							<! ----------------  firstName ---------------- -->
+							<!-- ----------------  firstName ---------------- -->
 							<div class="form-group">
 								<label for="inputFirstName" class="col-md-2 control-label">First
 									Name</label>
@@ -60,7 +60,7 @@
 								</div>
 							</div>
 
-							<! ----------------  lastName ---------------- -->
+							<!-- ----------------  lastName ---------------- -->
 							<div class="form-group">
 								<label for="inputLastName" class="col-md-2 control-label">Last
 									Name</label>
@@ -70,7 +70,7 @@
 								</div>
 							</div>
 
-							<! ----------------  githubUser ---------------- -->
+							<!-- ----------------  githubUser ---------------- -->
 							<div class="form-group">
 								<label for="inputGithubUser" class="col-md-2 control-label">Github
 									User</label>
@@ -81,7 +81,7 @@
 								</div>
 							</div>
 
-							<! ----------------  eMail ---------------- -->
+							<!-- ----------------  eMail ---------------- -->
 							<div class="form-group">
 								<label for="inputEMail" class="col-md-2 control-label">E-Mail</label>
 								<div class="col-md-10">
@@ -90,7 +90,7 @@
 								</div>
 							</div>
 
-							<! ----------------  year ---------------- -->
+							<!-- ----------------  year ---------------- -->
 							<div class="form-group">
 								<label for="inputYear" class="col-md-2 control-label">Year</label>
 								<div class="col-md-10">
@@ -99,7 +99,7 @@
 								</div>
 							</div>
 
-							<! ----------------  groupId ---------------- -->
+							<!-- ----------------  groupId ---------------- -->
 							<div class="form-group">
 								<label for="inputGroupId" class="col-md-2 control-label">Group
 									ID</label>
@@ -109,7 +109,7 @@
 								</div>
 							</div>
 
-							<! ----------------  buttons ---------------- -->
+							<!-- ----------------  buttons ---------------- -->
 							<div class="form-group">
 								<div class="col-md-10 col-md-offset-2">
 									<button type="submit" class="btn btn-primary">Submit</button>
