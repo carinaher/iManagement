@@ -7,5 +7,6 @@ import at.fh.swenga.ima.model.User;
 public interface SimpleUserRepository extends JpaRepository<User, Integer> {
 	
 	List<User> findByUserName(String userName);
+	List<User> findFirstByUserName(String userName);
 
 }

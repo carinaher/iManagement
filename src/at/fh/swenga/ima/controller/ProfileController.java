@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.StudentRepository;
 import at.fh.swenga.ima.dao.UserRepository;
+import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.User;
 
 @Controller
-public class AccountController {
+public class ProfileController {
 
 	@Autowired
 	StudentRepository studentRepository;
@@ -31,12 +32,51 @@ public class AccountController {
 	// StudentModel student =
 	// studentRepository.findById(newStudentModel.getId());
 
+	@RequestMapping(value = "/my_profile", method = RequestMethod.GET)
+	public String showProfileInformation(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		if (userDetails != null) {
+			model.addAttribute("user", userDetails);
+			
+			StudentModel student = studentRepository.findFirstByUserName(userDetails.getUsername());
+			if (student != null) {
+				model.addAttribute("student", student);
+			}
+			
+			return "profileSelfEdit";
+		} else {
+			model.addAttribute("errorMessage", "Account doesn't exist!");
+			return "forward:/";
+		}
+	}
+	@RequestMapping(value = "/my_profile", method = RequestMethod.POST)
+	public String editProfileInformation(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestParam String githubUser) {
+		if (userDetails != null) {
+			model.addAttribute("user", userDetails);
+			StudentModel student = studentRepository.findFirstByUserName(userDetails.getUsername());
+			if (student != null) {
+				model.addAttribute("student", student);
+				student.setGithubUser(githubUser);
+				studentRepository.save(student);
+				model.addAttribute("message", "Saved changes");
+				return "profileSelfEdit";
+			} else {
+				model.addAttribute("errorMessage", "Student doesn't exist anyomre!");
+				return "profileSelfEdit";				
+			}
+
+		} else {
+			model.addAttribute("errorMessage", "Account doesn't exist!");
+			return "forward:/";
+		}
+	}
+	
+	
 	@RequestMapping(value = "/editPassword", method = RequestMethod.GET)
 	public String showEditPasswordForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		if (userDetails != null) {
 			model.addAttribute("user", userDetails);
 			System.out.println(userDetails.getUsername());
-			return "passwordEdit";
+			return "passwordSelfEdit";
 		} else {
 			model.addAttribute("errorMessage", "Account doesn't exist!");
 			return "forward:/";
@@ -48,21 +88,18 @@ public class AccountController {
 			@RequestParam String oldPassword, @RequestParam String newPassword,
 			@RequestParam String newPasswordConfirmation, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(userDetails.getUsername());
-		System.out.println(oldPassword);
-		System.out.println(userDetails.getPassword());
 		// for some reason, userDetails.getPassword() always returns null
 		User user = userRepository.findByUserName(userDetails.getUsername());
 		model.addAttribute("user", userDetails);
 		if (!newPassword.equals(newPasswordConfirmation)) {
 			model.addAttribute("errorMessage", "Password confirmation didn't match!");
-			return "passwordEdit";
+			return "passwordSelfEdit";
 		} else if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
 			model.addAttribute("errorMessage", "Wrong current password entered!");
-			return "passwordEdit";
+			return "passwordSelfEdit";
 		} else if (!userDetails.isAccountNonExpired() || !userDetails.isAccountNonLocked() || !userDetails.isCredentialsNonExpired()) {
 			model.addAttribute("errorMessage", "Account expired/locked or credentials expired!");
-			return "passwordEdit";
+			return "passwordSelfEdit";
 		} else { // everything ok, go ahead and change password
 			String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 			user.setPassword(hashedNewPassword);

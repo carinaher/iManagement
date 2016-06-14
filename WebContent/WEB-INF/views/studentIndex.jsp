@@ -71,10 +71,10 @@
 									<td>${student.userName}</td>
 									<td>${student.firstName}</td>
 									<td>${student.lastName}</td>
-									<td>${student.githubUser}</td>
+									<td><a target="_blank" href="https://github.com/${student.githubUser}">${student.githubUser}</a></td>
 									<td>${student.year}</td>
 									<td>${student.groupId}</td>
-									<td><sec:authorize access="hasRole('ROLE_USER')">
+									<td><sec:authorize access="hasRole('ROLE_ADMIN')">
 											<a href="editStudent?id=${student.id}"><button
 													type="button" class="btn btn-s btn-warning">Edit</button></a>
 										</sec:authorize> <sec:authorize access="hasRole('ROLE_ADMIN')">

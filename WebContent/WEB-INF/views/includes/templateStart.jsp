@@ -355,10 +355,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 								</a>
 									<ul class="dropdown-menu drp-mnu">
-										<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-										<li><a href="#"><i class="fa fa-user"></i>Profile</a></li>
-										<li><a href="logout"><i class="fa fa-sign-out"></i>
-												Logout</a></li>
+										<li><a href="my_profile"><i class="fa fa-cog"></i> Settings</a></li>
+										<%-- <li><a href="my_profile"><i class="fa fa-user"></i>Profile</a></li> --%>
+										<li>
+											<form class="form-horizontal" method="post" action="logout">
+												<fieldset>
+													<button type="submit" class="btn btn-link"><i class="fa fa-sign-out"></i> Logout</button>
+													<%-- <a href="logout"><i class="fa fa-sign-out"></i> Logout</a> --%>
+												</fieldset>
+												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+											</form>
+										</li>
 									</ul></li>
 								<div class="clearfix"></div>
 							</ul>

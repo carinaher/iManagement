@@ -14,6 +14,8 @@ public interface StudentRepository extends JpaRepository<StudentModel, Integer> 
 
 	public StudentModel findById(int id);
 	public StudentModel findByUserName(String userName);
+	public StudentModel findFirstByUserName(String userName);
+	
 
 	@SuppressWarnings("unchecked")
 	public StudentModel save(StudentModel persisted);
