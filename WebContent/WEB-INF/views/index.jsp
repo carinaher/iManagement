@@ -7,10 +7,16 @@
 
 <div id="page-wrapper">
 
-<h1>iManagement</h1>
-<p><a href="student"><button type="button" class="btn btn-success">Student List</button></a></p>
-<br>
-<p><a href="task"><button type="button" class="btn btn-success">Task List</button></a></p>
+	<h1>iManagement</h1>
+	<p>
+		<a href="student"><button type="button" class="btn btn-success">Student
+				List</button></a>
+	</p>
+	<br>
+	<p>
+		<a href="task"><button type="button" class="btn btn-success">Task
+				List</button></a>
+	</p>
 </div>
 
 

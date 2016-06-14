@@ -30,97 +30,98 @@
 
 				<table class="table">
 					<form class="form-horizontal" method="post" action="${formAction}">
-					<fieldset>
-						
-						
-						<! ----------------  id --------------- -->
-						<div class="form-group">
-							<label for="inputId" class="col-md-2 control-label">ID</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputId" type="text" name="id"
-									${readonly} value="<c:out value="${student.id}"/>">
-							</div>
-						</div>
-												
-						<! ----------------  userName ---------------- -->
-						<div class="form-group">
-							<label for="inputUserName" class="col-md-2 control-label">Username</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputUserName" type="text" name="userName"
-									value="<c:out value="${student.userName}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  firstName ---------------- -->
-						<div class="form-group">
-							<label for="inputFirstName" class="col-md-2 control-label">First Name</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputFirstName" type="text" name="firstName"
-									value="<c:out value="${student.firstName}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  lastName ---------------- -->
-						<div class="form-group">
-							<label for="inputLastName" class="col-md-2 control-label">Last Name</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputLastName" type="text" name="lastName"
-									value="<c:out value="${student.lastName}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  githubUser ---------------- -->
-						<div class="form-group">
-							<label for="inputGithubUser" class="col-md-2 control-label">Github User</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputGithubUser" type="text" name="githubUser"
-									value="<c:out value="${student.githubUser}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  eMail ---------------- -->
-						<div class="form-group">
-							<label for="inputEMail" class="col-md-2 control-label">E-Mail</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputEMail" type="text" name="eMail"
-									value="<c:out value="${student.eMail}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  year ---------------- -->
-						<div class="form-group">
-							<label for="inputYear" class="col-md-2 control-label">Year</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputYear" type="text" name="year"
-									value="<c:out value="${student.year}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  groupId ---------------- -->
-						<div class="form-group">
-							<label for="inputGroupId" class="col-md-2 control-label">Group ID</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputGroupId" type="text" name="groupId"
-									value="<c:out value="${student.groupId}"/>">
-							</div>
-						</div>
-						
-						<! ----------------  buttons ---------------- -->
-						<div class="form-group">
-							<div class="col-md-10 col-md-offset-2">
-								<button type="submit" class="btn btn-primary">Submit</button>
-								<a href="student">
-									<button type="button" class="btn btn-default">Cancel</button>
-								</a>
-							</div>
-						</div>
+						<fieldset>
 
+							<! ----------------  id --------------- -->
+							<div class="form-group">
+								<label for="inputId" class="col-md-2 control-label">ID</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputId" type="text" name="id"
+										${readonly} value="<c:out value="${student.id}"/>">
+								</div>
+							</div>
 
+							<! ----------------  userName ---------------- -->
+							<div class="form-group">
+								<label for="inputUserName" class="col-md-2 control-label">Username</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputUserName" type="text"
+										name="userName" value="<c:out value="${student.userName}"/>">
+								</div>
+							</div>
 
-					</fieldset>
-										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-					
-				</form>
+							<! ----------------  firstName ---------------- -->
+							<div class="form-group">
+								<label for="inputFirstName" class="col-md-2 control-label">First
+									Name</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputFirstName" type="text"
+										name="firstName" value="<c:out value="${student.firstName}"/>">
+								</div>
+							</div>
+
+							<! ----------------  lastName ---------------- -->
+							<div class="form-group">
+								<label for="inputLastName" class="col-md-2 control-label">Last
+									Name</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputLastName" type="text"
+										name="lastName" value="<c:out value="${student.lastName}"/>">
+								</div>
+							</div>
+
+							<! ----------------  githubUser ---------------- -->
+							<div class="form-group">
+								<label for="inputGithubUser" class="col-md-2 control-label">Github
+									User</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputGithubUser" type="text"
+										name="githubUser"
+										value="<c:out value="${student.githubUser}"/>">
+								</div>
+							</div>
+
+							<! ----------------  eMail ---------------- -->
+							<div class="form-group">
+								<label for="inputEMail" class="col-md-2 control-label">E-Mail</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputEMail" type="text"
+										name="eMail" value="<c:out value="${student.eMail}"/>">
+								</div>
+							</div>
+
+							<! ----------------  year ---------------- -->
+							<div class="form-group">
+								<label for="inputYear" class="col-md-2 control-label">Year</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputYear" type="text"
+										name="year" value="<c:out value="${student.year}"/>">
+								</div>
+							</div>
+
+							<! ----------------  groupId ---------------- -->
+							<div class="form-group">
+								<label for="inputGroupId" class="col-md-2 control-label">Group
+									ID</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputGroupId" type="text"
+										name="groupId" value="<c:out value="${student.groupId}"/>">
+								</div>
+							</div>
+
+							<! ----------------  buttons ---------------- -->
+							<div class="form-group">
+								<div class="col-md-10 col-md-offset-2">
+									<button type="submit" class="btn btn-primary">Submit</button>
+									<a href="student">
+										<button type="button" class="btn btn-default">Cancel</button>
+									</a>
+								</div>
+							</div>
+						</fieldset>
+						<input type="hidden" name="${_csrf.parameterName }"
+							value="${_csrf.token }" />
+					</form>
 				</table>
 			</div>
 

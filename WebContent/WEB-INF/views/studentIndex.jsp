@@ -74,13 +74,12 @@
 									<td>${student.githubUser}</td>
 									<td>${student.year}</td>
 									<td>${student.groupId}</td>
-									<td><sec:authorize access="hasRole('ROLE_ADMIN')">
+									<td><sec:authorize access="hasRole('ROLE_USER')">
 											<a href="editStudent?id=${student.id}"><button
 													type="button" class="btn btn-s btn-warning">Edit</button></a>
 										</sec:authorize> <sec:authorize access="hasRole('ROLE_ADMIN')">
 											<a href="deleteStudent?id=${student.id}"><button
-													type="button" class="btn btn-s btn-danger">
-													Delete</button></a>
+													type="button" class="btn btn-s btn-danger">Delete</button></a>
 										</sec:authorize></td>
 								</tr>
 							</c:forEach>
