@@ -3,6 +3,59 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%--  set user name, role and profile picture  ------------------------------- --%>
+<sec:authentication var="user" property="principal" />
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
+<sec:authorize access="hasRole('ROLE_STUDENT')" var="isStudent" />
+<%-- // user name --%>
+<c:choose>
+	<c:when test="${not empty user}">
+		<c:set var="username">${user.username}</c:set>
+	</c:when>
+	<c:otherwise>
+		<c:set var="username">Guest</c:set>
+	</c:otherwise>
+</c:choose>
+<%-- // role --%>
+<c:choose>
+	<c:when test="${isAdmin}">
+		<c:set var="role">Administrator</c:set>
+	</c:when>
+	<c:when test="${isStudent}">
+		<c:set var="role">Student</c:set>
+	</c:when>
+	<c:otherwise>
+		<c:set var="role">User</c:set>
+	</c:otherwise>
+</c:choose>
+<%-- // profile picture --%>
+<c:choose>
+	<c:when test="${isAdmin}">
+		<c:set var="profileImage">resources/images/admin.png</c:set>
+	</c:when>
+	<c:otherwise>
+		<c:set var="profileImage">resources/images/user1.png</c:set>
+	</c:otherwise>
+</c:choose>
+<%-- / set user name, role and profile picture  ------------------------------ --%>
+
+
+
+<!--  set user name, role and profile picture  -------------------------------- -->
+<c:choose>
+	<c:when test="${not empty student}">
+		<c:set var="legend">Edit Student ${student.id}</c:set>
+		<c:set var="formAction">editStudent</c:set>
+		<c:set var="readonly">readonly</c:set>
+	</c:when>
+	<c:otherwise>
+		<c:set var="legend">New Student</c:set>
+		<c:set var="formAction">addStudent</c:set>
+		<c:set var="readonly"></c:set>
+	</c:otherwise>
+</c:choose>
+<!--/  set user name, role and profile picture  ------------------------------- -->
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -18,20 +71,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <c:if test="${empty pageTitle}">
 			<title>iManagement</title>
 </c:if>
-<%-- <title>${pageTitle} | iManagement</title>--%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
 	content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript">
-	
-	
-	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-
-
-
 </script>
 <!-- Bootstrap Core CSS -->
 <link href="resources/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -297,13 +343,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li class="dropdown profile_details_drop"><a href="#"
 									class="dropdown-toggle" data-toggle="dropdown"
 									aria-expanded="false">
-										<div class="profile_img">
-											<span style="background: url(resources/images/1.jpg) no-repeat center">
+										<div class="profile_img" id="profile_img">
+											<span style="background: url(${profileImage}) no-repeat center">
 											</span>
 											<div class="user-name">
-												<p>
-													Michael<span>Administrator</span>
-												</p>
+												<p>${username}<span>${role}</span></p>
 											</div>
 											<i class="lnr lnr-chevron-down"></i> <i
 												class="lnr lnr-chevron-up"></i>

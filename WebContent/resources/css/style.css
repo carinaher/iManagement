@@ -1,3 +1,6 @@
+#profile_img { /* fix for top bar, otherwise profile picture is displayed below user info */
+	min-width: 130px;
+}
 /*
 Author: W3layout
 Author URL: http://w3layouts.com
