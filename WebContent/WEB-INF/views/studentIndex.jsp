@@ -60,7 +60,8 @@
 								<th>GitHub Username</th>
 								<th>Year</th>
 								<th>Group</th>
-								<th>Action</th>
+																	<td><sec:authorize access="hasRole('ROLE_ADMIN')">
+								<th>Action</th></sec:authorize>
 							</tr>
 						</thead>
 						<tbody>
