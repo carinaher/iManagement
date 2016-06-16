@@ -53,11 +53,11 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th data-sortable="true">ID</th>
-								<th data-sortable="true">Task Name</th>
-								<th data-sortable="true">Description</th>
-								<th data-sortable="true">Status</th>
-								<th data-sortable="true">Due Date</th>
+								<th>ID</th>
+								<th>Task Name</th>
+								<th>Description</th>
+								<th>Status</th>
+								<th>Due Date</th>
 								<th>Action</th>
 							</tr>
 						</thead>

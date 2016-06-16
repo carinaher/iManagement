@@ -53,13 +53,13 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th data-sortable="true">ID</th>
-								<th data-sortable="true">Username</th>
-								<th data-sortable="true">First Name</th>
-								<th data-sortable="true">Last Name</th>
-								<th data-sortable="true">GitHub Username</th>
-								<th data-sortable="true">Year</th>
-								<th data-sortable="true">Group</th>
+								<th>ID</th>
+								<th>Username</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>GitHub Username</th>
+								<th>Year</th>
+								<th>Group</th>
 																	<td><sec:authorize access="hasRole('ROLE_ADMIN')">
 								<th>Action</th></sec:authorize>
 							</tr>
