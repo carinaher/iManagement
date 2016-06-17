@@ -21,9 +21,8 @@ public class DatabaseFillController {
 	UserRoleRepository userRoleRepository;
 
 
-	@RequestMapping(value = { "/fillDatabase", "fill" }, produces = MediaType.TEXT_HTML_VALUE)
-	public
-	@ResponseBody String fill() {
+	@RequestMapping(value = { "/fillDatabase", "fill" })
+	public String fill() {
 		
 		// users
 		User[] users = new User[] {
@@ -65,7 +64,7 @@ public class DatabaseFillController {
 		
 		
 
-		return "Created users and roles!<br><a href=\"login\">Go to Login</a>";
+		return "databaseFilled";
 	}
 	
 }
