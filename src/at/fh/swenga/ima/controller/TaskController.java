@@ -115,7 +115,7 @@ public class TaskController {
 				errorMessage += fieldError.getField() + " is invalid<br>";
 			}
 			model.addAttribute("errorMessage", errorMessage);
-			return "forward:/student";
+			return "forward:/task";
 		}
  
 		TaskModel task = taskRepository.findTaskById(editedTaskModel.getId());
