@@ -12,15 +12,15 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">User Table</h3>
+			<h3 class="blank1">User Role Table</h3>
 			<div class="xs tabls">
 				<div class="bs-example4" data-example-id="contextual-table">
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
 							<p>
-								<a href="addUser">
+								<a href="addUserrole">
 									<button type="button" class="btn btn-primary">
-										<span aria-hidden="true"></span>Add User
+										<span aria-hidden="true"></span>Add User Role
 									</button>
 								</a>
 							</p>
@@ -29,23 +29,32 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Username</th>
-								<th>Password</th>
-								<th>Enabled</th>
+								<th>User Role Id</th>
+								<th>user (username)</th>
+								<th>Role</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${users}" var="user">
+							<c:forEach items="${userroles}" var="userrole">
 								<tr>
 
-									<th scope="row">${user.userName}</th>
-									<td>${user.password}</td>
-									<td>${user.enabled}</td>
-									<td><a href="editUser?userName=${user.userName}"><button
+									<th scope="row">${userrole.userRoleId}</th>
+									<td>${userrole.user.userName}</td>
+									<td>${userrole.role}</td>
+									<td><a href="editUserrole?userRoleId=${userrole.userRoleId}"><button
 												type="button" class="btn btn-s btn-warning">Edit</button></a>
-										<a href="deleteUser?userName=${user.userName}"><button
-												type="button" class="btn btn-s btn-danger">Delete</button></a></td>
+												
+										
+										<form class="form-horizontal" method="post" action="deleteUserrole">
+											<fieldset>
+												<button type="submit" class="btn btn-s btn-danger">Delete</button>
+											</fieldset>
+											<input type="hidden" name="userRoleId" value="${userrole.userRoleId}" />
+											<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+										</form>
+												
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

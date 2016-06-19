@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Entity
 @Table(name = "user_roles")
 public class UserRole implements java.io.Serializable {
@@ -18,8 +20,8 @@ public class UserRole implements java.io.Serializable {
 	@Column(name = "user_role_id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userRoleId;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "username", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "username", nullable = false) // save username in DB table
 	private User user;
 	@Column(name = "role", nullable = false, length = 45)
 	private String role;
@@ -39,10 +41,10 @@ public class UserRole implements java.io.Serializable {
 	public void setUserRoleId(int userRoleId) {
 		this.userRoleId = userRoleId;
 	}
-	public User getUserModel() {
+	public User getUser() {
 		return user;
 	}
-	public void setUserModel(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 	public String getRole() {

@@ -37,6 +37,7 @@ public class UserController {
 	}
 
 	
+	/*
 	@RequestMapping(value = { "/findUser" })
 	// search for Requestparameter with the name type and store it in the string
 	// type
@@ -56,7 +57,7 @@ public class UserController {
 		model.addAttribute("users", users);
 		model.addAttribute("count", count);
 		return "userIndex";
-	}
+	}*/
 
 	/*
 	@RequestMapping(value = { "/findUserById" })

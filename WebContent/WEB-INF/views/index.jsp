@@ -19,10 +19,15 @@
 	</p>
 	<br>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<p>
-		<a href="user"><button type="button" class="btn btn-success">User List</button></a>
-	</p>
+		<p>
+			<a href="user"><button type="button" class="btn btn-success">User List</button></a>
+		</p>
+		<br>		
+		<p>
+			<a href="userrole"><button type="button" class="btn btn-success">User Role List</button></a>
+		</p>
 	</sec:authorize>
+	<br>
 </div>
 
 
