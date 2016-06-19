@@ -32,60 +32,57 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">Tasks Table</h3>
-			<div class="bs-example4" data-example-id="contextual-table">
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4">
-						<p>
-							<a href="fillTasks">
+			<h3 class="blank1">Forum</h3>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<p margin-left="auto" margin-right="auto">
 
-								<button type="button" class="btn btn-primary">Fill List</button>
+						<a href="fillForumEntrys">
 
-							</a> <a href="addTask">
-								<button type="button" class="btn btn-primary">Add Task</button>
-							</a>
-						</p>
-					</div>
-				</div>
-				<div class="xs tabls">
+							<button type="button" class="btn btn-primary">Fill Forum</button></a>
+							
+							<a href="addForumEntry">
 
-					<table class="table">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Task Name</th>
-								<th>Description</th>
-								<th>Status</th>
-								<th>Due Date</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${tasks}" var="task">
-								<tr>
-									<th scope="row">${task.id}</th>
-									<td>${task.taskName}</td>
-									<td>${task.description}</td>
-									<td>${task.status}</td>
-									<td><fmt:formatDate value="${task.dueDate}"
-											pattern="dd.MM.yyyy" /></td>
-
-									<td><a href="editTask?id=${task.id}"><button
-												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
-										href="deleteTask?id=${task.id}"><button type="button"
-												class="btn btn-s btn-danger">Delete</button></a></td>
-
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+								<button type="button" class="btn btn-primary">New Entry</button></a>
+					</p>
+				<br>
 				</div>
 			</div>
+			<c:forEach items="${forumEntrys}" var="entry">
+				<div class="xs tabls">
+					<div class="panel-body1">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Topic</th>
+									<th>Text</th>
+																		<th>Action</th>
+									
+								</tr>
+							</thead>
+							<tbody>
 
-			<!-- /.table-responsive -->
+								<tr>
+									<td>${entry.topic}</td>
+									<td>${entry.text}</td>
+									<td><a href="editForumEntry?id=${entry.id}"><button
+												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
+										href="deleteForumEntry?id=${entry.id}"><button type="button"
+												class="btn btn-s btn-danger">Delete</button></a></td>
+									
+
+								</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+
+					<!-- /.table-responsive -->
+				</div>
+			</c:forEach>
 		</div>
 	</div>
-</div>
 </div>
 
 <jsp:include page="includes/templateEnd.jsp" />

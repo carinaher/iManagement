@@ -3,7 +3,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%--  set user name, role and profile picture  ------------------------------- --%>
 <sec:authentication var="user" property="principal" />
 <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
@@ -66,10 +67,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 <head>
 <c:if test="${not empty pageTitle}">
-			<title>${pageTitle} | iManagement</title>
+	<title>${pageTitle}| iManagement</title>
 </c:if>
 <c:if test="${empty pageTitle}">
-			<title>iManagement</title>
+	<title>iManagement</title>
 </c:if>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -77,17 +78,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript">
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+
 </script>
 <!-- Bootstrap Core CSS -->
-<link href="resources/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="resources/css/bootstrap.min.css" rel='stylesheet'
+	type='text/css' />
 <!-- Custom CSS -->
 <link href="resources/css/style.css" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
 <link href="resources/css/font-awesome.css" rel="stylesheet">
 <!-- jQuery -->
 <!-- lined-icons -->
-<link rel="stylesheet" href="resources/css/icon-font.min.css" type='text/css' />
+<link rel="stylesheet" href="resources/css/icon-font.min.css"
+	type='text/css' />
 <!-- //lined-icons -->
 <!-- chart -->
 <script src="resources/js/Chart.js"></script>
@@ -131,11 +136,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				<!--sidebar nav start-->
 				<ul class="nav nav-pills nav-stacked custom-nav">
-					
-					<li><a href="student"><i class="lnr lnr-users"></i>
-							<span>Students</span></a></li>
-					<li><a href="task"><i class="lnr lnr-list"></i>
-							<span>Tasks</span></a></li>
+
+					<li><a href="student"><i class="lnr lnr-users"></i> <span>Students</span></a></li>
+					<li><a href="task"><i class="lnr lnr-list"></i> <span>Tasks</span></a></li>
+					<li><a href="forum"><i class="lnr lnr-bubble"></i> <span>Forum</span></a></li>
 				</ul>
 				<!--sidebar nav end-->
 			</div>
@@ -150,11 +154,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--toggle button start-->
 				<a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
 				<!--toggle button end-->
- 
+
 				<!--notification menu start -->
 				<div class="menu-right">
 					<div class="user-panel-top">
-		<%--			
+						<%--			
 						<div class="profile_details_left">
 							<ul class="nofitications-dropdown">
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -344,10 +348,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									class="dropdown-toggle" data-toggle="dropdown"
 									aria-expanded="false">
 										<div class="profile_img" id="profile_img">
-											<span style="background: url(${profileImage}) no-repeat center">
+											<span
+												style="background: url(${profileImage}) no-repeat center">
 											</span>
 											<div class="user-name">
-												<p>${username}<span>${role}</span></p>
+												<p>${username}<span>${role}</span>
+												</p>
 											</div>
 											<i class="lnr lnr-chevron-down"></i> <i
 												class="lnr lnr-chevron-up"></i>
@@ -355,27 +361,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 								</a>
 									<ul class="dropdown-menu drp-mnu">
-										<li><a href="my_profile"><i class="fa fa-cog"></i> Settings</a></li>
+										<li><a href="my_profile"><i class="fa fa-cog"></i>
+												Settings</a></li>
 										<%-- <li><a href="my_profile"><i class="fa fa-user"></i>Profile</a></li> --%>
 										<li>
 											<form class="form-horizontal" method="post" action="logout">
 												<fieldset>
-													<button type="submit" class="btn btn-link"><i class="fa fa-sign-out"></i> Logout</button>
+													<button type="submit" class="btn btn-link">
+														<i class="fa fa-sign-out"></i> Logout
+													</button>
 													<%-- <a href="logout"><i class="fa fa-sign-out"></i> Logout</a> --%>
 												</fieldset>
-												<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+												<input type="hidden" name="${_csrf.parameterName }"
+													value="${_csrf.token }" />
 											</form>
 										</li>
 									</ul></li>
 								<div class="clearfix"></div>
 							</ul>
 						</div>
-						
+
 						<div class="clearfix"></div>
 					</div>
 				</div>
 				<!--notification menu end -->
-				
-				
+
+
 			</div>
 			<!-- //header-ends -->

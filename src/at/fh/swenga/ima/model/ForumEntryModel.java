@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Forum")
 
-public class ForumModel {
+public class ForumEntryModel {
 
 	@Id
 	@Column(name = "id")
@@ -22,26 +22,20 @@ public class ForumModel {
 
 	@Column(nullable = false)
 	private String topic;
+	@Column( length = 100000 )
 	private String text;
 
-	@Column(nullable = true)
-	private String attachName;
-	@Column(nullable = true)
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
-	private byte[] attachment;
 
-	public ForumModel() {
+
+	public ForumEntryModel() {
 
 	}
 
-	public ForumModel(int id, String topic, String text, String attachName, byte[] attachment) {
+	public ForumEntryModel(String topic, String text) {
 		super();
-		this.id = id;
 		this.topic = topic;
 		this.text = text;
-		this.attachName = attachName;
-		this.attachment = attachment;
+
 	}
 
 	public int getId() {
@@ -68,20 +62,5 @@ public class ForumModel {
 		this.text = text;
 	}
 
-	public String getAttachName() {
-		return attachName;
-	}
-
-	public void setAttachName(String attachName) {
-		this.attachName = attachName;
-	}
-
-	public byte[] getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(byte[] attachment) {
-		this.attachment = attachment;
-	}
 
 }
