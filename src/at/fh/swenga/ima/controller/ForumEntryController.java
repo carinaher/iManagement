@@ -95,7 +95,7 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", "Entry already exists!<br>");
 		} else {
 			forumEntryRepository.save(newForumEntryModel);
-			model.addAttribute("message", "Added new entry " + newForumEntryModel.getTopic());
+			model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
 		}
 
 		return "forward:/forum";
@@ -126,14 +126,16 @@ public class ForumEntryController {
 			return "forward:/forum";
 		}
 
-		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
+		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(editedForumEntryModel.getId());
 
 		if (forumEntry == null) {
-			model.addAttribute("errorMessage", "Entry " + editedForumEntryModel.getTopic() + " does not exist!<br>");
+			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getId() + "does not exist!<br>");
 		} else {
+			// student.setId(editedTaskModel.getId());
+			forumEntry.setId(editedForumEntryModel.getId());
 			forumEntry.setTopic(editedForumEntryModel.getTopic());
 			forumEntry.setText(editedForumEntryModel.getText());
-			model.addAttribute("message", "Changed task " + editedForumEntryModel.getTopic());
+			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
 			forumEntryRepository.save(forumEntry);
 		}
 
@@ -143,10 +145,10 @@ public class ForumEntryController {
 	// Upload
 
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public String showUploadForm(Model model) {
+	public String showUploadForm(Model model, @RequestParam("id") int entryId) {
+		model.addAttribute("entryId",entryId);
 		return "uploadAttachment";
 	}
-
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String uploadDocument(Model model, @RequestParam("id") int entryId,
@@ -157,10 +159,7 @@ public class ForumEntryController {
 			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(entryId);
 
 			// Already a document available -> delete it
-			if (forumEntry == null){
-				model.addAttribute("errorMessage", "Entry " + forumEntryRepository.findForumEntryById(entryId) + " does not exist!<br>");
-			}
-			else if (forumEntry.getAttachment() != null) {
+			if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
 				// Don't forget to remove the relationship too
 				forumEntry.setAttachment(null);
@@ -175,12 +174,33 @@ public class ForumEntryController {
 			attachment.setFilename(file.getOriginalFilename());
 			attachment.setName(file.getName());
 			forumEntry.setAttachment(attachment);
+
 			forumEntryRepository.save(forumEntry);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
 		return "forward:/editForumEntry";
+	}
+	
+	
+	@RequestMapping("/download")
+	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
+		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);
+
+		try {
+			// damit man in der Browserleiste auch den Namen sieht
+			response.setHeader("Content-Disposition", "inline;filename=\"" + attachment.getFilename() + "\"");
+			OutputStream out = response.getOutputStream();
+			// "application/octet-stream" => as Content Type, just downloads the
+			// content and dont open it
+			response.setContentType(attachment.getContentType()); // => opens the
+															// Content
+			out.write(attachment.getContent());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@ExceptionHandler(Exception.class)
