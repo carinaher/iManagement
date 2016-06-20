@@ -26,7 +26,7 @@
 									<! ----------------  id ---------------- -->
 									<div class="form-group">
 										<input type="hidden" name="id"
-											value="<c:out value="${forumEntryId}"/>">
+											value="<c:out value="${entryId}"/>">
 									</div>
 								
 									<! ----------------  file ---------------- -->
@@ -37,13 +37,12 @@
 											like to upload to the forum.</p>
 									</div>
 
-
 									<! ----------------  buttons ---------------- -->
 									<div class="form-group">
 										<div class="col-md-10 col-md-offset-2">
 											<br>
 											<button type="submit" class="btn btn-primary">Upload</button>
-											<a href="addForumEntry">
+											<a href="forum">
 												<button type="button" class="btn btn-default">Cancel</button>
 											</a>
 										</div>
