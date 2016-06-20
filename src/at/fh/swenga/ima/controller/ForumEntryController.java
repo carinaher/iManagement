@@ -156,7 +156,7 @@ public class ForumEntryController {
 		
 		try {
 
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(entryId);
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(newForumEntryModel.getTopic());
 
 			// Already a document available -> delete it
 			if (forumEntry.getAttachment() != null) {
