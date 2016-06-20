@@ -29,6 +29,7 @@
 										<input type="hidden" name="id"
 											value="<c:out value="${forumEntryId}"/>">
 									</div>
+								
 									<! ----------------  file ---------------- -->
 
 									<div class="form-group">

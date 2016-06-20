@@ -93,7 +93,7 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", "Entry already exists!<br>");
 		} else {
 			forumEntryRepository.save(newForumEntryModel);
-			model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
+			model.addAttribute("message", "Added new entry " + newForumEntryModel.getTopic());
 		}
 
 		return "forward:/forum";
@@ -124,16 +124,14 @@ public class ForumEntryController {
 			return "forward:/forum";
 		}
 
-		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(editedForumEntryModel.getId());
+		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
 
 		if (forumEntry == null) {
-			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getId() + "does not exist!<br>");
+			model.addAttribute("errorMessage", "Entry " + editedForumEntryModel.getTopic() + " does not exist!<br>");
 		} else {
-			// student.setId(editedTaskModel.getId());
-			forumEntry.setId(editedForumEntryModel.getId());
 			forumEntry.setTopic(editedForumEntryModel.getTopic());
 			forumEntry.setText(editedForumEntryModel.getText());
-			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
+			model.addAttribute("message", "Changed task " + editedForumEntryModel.getTopic());
 			forumEntryRepository.save(forumEntry);
 		}
 
@@ -151,12 +149,24 @@ public class ForumEntryController {
 	public String uploadDocument(Model model,
 			@RequestParam("myFile") MultipartFile file, @RequestParam int id) {
 		
+		if (bindingResult.hasErrors()) {
+			String errorMessage = "";
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				errorMessage += fieldError.getField() + " is invalid<br>";
+			}
+			// put the errors into the model
+			model.addAttribute("errorMessage", errorMessage);
+			return "forward:/forum";
+		}
 		try {
 
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(id);
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(newForumEntryModel.getTopic());
 
 			// Already a document available -> delete it
-			if (forumEntry.getAttachment() != null) {
+			if (forumEntry == null){
+				model.addAttribute("errorMessage", "Entry " + newForumEntryModel.getTopic() + " does not exist!<br>");
+			}
+			else if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
 				// Don't forget to remove the relationship too
 				forumEntry.setAttachment(null);

@@ -52,17 +52,6 @@
 					<form class="form-horizontal" method="post" action="${formAction} ">
 						<fieldset>
 
-
-							<! ----------------  Id ---------------- -->
-							<div class="form-group">
-								<label for="inputId" class="col-md-2 control-label">Id</label>
-								<div class="col-md-10">
-									<input class="form-control" id="inputId" type="text" name="id"
-										${readonly} value="<c:out value="${forumEntrys.id}"/>">
-								</div>
-							</div>
-
-
 							<! ----------------  Topic ---------------- -->
 							<div class="form-group">
 								<br> <label for="inputTopic" class="col-md-2 control-label">Topic</label>
