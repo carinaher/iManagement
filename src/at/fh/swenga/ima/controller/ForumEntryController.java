@@ -158,7 +158,7 @@ public class ForumEntryController {
 
 			// Already a document available -> delete it
 			if (forumEntry == null){
-				model.addAttribute("errorMessage", "Entry " + newForumEntryModel.getTopic() + " does not exist!<br>");
+				model.addAttribute("errorMessage", "Entry " + forumEntryRepository.findForumEntryById(entryId) + " does not exist!<br>");
 			}
 			else if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
