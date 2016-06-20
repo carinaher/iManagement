@@ -180,7 +180,27 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
-		return "forward:/editForumEntry";
+		return "forward:/forum";
+	}
+	
+	
+	@RequestMapping("/download")
+	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
+		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);
+
+		try {
+			// damit man in der Browserleiste auch den Namen sieht
+			response.setHeader("Content-Disposition", "inline;filename=\"" + attachment.getFilename() + "\"");
+			OutputStream out = response.getOutputStream();
+			// "application/octet-stream" => as Content Type, just downloads the
+			// content and dont open it
+			response.setContentType(attachment.getContentType()); // => opens the
+															// Content
+			out.write(attachment.getContent());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
