@@ -146,9 +146,8 @@ public class ForumEntryController {
 	}
 
 	@RequestMapping(value = "/upload", headers=("content-type=multipart/*"), method = RequestMethod.POST)
-	public String uploadDocument(Model model,
-			@RequestParam("myFile") MultipartFile file, @RequestParam int id) {
-		
+	public String uploadDocument(@Valid @ModelAttribute ForumEntryModel newForumEntryModel, BindingResult bindingResult,
+			Model model, @RequestParam("myFile") MultipartFile file) {
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
