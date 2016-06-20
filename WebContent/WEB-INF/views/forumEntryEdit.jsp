@@ -49,7 +49,7 @@
 			<div class="bs-example4" data-example-id="contextual-table">
 
 				<table class="table">
-					<form class="form-horizontal" method="post" action="${formAction} enctype="multipart/form-data"">
+					<form class="form-horizontal" method="post" action="${formAction} ">
 						<fieldset>
 
 

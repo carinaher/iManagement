@@ -21,7 +21,7 @@
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2">
 							<form class="form-horizontal" enctype="multipart/form-data"
-								method="post" action="upload">
+								method="post" action="./upload?${_csrf.parameterName}=${_csrf.token}">
 								<fieldset>
 
 									<! ----------------  id ---------------- -->
