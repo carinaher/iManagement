@@ -47,7 +47,7 @@
 						<form method="post" action="findTask">
 							<label for="searchString">Find by:</label> <select name="type">
 								<option value="findAll" selected="selected">findAll</option>
-								<option value="findByTaskName">findByTaskName</option>
+								<option value="findByTitle">findByTitle</option>
 								<option value="findByDescription">findByDescription</option>
 								<option value="findByStatus">findByStatus</option>
 							</select> <input type="text" name="searchString"> <input
@@ -64,11 +64,22 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<!-- <th>ID</th>
 								<th>Task Name</th>
 								<th>Description</th>
 								<th>Status</th>
 								<th>Due Date</th>
+								<th>Action</th> -->
+								
+								
+								<th>ID</th>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Status</th>
+								<th>Start</th>
+								<th>End</th>
+								<th>Place</th>
+								<th>UserName</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -76,11 +87,15 @@
 							<c:forEach items="${tasks}" var="task">
 								<tr>
 									<th scope="row">${task.id}</th>
-									<td>${task.taskName}</td>
+									<td>${task.title}</td>
 									<td>${task.description}</td>
 									<td>${task.status}</td>
-									<td><fmt:formatDate value="${task.dueDate}"
+									<td><fmt:formatDate value="${task.start}"
 											pattern="dd.MM.yyyy" /></td>
+									<td><fmt:formatDate value="${task.end}"
+											pattern="dd.MM.yyyy" /></td>
+									<td>${task.place}</td>
+									<td>${task.userName}</td>
 
 									<td><a href="editTask?id=${task.id}"><button
 												type="button" class="btn btn-s btn-warning">Edit</button></a> <a

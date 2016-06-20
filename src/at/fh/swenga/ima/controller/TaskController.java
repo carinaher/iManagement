@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import at.fh.swenga.ima.dao.TaskRepository;
+import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Controller
@@ -42,7 +43,21 @@ public class TaskController {
         String json = new Gson().toJson(taskRepository.findByUserName(userDetails.getUsername()));
         return json;
 	}
-	
+
+	@RequestMapping(value = { "/calendar", "caledar" })
+	public String showCalendar(Model model) {
+		model.addAttribute("pageTitle", "Calendar View");
+        return "calendarIndex";
+	}
+	@RequestMapping(value = { "/task", "list" })
+	public String index(Model model) {
+		List<TaskModel> tasks = taskRepository.findAll();
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("type", "findAll");
+		model.addAttribute("pageTitle", "Student List");
+
+		return "taskIndex";
+	}
 	
 
 	@RequestMapping(value = { "/findTask" })
@@ -56,8 +71,8 @@ public class TaskController {
 		case "findAll":
 			tasks = taskRepository.findAll();
 			break;
-		case "findByTaskName":
-			tasks = taskRepository.findByTaskName(searchString);
+		case "findByTitle":
+			tasks = taskRepository.findByTitle(searchString);
 			break;
 		case "findByDescription":
 			tasks = taskRepository.findByDescription(searchString);
@@ -101,11 +116,6 @@ public class TaskController {
 	}
 
 
-	@RequestMapping(value = { "/calendar", "list" })
-	public String showCalendar(Model model) {
-		model.addAttribute("pageTitle", "Calendar View");
-        return "calendarIndex";
-	}
 	
 
 	@RequestMapping(value = "/addTask", method = RequestMethod.GET)
