@@ -204,7 +204,7 @@ public class TaskController {
 			task.setUserName(editedTaskModel.getUserName());
 			task.setUrl("#"); // setter automatically generates a url to edit this task
 			
-			model.addAttribute("message", "Changed task " + editedTaskModel.getId());
+			model.addAttribute("message", "Changed task " + editedTaskModel.getTitle());
 			taskRepository.save(task);
 		}
  

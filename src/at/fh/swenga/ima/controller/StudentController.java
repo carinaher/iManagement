@@ -216,7 +216,7 @@ public class StudentController {
 			return "forward:/student";
 		}
  
-		StudentModel student = studentRepository.findByUserName(editedStudentModel.getUserName());
+		StudentModel student = studentRepository.findFirstByUserName(editedStudentModel.getUserName());
  
 		if (student == null) {
 			model.addAttribute("errorMessage", "Student " + editedStudentModel.getUserName() + " does not exist!<br>");
