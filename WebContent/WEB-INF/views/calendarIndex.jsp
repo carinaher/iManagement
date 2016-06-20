@@ -6,6 +6,8 @@
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="includes/templateStart.jsp" />
+<div class="container" role="main">
+	<jsp:include page="includes/messages.jsp" />
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -14,33 +16,35 @@
 				events : 'calendarJson', // url
 				timeFormat : 'HH:mm',
 				firstDay : 1, // 1 == Monday
-				height: 250,
-				defaultView: 'basicWeek'
+				height: 650
 			})
 
 		});
 	</script>
-	
-<div id="page-wrapper">
-<jsp:include page="includes/messages.jsp" />
 
-
-	<h1>iManagement</h1>
-
-	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<p>
-			<a href="user"><button type="button" class="btn btn-success">User List</button></a>
-		</p>
-		<br>		
-		<p>
-			<a href="userrole"><button type="button" class="btn btn-success">User Role List</button></a>
-		</p>
-	</sec:authorize>
-	<br>
-	
-	<!-- calendar div is automatically populated -->
-	<div id="calendar"></div>
+	<div id="page-wrapper">
+		<div class="graphs">
+			<p>
+				<a href="fillEvents">
+					<button type="button" class="btn btn-primary">
+						<span aria-hidden="true"></span>Fill Events
+					</button>
+				</a>
+				<a href="addEvent">
+					<button type="button" class="btn btn-primary">
+						<span aria-hidden="true"></span>Add Event
+					</button>
+				</a>
+				<a href="addTask">
+					<button type="button" class="btn btn-primary">
+						<span aria-hidden="true"></span>Add Task
+					</button>
+				</a>
+			</p>
+			<!-- calendar div is automatically populated -->
+			<div id="calendar"></div>
+		</div>
+	</div>
 </div>
-
 
 <jsp:include page="includes/templateEnd.jsp" />

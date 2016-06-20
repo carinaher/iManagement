@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "Event")
 
@@ -20,72 +22,85 @@ public class EventModel {
 	private int id;
 
 	@Column(nullable = false)
-	private String eventName;
+	private String title;
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+	private Date start;
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+	private Date end;
 	private String description;
 	private String place;
-	private Date startDate;
-	private Date endDate;
-
-	public EventModel() {
-
-	}
-
-	public EventModel(int id, String eventName, String description, String place, Date startDate, Date endDate) {
+	private String url;
+	private String userName;
+	
+	public EventModel(int id, String title, Date start, Date end, String description, String place, String userName) {
 		super();
 		this.id = id;
-		this.eventName = eventName;
+		this.title = title;
+		this.start = start;
+		this.end = end;
 		this.description = description;
 		this.place = place;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.userName = userName;
+		this.url= generateUrl(id);
 	}
-
+	
+	public String generateUrl(int id) {
+		return "editEvent?id=" + id;
+	}
+	
+	public EventModel() {
+		
+	}
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getEventName() {
-		return eventName;
+	public String getTitle() {
+		return title;
 	}
-
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-
+	public Date getStart() {
+		return start;
+	}
+	public void setStart(Date start) {
+		this.start = start;
+	}
+	public Date getEnd() {
+		return end;
+	}
+	public void setEnd(Date end) {
+		this.end = end;
+	}
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public String getPlace() {
 		return place;
 	}
-
 	public void setPlace(String place) {
 		this.place = place;
 	}
-
-	public Date getStartDate() {
-		return startDate;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = generateUrl(id);
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
 
 }

@@ -1,6 +1,9 @@
 #profile_img { /* fix for top bar, otherwise profile picture is displayed below user info */
 	min-width: 130px;
 }
+footer { /* full calendar uses up to 6 */
+    z-index: 10;
+}
 /*
 Author: W3layout
 Author URL: http://w3layouts.com

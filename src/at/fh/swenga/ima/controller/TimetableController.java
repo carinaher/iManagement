@@ -30,7 +30,7 @@ public class TimetableController {
 	UserRepository userRepository;
 
 
-	@RequestMapping(value = "/my_timetable", method = RequestMethod.GET)
+	@RequestMapping(value = "/timetable", method = RequestMethod.GET)
 	public String showOwnTimetable(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		if (userDetails != null) {
 			model.addAttribute("user", userDetails);
