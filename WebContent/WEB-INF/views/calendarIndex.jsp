@@ -25,14 +25,9 @@
 	<div id="page-wrapper">
 		<div class="graphs">
 			<p>
-				<a href="fillEvents">
+				<a href="fillTasks">
 					<button type="button" class="btn btn-primary">
-						<span aria-hidden="true"></span>Fill Events
-					</button>
-				</a>
-				<a href="addEvent">
-					<button type="button" class="btn btn-primary">
-						<span aria-hidden="true"></span>Add Event
+						<span aria-hidden="true"></span>Fill Tasks
 					</button>
 				</a>
 				<a href="addTask">

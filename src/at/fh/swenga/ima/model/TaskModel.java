@@ -24,28 +24,50 @@ public class TaskModel {
 	private int id;
 
 	@Column(nullable = false)
-	private String taskName;
+	private String title;
+
 	private String description;
+
 	private Boolean status;
-	
+
 	@NotNull(message = "{0} is required")
-	@DateTimeFormat(pattern = "dd.MM.yyyy")
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
 	@Future(message = "{0} must be in the future")
-	private Date dueDate;
+	private Date start;
+
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+	@Future(message = "{0} must be in the future")
+	private Date end;
+
+	private String place;
+
+	@NotNull(message = "{0} is required")
+	private String userName;
 	
-	
-	
+	// url for editing is automatically generated
+	private String url;
+
+	public TaskModel(int id, String title, String description, Boolean status, Date start, Date end, String place,
+			String userName) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.status = status;
+		this.start = start;
+		this.end = end;
+		this.place = place;
+		this.userName = userName;
+		this.url = generateUrl(id);
+	}
 
 	public TaskModel() {
 
 	}
 
-	public TaskModel(String taskName, String description, Boolean status, Date dueDate) {
-		super();
-		this.taskName = taskName;
-		this.description = description;
-		this.status = status;
-		this.dueDate = dueDate;
+	// helper methods
+	public String generateUrl(int id) {
+		return "editTask?id=" + id;
 	}
 
 	public int getId() {
@@ -56,12 +78,12 @@ public class TaskModel {
 		this.id = id;
 	}
 
-	public String getTaskName() {
-		return taskName;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -80,12 +102,46 @@ public class TaskModel {
 		this.status = status;
 	}
 
-	public Date getDueDate() {
-		return dueDate;
+	public Date getStart() {
+		return start;
 	}
 
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
+	public void setStart(Date start) {
+		this.start = start;
 	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUrl() {
+		return generateUrl(id);
+	}
+	
+	public void setUrl(String url) {
+		this.url = generateUrl(id);
+	}
+	
+	
 
 }
