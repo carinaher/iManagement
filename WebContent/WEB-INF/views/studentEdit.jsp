@@ -1,5 +1,5 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -31,15 +31,6 @@
 				<table class="table">
 					<form class="form-horizontal" method="post" action="${formAction}">
 						<fieldset>
-
-							<!-- ----------------  id --------------- -->
-							<div class="form-group">
-								<label for="inputId" class="col-md-2 control-label">ID</label>
-								<div class="col-md-10">
-									<input class="form-control" id="inputId" type="text" name="id"
-										${readonly} value="<c:out value="${student.id}"/>">
-								</div>
-							</div>
 
 							<!-- ----------------  userName ---------------- -->
 							<div class="form-group">

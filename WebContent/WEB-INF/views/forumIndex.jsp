@@ -1,5 +1,5 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -56,7 +56,9 @@
 								<tr>
 									<th>Topic</th>
 									<th>Text</th>
-																		<th>Action</th>
+																		<th>Attachment</th>
+									
+									<th>Action</th>
 									
 								</tr>
 							</thead>
@@ -65,6 +67,14 @@
 								<tr>
 									<td>${entry.topic}</td>
 									<td>${entry.text}</td>
+									<td> <c:choose>
+											<c:when test="${not empty entry.attachment}">
+												<a href="download?attachmentId=${entry.attachment.id}" target="_blank">${entry.attachment.filename}</a>
+											</c:when>
+											<c:otherwise>
+												-- no Attachment ---
+											</c:otherwise>
+										</c:choose></td>
 									<td><a href="editForumEntry?id=${entry.id}"><button
 												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
 										href="deleteForumEntry?id=${entry.id}"><button type="button"

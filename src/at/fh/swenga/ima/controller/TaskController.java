@@ -112,7 +112,7 @@ public class TaskController {
 			TaskModel savedTaskModel = taskRepository.save(newTaskModel);
 			savedTaskModel.setUrl("#"); // setter automatically generates a url (with id) to edit this task
 			taskRepository.save(savedTaskModel);
-			model.addAttribute("message", "New task " + newTaskModel.getTitle() + " added.");
+			model.addAttribute("message", "Added new task" + newTaskModel.getTitle());
 		}
  
 		return "forward:/calendar";

@@ -1,8 +1,10 @@
 package at.fh.swenga.ima.controller;
 
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import at.fh.swenga.ima.dao.AttachmentRepository;
 import at.fh.swenga.ima.dao.ForumEntryRepository;
+import at.fh.swenga.ima.model.AttachmentModel;
 import at.fh.swenga.ima.model.ForumEntryModel;
 import at.fh.swenga.ima.model.TaskModel;
-
 
 @Controller
 
@@ -30,16 +34,19 @@ public class ForumEntryController {
 	@Autowired
 	ForumEntryRepository forumEntryRepository;
 
+	@Autowired
+	AttachmentRepository attachmentRepository;
+
 	@RequestMapping(value = { "/forum", "list" })
 	public String index(Model model) {
 		List<ForumEntryModel> forumEntrys = forumEntryRepository.findAll();
 		model.addAttribute("forumEntrys", forumEntrys);
 		model.addAttribute("type", "findAll");
-		model.addAttribute("pageTitle", "Forum ");
+		model.addAttribute("pageTitle", "Forum");
 
 		return "forumIndex";
 	}
-	
+
 	@RequestMapping("/fillForumEntrys")
 	@Transactional
 	public String fillData(Model model) {
@@ -55,24 +62,23 @@ public class ForumEntryController {
 
 		return "forward:/forum";
 	}
-	
+
 	@RequestMapping("/deleteForumEntry")
 	public String deleteData(Model model, @RequestParam int id) {
 		forumEntryRepository.delete(id);
 
 		return "forward:/forum";
 	}
-	
+
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.GET)
 	public String showAddForumEntryForm(Model model) {
 		return "forumEntryEdit";
 	}
-	
-	
+
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.POST)
 	public String addForumEntry(@Valid @ModelAttribute ForumEntryModel newForumEntryModel, BindingResult bindingResult,
 			Model model) {
- 
+
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -82,18 +88,19 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", errorMessage);
 			return "forward:/forum";
 		}
- 
+
 		ForumEntryModel entry = forumEntryRepository.findForumEntryById(newForumEntryModel.getId());
- 
+
 		if (entry != null) {
 			model.addAttribute("errorMessage", "Entry already exists!<br>");
 		} else {
 			forumEntryRepository.save(newForumEntryModel);
 			model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
 		}
- 
+
 		return "forward:/forum";
 	}
+
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.GET)
 	public String showEditForumEntryForm(Model model, @RequestParam int id) {
 		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(id);
@@ -105,11 +112,11 @@ public class ForumEntryController {
 			return "forward:/forum";
 		}
 	}
-	
+
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.POST)
-	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel, BindingResult bindingResult,
-			Model model) {
- 
+	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel,
+			BindingResult bindingResult, Model model) {
+
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -118,28 +125,87 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", errorMessage);
 			return "forward:/forum";
 		}
- 
+
 		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(editedForumEntryModel.getId());
- 
+
 		if (forumEntry == null) {
 			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getId() + "does not exist!<br>");
 		} else {
-			//student.setId(editedTaskModel.getId());
+			// student.setId(editedTaskModel.getId());
 			forumEntry.setId(editedForumEntryModel.getId());
 			forumEntry.setTopic(editedForumEntryModel.getTopic());
 			forumEntry.setText(editedForumEntryModel.getText());
 			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
 			forumEntryRepository.save(forumEntry);
 		}
- 
+
 		return "forward:/forum";
 	}
 
+	// Upload
+
+	@RequestMapping(value = "/upload", method = RequestMethod.GET)
+	public String showUploadForm(Model model, @RequestParam("id") int entryId) {
+		model.addAttribute("entryId",entryId);
+		return "uploadAttachment";
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String uploadDocument(Model model, @RequestParam("id") int entryId,
+			@RequestParam("myFile") MultipartFile file) {
+		
+		try {
+
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(entryId);
+
+			// Already a document available -> delete it
+			if (forumEntry.getAttachment() != null) {
+				attachmentRepository.delete(forumEntry.getAttachment());
+				// Don't forget to remove the relationship too
+				forumEntry.setAttachment(null);
+			}
+
+			// Create a new document and set all available infos
+
+			AttachmentModel attachment = new AttachmentModel();
+			attachment.setContent(file.getBytes());
+			attachment.setContentType(file.getContentType());
+			attachment.setCreated(new Date());
+			attachment.setFilename(file.getOriginalFilename());
+			attachment.setName(file.getName());
+			forumEntry.setAttachment(attachment);
+
+			forumEntryRepository.save(forumEntry);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "Error:" + e.getMessage());
+		}
+
+		return "forward:/editForumEntry";
+	}
 	
+	
+	@RequestMapping("/download")
+	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
+		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);
+
+		try {
+			// damit man in der Browserleiste auch den Namen sieht
+			response.setHeader("Content-Disposition", "inline;filename=\"" + attachment.getFilename() + "\"");
+			OutputStream out = response.getOutputStream();
+			// "application/octet-stream" => as Content Type, just downloads the
+			// content and dont open it
+			response.setContentType(attachment.getContentType()); // => opens the
+															// Content
+			out.write(attachment.getContent());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 		return "showError";
 	}
-	
-	
+
 }
