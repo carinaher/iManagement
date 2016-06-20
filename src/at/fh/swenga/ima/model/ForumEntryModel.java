@@ -1,6 +1,7 @@
 package at.fh.swenga.ima.model;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "Forum")
@@ -24,6 +27,9 @@ public class ForumEntryModel {
 	private String topic;
 	@Column( length = 100000 )
 	private String text;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private AttachmentModel attachment;
 
 
 
@@ -63,4 +69,11 @@ public class ForumEntryModel {
 	}
 
 
+	public AttachmentModel getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(AttachmentModel attachment) {
+		this.attachment = attachment;
+	}
 }

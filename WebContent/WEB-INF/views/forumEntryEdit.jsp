@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<script type="text/javascript"  src='resources/tinymce/tinymce.min.js'></script>
+<script type="text/javascript" src='resources/tinymce/tinymce.min.js'></script>
 
 <script>
 	tinymce
@@ -16,7 +16,7 @@
 						'save table contextmenu directionality emoticons template paste textcolor' ],
 				content_css : 'css/content.css',
 				toolbar : 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor emoticons',
-			skin: 'imanagement'
+				skin : 'imanagement'
 			});
 </script>
 <jsp:include page="includes/templateStart.jsp" />
@@ -63,7 +63,7 @@
 
 							<! ----------------  Topic ---------------- -->
 							<div class="form-group">
-								<label for="inputTopic" class="col-md-2 control-label">Topic</label>
+								<br> <label for="inputTopic" class="col-md-2 control-label">Topic</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputTopic" type="text"
 										name="topic" value="<c:out value="${forumEntrys.topic}"/>">
@@ -72,9 +72,8 @@
 
 							<! ----------------  Text ---------------- -->
 							<div class="form-group">
-								<label for="inputText" class="col-md-2 control-label">Text</label>
+								<br> <label for="inputText" class="col-md-2 control-label">Text</label>
 								<div class="col-md-10">
-
 									<textarea id="editable" name="text">
 								<c:out value="${forumEntrys.text}" />
 								</textarea>
@@ -82,12 +81,23 @@
 								</div>
 							</div>
 
-							)
+							<! ----------------  Attachment ---------------- -->
+							<div class="form-group">
 
-
+								<label for="inputText" class="col-md-2 control-label"></label>
+								<div class="col-md-10">
+									<br> <a href="upload?id=${forumEntrys.id}">
+										<button type="button" class="btn btn-xs btn-success">
+											<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+											Upload
+										</button>
+									</a>
+								</div>
+							</div>
 							<! ----------------  buttons ---------------- -->
 							<div class="form-group">
 								<div class="col-md-10 col-md-offset-2">
+									<br>
 									<button type="submit" class="btn btn-primary">Submit</button>
 									<a href="forum">
 										<button type="button" class="btn btn-default">Cancel</button>

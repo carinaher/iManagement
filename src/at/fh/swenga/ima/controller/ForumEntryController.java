@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import at.fh.swenga.ima.dao.AttachmentRepository;
 import at.fh.swenga.ima.dao.ForumEntryRepository;
+import at.fh.swenga.ima.model.AttachmentModel;
 import at.fh.swenga.ima.model.ForumEntryModel;
 import at.fh.swenga.ima.model.TaskModel;
 
@@ -30,12 +33,15 @@ public class ForumEntryController {
 	@Autowired
 	ForumEntryRepository forumEntryRepository;
 
+	@Autowired
+	AttachmentRepository attachmentRepository;
+	
 	@RequestMapping(value = { "/forum", "list" })
 	public String index(Model model) {
 		List<ForumEntryModel> forumEntrys = forumEntryRepository.findAll();
 		model.addAttribute("forumEntrys", forumEntrys);
 		model.addAttribute("type", "findAll");
-		model.addAttribute("pageTitle", "Forum ");
+		model.addAttribute("pageTitle", "Forum");
 
 		return "forumIndex";
 	}
@@ -135,6 +141,48 @@ public class ForumEntryController {
 		return "forward:/forum";
 	}
 
+	
+	//Upload
+	
+	@RequestMapping(value = "/upload", method = RequestMethod.GET)
+	public String showUploadForm(Model model) {
+		return "uploadAttachment";
+	}
+	
+	
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String uploadDocument(Model model, @RequestParam("id") int forumEntryId,
+			@RequestParam("myFile") MultipartFile file) {
+		try {
+
+			ForumEntryModel forumEntry = forumEntryRepository.findOne(forumEntryId);
+
+			// Already a document available -> delete it
+			if (forumEntry.getAttachment() != null) {
+				attachmentRepository.delete(forumEntry.getAttachment());
+				// Don't forget to remove the relationship too
+				forumEntry.setAttachment(null);
+			}
+
+			// Create a new document and set all available infos
+
+			AttachmentModel attachment = new AttachmentModel();
+			attachment.setContent(file.getBytes());
+			attachment.setContentType(file.getContentType());
+			attachment.setCreated(new Date());
+			attachment.setFilename(file.getOriginalFilename());
+			attachment.setName(file.getName());
+			forumEntry.setAttachment(attachment);
+			forumEntryRepository.save(forumEntry);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "Error:" + e.getMessage());
+		}
+
+		return "forward:/list";
+	}
+
+	
+	
 	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {

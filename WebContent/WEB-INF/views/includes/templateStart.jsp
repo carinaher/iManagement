@@ -67,7 +67,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 <head>
 <c:if test="${not empty pageTitle}">
-	<title>${pageTitle}| iManagement</title>
+	<title>${pageTitle} | iManagement</title>
 </c:if>
 <c:if test="${empty pageTitle}">
 	<title>iManagement</title>

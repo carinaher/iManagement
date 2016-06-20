@@ -56,7 +56,9 @@
 								<tr>
 									<th>Topic</th>
 									<th>Text</th>
-																		<th>Action</th>
+																		<th>Attachment</th>
+									
+									<th>Action</th>
 									
 								</tr>
 							</thead>
@@ -65,6 +67,14 @@
 								<tr>
 									<td>${entry.topic}</td>
 									<td>${entry.text}</td>
+									<td> <c:choose>
+											<c:when test="${not empty entry.attachment}">
+												<a href="download?attachmentId=${entry.attachment.id}" target="_blank">${entry.attachment.filename}</a>
+											</c:when>
+											<c:otherwise>
+												-- no Attachment ---
+											</c:otherwise>
+										</c:choose></td>
 									<td><a href="editForumEntry?id=${entry.id}"><button
 												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
 										href="deleteForumEntry?id=${entry.id}"><button type="button"
