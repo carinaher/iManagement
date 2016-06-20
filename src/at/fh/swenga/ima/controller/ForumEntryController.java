@@ -174,13 +174,12 @@ public class ForumEntryController {
 			attachment.setFilename(file.getOriginalFilename());
 			attachment.setName(file.getName());
 			forumEntry.setAttachment(attachment);
-
 			forumEntryRepository.save(forumEntry);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
-		return "forward:/editForumEntry";
+		return "forward:/forum";
 	}
 	
 	
