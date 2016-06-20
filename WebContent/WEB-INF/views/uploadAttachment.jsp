@@ -32,7 +32,7 @@
 									<! ----------------  file ---------------- -->
 
 									<div class="form-group">
-										<input id="inputFile" type="file">
+										<input id="inputFile" type="file" name="myFile">
 										<p class="help-block">Please select the file, you would
 											like to upload to the forum.</p>
 									</div>
