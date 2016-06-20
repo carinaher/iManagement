@@ -1,8 +1,10 @@
 package at.fh.swenga.ima.controller;
 
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -143,17 +145,18 @@ public class ForumEntryController {
 	// Upload
 
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public String showUploadForm(Model model) {
+	public String showUploadForm(Model model, @RequestParam("id") int entryId) {
+		model.addAttribute("entryId",entryId);
 		return "uploadAttachment";
 	}
 
-	@RequestMapping(value = "/upload", headers=("content-type=multipart/*"), method = RequestMethod.POST)
-	public String uploadDocument(Model model,
-			@RequestParam("myFile") MultipartFile file, @RequestParam int id) {
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String uploadDocument(Model model, @RequestParam("id") int entryId,
+			@RequestParam("myFile") MultipartFile file) {
 		
 		try {
 
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(id);
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(entryId);
 
 			// Already a document available -> delete it
 			if (forumEntry.getAttachment() != null) {
@@ -171,12 +174,33 @@ public class ForumEntryController {
 			attachment.setFilename(file.getOriginalFilename());
 			attachment.setName(file.getName());
 			forumEntry.setAttachment(attachment);
+
 			forumEntryRepository.save(forumEntry);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
 		return "forward:/editForumEntry";
+	}
+	
+	
+	@RequestMapping("/download")
+	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
+		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);
+
+		try {
+			// damit man in der Browserleiste auch den Namen sieht
+			response.setHeader("Content-Disposition", "inline;filename=\"" + attachment.getFilename() + "\"");
+			OutputStream out = response.getOutputStream();
+			// "application/octet-stream" => as Content Type, just downloads the
+			// content and dont open it
+			response.setContentType(attachment.getContentType()); // => opens the
+															// Content
+			out.write(attachment.getContent());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@ExceptionHandler(Exception.class)
