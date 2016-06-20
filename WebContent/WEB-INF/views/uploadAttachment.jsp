@@ -16,38 +16,45 @@
 		<div class="xs tabls">
 			<div class="bs-example4" data-example-id="contextual-table">
 
-				<table class="table">
-					<form class="form-horizontal" method="post" action="${formAction}">
-						<fieldset>
+				<div class="container" role="main">
 
-							<! ----------------  id ---------------- -->
-							<div class="form-group">
-								<input type="hidden" name="id"
-									value="<c:out value="${forumEntryId}"/>">
-							</div>
-							<! ----------------  file ---------------- -->
-					
-					<div class="form-group">
-							<input id="inputFile" type="file">
-							<p class="help-block">Please select the file, you would like to upload to the forum.</p>
-						  </div>
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2">
+							<form class="form-horizontal" enctype="multipart/form-data"
+								method="post" action="upload">
+								<fieldset>
 
-			
-							<! ----------------  buttons ---------------- -->
-							<div class="form-group">
-								<div class="col-md-10 col-md-offset-2">
-								<br>
-									<button type="submit" class="btn btn-primary">Upload</button>
-									<a href="addForumEntry">
-										<button type="button" class="btn btn-default">Cancel</button>
-									</a>
-								</div>
-							</div>
-						</fieldset>
-						<input type="hidden" name="${_csrf.parameterName }"
-							value="${_csrf.token }" />
-					</form>
-				</table>
+									<! ----------------  id ---------------- -->
+									<div class="form-group">
+										<input type="hidden" name="id"
+											value="<c:out value="${forumEntryId}"/>">
+									</div>
+									<! ----------------  file ---------------- -->
+
+									<div class="form-group">
+										<input id="inputFile" type="file">
+										<p class="help-block">Please select the file, you would
+											like to upload to the forum.</p>
+									</div>
+
+
+									<! ----------------  buttons ---------------- -->
+									<div class="form-group">
+										<div class="col-md-10 col-md-offset-2">
+											<br>
+											<button type="submit" class="btn btn-primary">Upload</button>
+											<a href="addForumEntry">
+												<button type="button" class="btn btn-default">Cancel</button>
+											</a>
+										</div>
+									</div>
+								</fieldset>
+								<input type="hidden" name="${_csrf.parameterName }"
+									value="${_csrf.token }" />
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

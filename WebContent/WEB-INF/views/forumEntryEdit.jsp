@@ -30,11 +30,13 @@
 		<c:set var="legend">Edit Task ${forumEntrys.id}</c:set>
 		<c:set var="formAction">editForumEntry</c:set>
 		<c:set var="readonly">readonly</c:set>
+		<c:set var="upload">/uploadExistingEntry</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Entry</c:set>
 		<c:set var="formAction">addForumEntry</c:set>
 		<c:set var="readonly"></c:set>
+		<c:set var="upload">/uploadNewEntry</c:set>
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
@@ -47,7 +49,7 @@
 			<div class="bs-example4" data-example-id="contextual-table">
 
 				<table class="table">
-					<form class="form-horizontal" method="post" action="${formAction}">
+					<form class="form-horizontal" method="post" action="${formAction} enctype="multipart/form-data"">
 						<fieldset>
 
 
