@@ -87,7 +87,7 @@ public class TaskController {
 			model.addAttribute("errorMessage", "Task already exists!<br>");
 		} else {
 			taskRepository.save(newTaskModel);
-			model.addAttribute("message", "New task " + newTaskModel.getId() + " added.");
+			model.addAttribute("message", "Added new task " + newTaskModel.getTaskName());
 		}
  
 		return "forward:/task";
@@ -118,18 +118,16 @@ public class TaskController {
 			return "forward:/task";
 		}
  
-		TaskModel task = taskRepository.findTaskById(editedTaskModel.getId());
+		TaskModel task = taskRepository.findTaskByTaskName(editedTaskModel.getTaskName());
  
 		if (task == null) {
-			model.addAttribute("errorMessage", "Task" + editedTaskModel.getId() + "does not exist!<br>");
+			model.addAttribute("errorMessage", "Task " + editedTaskModel.getTaskName() + " does not exist!<br>");
 		} else {
-			//student.setId(editedTaskModel.getId());
-			task.setId(editedTaskModel.getId());
 			task.setTaskName(editedTaskModel.getTaskName());
 			task.setDescription(editedTaskModel.getDescription());
 			task.setStatus(editedTaskModel.getStatus());
 			task.setDueDate(editedTaskModel.getDueDate());
-			model.addAttribute("message", "Changed task " + editedTaskModel.getId());
+			model.addAttribute("message", "Changed task " + editedTaskModel.getTaskName());
 			taskRepository.save(task);
 		}
  

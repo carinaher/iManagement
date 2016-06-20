@@ -147,7 +147,7 @@ public class StudentController {
 			model.addAttribute("errorMessage", "Student already exists!<br>");
 		} else {
 			studentRepository.save(newStudentModel);
-			model.addAttribute("message", "New student " + newStudentModel.getId() + " added.");
+			model.addAttribute("message", "Added new student " + newStudentModel.getUserName());
 		}
  
 		return "forward:/student";
@@ -179,17 +179,17 @@ public class StudentController {
 			return "forward:/student";
 		}
  
-		StudentModel student = studentRepository.findById(editedStudentModel.getId());
+		StudentModel student = studentRepository.findByUserName(editedStudentModel.getUserName());
  
 		if (student == null) {
-			model.addAttribute("errorMessage", "Student" + editedStudentModel.getId() + "does not exist!<br>");
+			model.addAttribute("errorMessage", "Student " + editedStudentModel.getUserName() + " does not exist!<br>");
 		} else {
 			student.setUserName(editedStudentModel.getUserName());
 			student.setFirstName(editedStudentModel.getFirstName());
 			student.setLastName(editedStudentModel.getLastName());
 			student.setGithubUser(editedStudentModel.getGithubUser());
 			student.seteMail(editedStudentModel.geteMail());
-			model.addAttribute("message", "Changed student " + editedStudentModel.getId());
+			model.addAttribute("message", "Changed student " + editedStudentModel.getUserName());
 			studentRepository.save(student);
 		}
  
