@@ -77,7 +77,7 @@ public class ForumEntryController {
 
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.POST)
 	public String addForumEntry(@Valid @ModelAttribute ForumEntryModel newForumEntryModel, BindingResult bindingResult,
-			Model model) {
+			Model model, @RequestParam("myFile") MultipartFile file) {
 
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -89,20 +89,39 @@ public class ForumEntryController {
 			return "forward:/forum";
 		}
 
-		ForumEntryModel entry = forumEntryRepository.findForumEntryById(newForumEntryModel.getId());
+		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(newForumEntryModel.getId());
+		try {
+			if (forumEntry != null) {
+				model.addAttribute("errorMessage", "Entry already exists!<br>");
+			} else {
 
-		if (entry != null) {
-			model.addAttribute("errorMessage", "Entry already exists!<br>");
-		} else {
-			forumEntryRepository.save(newForumEntryModel);
-			model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
+				model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
+
+				// Create a new document and set all available infos
+
+				AttachmentModel attachment = new AttachmentModel();
+				attachment.setContent(file.getBytes());
+				attachment.setContentType(file.getContentType());
+				attachment.setCreated(new Date());
+				attachment.setFilename(file.getOriginalFilename());
+				attachment.setName(file.getName());
+				newForumEntryModel.setAttachment(attachment);
+				forumEntryRepository.save(newForumEntryModel);
+			}
+		} catch (
+
+		Exception e) {
+			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
 		return "forward:/forum";
+
 	}
 
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.GET)
 	public String showEditForumEntryForm(Model model, @RequestParam int id) {
+
+		model.addAttribute("entryId", id);
 		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(id);
 		if (forumEntry != null) {
 			model.addAttribute("forumEntrys", forumEntry);
@@ -115,7 +134,7 @@ public class ForumEntryController {
 
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.POST)
 	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel,
-			BindingResult bindingResult, Model model) {
+			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file) {
 
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -138,26 +157,7 @@ public class ForumEntryController {
 			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
 			forumEntryRepository.save(forumEntry);
 		}
-
-		return "forward:/forum";
-	}
-
-	// Upload
-
-	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public String showUploadForm(Model model, @RequestParam("id") int entryId) {
-		model.addAttribute("entryId",entryId);
-		return "uploadAttachment";
-	}
-
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String uploadDocument(Model model, @RequestParam("id") int entryId,
-			@RequestParam("myFile") MultipartFile file) {
-		
 		try {
-
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(entryId);
-
 			// Already a document available -> delete it
 			if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
@@ -175,14 +175,50 @@ public class ForumEntryController {
 			attachment.setName(file.getName());
 			forumEntry.setAttachment(attachment);
 			forumEntryRepository.save(forumEntry);
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 		}
 
 		return "forward:/forum";
 	}
-	
-	
+
+	// Upload
+
+	/*
+	 * @RequestMapping(value = "/upload", method = RequestMethod.GET) public
+	 * String showUploadForm(Model model, @RequestParam("id") int entryId) {
+	 * model.addAttribute("entryId", entryId); return "uploadAttachment"; }
+	 * 
+	 * @RequestMapping(value = "/upload", method = RequestMethod.POST) public
+	 * String uploadDocument(Model model, @RequestParam("id") int entryId,
+	 * 
+	 * @RequestParam("myFile") MultipartFile file) {
+	 * 
+	 * try {
+	 * 
+	 * ForumEntryModel forumEntry =
+	 * forumEntryRepository.findForumEntryById(entryId);
+	 * 
+	 * // Already a document available -> delete it if
+	 * (forumEntry.getAttachment() != null) {
+	 * attachmentRepository.delete(forumEntry.getAttachment()); // Don't forget
+	 * to remove the relationship too forumEntry.setAttachment(null); }
+	 * 
+	 * // Create a new document and set all available infos
+	 * 
+	 * AttachmentModel attachment = new AttachmentModel();
+	 * attachment.setContent(file.getBytes());
+	 * attachment.setContentType(file.getContentType());
+	 * attachment.setCreated(new Date());
+	 * attachment.setFilename(file.getOriginalFilename());
+	 * attachment.setName(file.getName()); forumEntry.setAttachment(attachment);
+	 * forumEntryRepository.save(forumEntry); } catch (Exception e) {
+	 * model.addAttribute("errorMessage", "Error:" + e.getMessage()); }
+	 * 
+	 * return "forward:/forum"; }
+	 */
 	@RequestMapping("/download")
 	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
 		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);
@@ -193,8 +229,9 @@ public class ForumEntryController {
 			OutputStream out = response.getOutputStream();
 			// "application/octet-stream" => as Content Type, just downloads the
 			// content and dont open it
-			response.setContentType(attachment.getContentType()); // => opens the
-															// Content
+			response.setContentType(attachment.getContentType()); // => opens
+																	// the
+			// Content
 			out.write(attachment.getContent());
 			out.flush();
 		} catch (Exception e) {

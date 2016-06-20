@@ -49,7 +49,7 @@
 			<div class="bs-example4" data-example-id="contextual-table">
 
 				<table class="table">
-					<form class="form-horizontal" method="post" action="${formAction} ">
+					<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="${formAction}?${_csrf.parameterName}=${_csrf.token} ">
 						<fieldset>
 
 
@@ -85,17 +85,11 @@
 
 							<! ----------------  Attachment ---------------- -->
 							<div class="form-group">
-
-								<label for="inputText" class="col-md-2 control-label"></label>
-								<div class="col-md-10">
-									<br> <a href="upload?id=${forumEntrys.id}">
-										<button type="button" class="btn btn-xs btn-success">
-											<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-											Upload
-										</button>
-									</a>
-								</div>
+							<label for="inputFile" class="col-md-2 control-label">Attachment</label>
+							<div class="col-md-10">
+								<input class="form-control" id="inputFile" type="file" name="myFile">
 							</div>
+						</div>
 							<! ----------------  buttons ---------------- -->
 							<div class="form-group">
 								<div class="col-md-10 col-md-offset-2">
@@ -107,8 +101,7 @@
 								</div>
 							</div>
 						</fieldset>
-						<input type="hidden" name="${_csrf.parameterName }"
-							value="${_csrf.token }" />
+						
 					</form>
 				</table>
 			</div>
