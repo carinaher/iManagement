@@ -150,10 +150,19 @@ public class ForumEntryController {
 		return "uploadAttachment";
 	}
 
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String uploadDocument(Model model, @RequestParam("id") int entryId,
-			@RequestParam("myFile") MultipartFile file) {
-		
+
+	@RequestMapping(value = "/upload", headers=("content-type=multipart/*"), method = RequestMethod.POST)
+	public String uploadDocument(@Valid @ModelAttribute ForumEntryModel newForumEntryModel, BindingResult bindingResult,
+			Model model, @RequestParam("myFile") MultipartFile file) {
+		if (bindingResult.hasErrors()) {
+			String errorMessage = "";
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				errorMessage += fieldError.getField() + " is invalid<br>";
+			}
+			// put the errors into the model
+			model.addAttribute("errorMessage", errorMessage);
+			return "forward:/forum";
+		}
 		try {
 
 			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(newForumEntryModel.getTopic());
