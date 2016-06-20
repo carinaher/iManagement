@@ -33,7 +33,7 @@
 			<div class="xs tabls">
 				<div class="bs-example4" data-example-id="contextual-table">
 					<div class="row">
-						<div class="col-md-4 col-md-offset-4">
+						<div class="col-md-15 col-md-offset-0">
 							<p>
 								<a href="fillStudents">
 									<button type="button" class="btn btn-primary">
@@ -47,6 +47,19 @@
 										</button>
 									</a>
 								</sec:authorize>
+								<br> <br> <form method="post" action="findStudent"><label for="searchString">Find by:</label> <select
+									name="type">
+									<option value="findAll" selected="selected">findAll</option>
+									<option value="findByUserName">findByUserName</option>
+									<option value="findByFirstName">findByFirstName</option>
+									<option value="findByLastName">findByLastName</option>
+									<option value="findByGithubUser">findByGithubUser</option>
+									<option value="findByGroupId">findByGroupId</option>
+								</select> <input type="text" name="searchString"> <input
+									type="submit" value="Search" class="btn btn-primary"> <input
+									type="hidden" name="${_csrf.parameterName }"
+									value="${_csrf.token }" /></form>
+							<br>
 							</p>
 						</div>
 					</div>
@@ -60,19 +73,21 @@
 								<th>GitHub Username</th>
 								<th>Year</th>
 								<th>Group</th>
-																	<td><sec:authorize access="hasRole('ROLE_ADMIN')">
-								<th>Action</th></sec:authorize>
+								<td><sec:authorize access="hasRole('ROLE_ADMIN')">
+										<th>Action</th>
+									</sec:authorize>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${students}" var="student">
 								<tr>
-								
+
 									<th scope="row">${student.id}</th>
 									<td>${student.userName}</td>
 									<td>${student.firstName}</td>
 									<td>${student.lastName}</td>
-									<td><a target="_blank" href="https://github.com/${student.githubUser}">${student.githubUser}</a></td>
+									<td><a target="_blank"
+										href="https://github.com/${student.githubUser}">${student.githubUser}</a></td>
 									<td>${student.year}</td>
 									<td>${student.groupId}</td>
 									<td><sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -87,7 +102,6 @@
 						</tbody>
 					</table>
 				</div>
-
 				<!-- /.table-responsive -->
 			</div>
 		</div>

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.TaskRepository;
-import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Controller
@@ -38,6 +37,35 @@ public class TaskController {
 		return "taskIndex";
 	}
 
+	@RequestMapping(value = { "/findTask" })
+	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
+		// @RequestParam => take it
+		// @ModelAttribute => take it and put it back into the model!!
+		List<TaskModel> tasks = null;
+		int count = 0;
+
+		switch (type) {
+		case "findAll":
+			tasks = taskRepository.findAll();
+			break;
+		case "findByTaskName":
+			tasks = taskRepository.findByTaskName(searchString);
+			break;
+		case "findByDescription":
+			tasks = taskRepository.findByDescription(searchString);
+			break;
+		case "findByStatus":
+			tasks = taskRepository.findByStatus(Boolean.parseBoolean(searchString));
+			break;
+						
+		default:
+			tasks = taskRepository.findAll();
+		}
+
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("count", count);
+		return "taskIndex";
+	}
 
 	@RequestMapping("/fillTasks")
 	@Transactional
@@ -123,7 +151,7 @@ public class TaskController {
 		if (task == null) {
 			model.addAttribute("errorMessage", "Task" + editedTaskModel.getId() + "does not exist!<br>");
 		} else {
-			//student.setId(editedTaskModel.getId());
+			//task.setId(editedTaskModel.getId());
 			task.setId(editedTaskModel.getId());
 			task.setTaskName(editedTaskModel.getTaskName());
 			task.setDescription(editedTaskModel.getDescription());

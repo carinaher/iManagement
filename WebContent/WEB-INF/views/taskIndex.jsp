@@ -35,7 +35,7 @@
 			<h3 class="blank1">Tasks Table</h3>
 			<div class="bs-example4" data-example-id="contextual-table">
 				<div class="row">
-					<div class="col-md-4 col-md-offset-4">
+					<div class="col-md-15 col-md-offset-0">
 						<p>
 							<a href="fillTasks">
 
@@ -43,7 +43,19 @@
 
 							</a> <a href="addTask">
 								<button type="button" class="btn btn-primary">Add Task</button>
-							</a>
+							</a> <br> <br>
+						<form method="post" action="findTask">
+							<label for="searchString">Find by:</label> <select name="type">
+								<option value="findAll" selected="selected">findAll</option>
+								<option value="findByTaskName">findByTaskName</option>
+								<option value="findByDescription">findByDescription</option>
+								<option value="findByStatus">findByStatus</option>
+							</select> <input type="text" name="searchString"> <input
+								type="submit" value="Search" class="btn btn-primary"> <input
+								type="hidden" name="${_csrf.parameterName }"
+								value="${_csrf.token }" />
+						</form>
+						<br>
 						</p>
 					</div>
 				</div>

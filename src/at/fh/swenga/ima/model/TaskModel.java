@@ -27,14 +27,11 @@ public class TaskModel {
 	private String taskName;
 	private String description;
 	private Boolean status;
-	
+
 	@NotNull(message = "{0} is required")
 	@DateTimeFormat(pattern = "dd.MM.yyyy")
 	@Future(message = "{0} must be in the future")
 	private Date dueDate;
-	
-	
-	
 
 	public TaskModel() {
 
