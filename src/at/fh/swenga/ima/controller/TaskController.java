@@ -45,6 +45,35 @@ public class TaskController {
 	
 	
 
+	@RequestMapping(value = { "/findTask" })
+	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
+		// @RequestParam => take it
+		// @ModelAttribute => take it and put it back into the model!!
+		List<TaskModel> tasks = null;
+		int count = 0;
+
+		switch (type) {
+		case "findAll":
+			tasks = taskRepository.findAll();
+			break;
+		case "findByTaskName":
+			tasks = taskRepository.findByTaskName(searchString);
+			break;
+		case "findByDescription":
+			tasks = taskRepository.findByDescription(searchString);
+			break;
+		case "findByStatus":
+			tasks = taskRepository.findByStatus(Boolean.parseBoolean(searchString));
+			break;
+						
+		default:
+			tasks = taskRepository.findAll();
+		}
+
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("count", count);
+		return "taskIndex";
+	}
 
 	@RequestMapping("/fillTasks")
 	@Transactional

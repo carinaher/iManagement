@@ -17,7 +17,10 @@ public interface TaskRepository extends JpaRepository<TaskModel, Integer> {
 	
 	public TaskModel findTaskById (int id);
 	public List<TaskModel> findByUserName(String userName);
-	public TaskModel findTaskByTaskName (String name);
+	public List<TaskModel> findByTaskName(String name);
+	public List<TaskModel> findByDescription(String name);
+	public List<TaskModel> findByStatus(Boolean TRUE);
 	
+	@SuppressWarnings("unchecked")
 	TaskModel save(TaskModel persisted);
 }
