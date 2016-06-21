@@ -37,11 +37,11 @@
 				<div class="row">
 					<div class="col-md-15 col-md-offset-0">
 						<p>
-							<a href="fillTasks">
+							<a href="fillTasks?returnUrl=task">
 
 								<button type="button" class="btn btn-primary">Fill List</button>
 
-							</a> <a href="addTask">
+							</a> <a href="addTask?returnUrl=task">
 								<button type="button" class="btn btn-primary">Add Task</button>
 							</a> <br> <br>
 						<form method="post" action="findTask">
@@ -97,9 +97,9 @@
 									<td>${task.place}</td>
 									<td>${task.userName}</td>
 
-									<td><a href="editTask?id=${task.id}"><button
+									<td><a href="editTask?id=${task.id}&returnUrl=task"><button
 												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
-										href="deleteTask?id=${task.id}"><button type="button"
+										href="deleteTask?id=${task.id}&returnUrl=task"><button type="button"
 												class="btn btn-s btn-danger">Delete</button></a></td>
 
 								</tr>
