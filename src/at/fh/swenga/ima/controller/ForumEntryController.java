@@ -95,7 +95,7 @@ public class ForumEntryController {
 				model.addAttribute("errorMessage", "Entry already exists!<br>");
 			} else {
 
-				model.addAttribute("message", "New entry " + newForumEntryModel.getId() + " added.");
+				model.addAttribute("message", "New entry " + newForumEntryModel.getTopic() + " added.");
 
 				// Create a new document and set all available infos
 
@@ -145,17 +145,17 @@ public class ForumEntryController {
 			return "forward:/forum";
 		}
 
-		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(editedForumEntryModel.getId());
+		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
 
 		if (forumEntry == null) {
-			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getId() + "does not exist!<br>");
+			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getTopic() + "does not exist!<br>");
 		} else {
 			// student.setId(editedTaskModel.getId());
-			forumEntry.setId(editedForumEntryModel.getId());
+			//forumEntry.setId(editedForumEntryModel.getId());
 			forumEntry.setTopic(editedForumEntryModel.getTopic());
 			forumEntry.setText(editedForumEntryModel.getText());
 			forumEntry.setAttachment(editedForumEntryModel.getAttachment());
-			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
+			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
 			forumEntryRepository.save(forumEntry);
 		}
 		
