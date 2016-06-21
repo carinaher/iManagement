@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -27,13 +29,27 @@ public class StudentController {
 	StudentRepository studentRepository;
 
 	@RequestMapping(value = { "/student", "list" })
-	public String index(Model model) {
+	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		if (userDetails != null) {
+			model.addAttribute("user", userDetails);
+					
+		StudentModel student = studentRepository.findFirstByUserName(userDetails.getUsername());
+		if (student != null) {
+			model.addAttribute("student", student);
+		}
+		
 		List<StudentModel> students = studentRepository.findAll();
+		
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
 
 		return "studentIndex";
+		
+		} else {
+			model.addAttribute("errorMessage", "Student doesn't exist!");
+			return "studentIndex";
+		}
 	}
 
 	/*

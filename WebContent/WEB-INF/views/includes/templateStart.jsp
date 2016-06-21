@@ -35,6 +35,9 @@
 	<c:when test="${isAdmin}">
 		<c:set var="profileImage">resources/images/admin.png</c:set>
 	</c:when>
+	<c:when test="${isStudent}">
+		<c:set var="profileImage">https://github.com/${student.githubUser}.png?size=40</c:set>
+	</c:when>
 	<c:otherwise>
 		<c:set var="profileImage">resources/images/user1.png</c:set>
 	</c:otherwise>
@@ -48,11 +51,13 @@
 	<c:when test="${not empty student}">
 		<c:set var="legend">Edit Student ${student.id}</c:set>
 		<c:set var="formAction">editStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly">readonly</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Student</c:set>
 		<c:set var="formAction">addStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly"></c:set>
 	</c:otherwise>
 </c:choose>
@@ -172,8 +177,8 @@ Placed js at the end of the document so the pages load faster -->
 									
 								<li>
 									<div class="search-box">
-										<div id="sb-search" class="sb-search">
-											<form method="post" action="findStudent">
+										<div id="sb-search" class="sb-search">				
+											<form method="post" action="${searchAction}">
 												<input class="sb-search-input"
 													placeholder="Enter your search term..." type="text"
 													id="search" name="searchString">
@@ -203,8 +208,7 @@ Placed js at the end of the document so the pages load faster -->
 												style="background: url(${profileImage}) no-repeat center">
 											</span>
 											<div class="user-name">
-												<p>${username}<span>${role}</span>
-												</p>
+												<p>${username}<span>${role}</span></p>
 											</div>
 											<i class="lnr lnr-chevron-down"></i> <i
 												class="lnr lnr-chevron-up"></i>
@@ -212,8 +216,7 @@ Placed js at the end of the document so the pages load faster -->
 										</div>
 								</a>
 									<ul class="dropdown-menu drp-mnu">
-										<li><a href="my_profile"><i class="fa fa-cog"></i>
-												Settings</a></li>
+										<li><a href="my_profile"><i class="fa fa-cog"></i>Settings</a></li>
 										<%-- <li><a href="my_profile"><i class="fa fa-user"></i>Profile</a></li> --%>
 										<li>
 											<form class="form-horizontal" method="post" action="logout">
