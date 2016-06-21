@@ -43,18 +43,7 @@
 
 							</a> <a href="addTask?returnUrl=task">
 								<button type="button" class="btn btn-primary">Add Task</button>
-							</a> <br> <br>
-						<form method="post" action="findTask">
-							<label for="searchString">Find by:</label> <select name="type">
-								<option value="findAll" selected="selected">findAll</option>
-								<option value="findByTitle">findByTitle</option>
-								<option value="findByDescription">findByDescription</option>
-								<option value="findByStatus">findByStatus</option>
-							</select> <input type="text" name="searchString"> <input
-								type="submit" value="Search" class="btn btn-primary"> <input
-								type="hidden" name="${_csrf.parameterName }"
-								value="${_csrf.token }" />
-						</form>
+							</a>
 						<br>
 						</p>
 					</div>

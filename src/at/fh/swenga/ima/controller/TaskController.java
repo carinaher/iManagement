@@ -1,5 +1,6 @@
 package at.fh.swenga.ima.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +10,18 @@ import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +30,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import at.fh.swenga.ima.dao.StudentRepository;
 import at.fh.swenga.ima.dao.TaskRepository;
+import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Controller
 public class TaskController {
+	
+	@Autowired
+	StudentRepository studentRepository;
+
 	@Autowired
 	TaskRepository taskRepository;
 
@@ -45,6 +55,8 @@ public class TaskController {
 	@RequestMapping(value = { "/calendar", "calendar" })
 	public String showCalendar(Model model) {
 		model.addAttribute("pageTitle", "Calendar View");
+		
+		setUserPanel(model);
         return "calendarIndex";
 	}
 	@RequestMapping(value = { "/task", "list" })
@@ -54,37 +66,20 @@ public class TaskController {
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
 
+		setUserPanel(model);
 		return "taskIndex";
 	}
 	
 
 	@RequestMapping(value = { "/findTask" })
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
-		// @RequestParam => take it
-		// @ModelAttribute => take it and put it back into the model!!
-		List<TaskModel> tasks = null;
-		int count = 0;
-
-		switch (type) {
-		case "findAll":
-			tasks = taskRepository.findAll();
-			break;
-		case "findByTitle":
-			tasks = taskRepository.findByTitle(searchString);
-			break;
-		case "findByDescription":
-			tasks = taskRepository.findByDescription(searchString);
-			break;
-		case "findByStatus":
-			tasks = taskRepository.findByStatus(Boolean.parseBoolean(searchString));
-			break;
-						
-		default:
-			tasks = taskRepository.findAll();
-		}
+		List<TaskModel> tasks = new ArrayList<>();
+		
+		tasks = taskRepository.findByUserNameContainsOrTitleContainsOrDescriptionContainsOrStatusContainsAllIgnoreCase(searchString, searchString, searchString,Boolean.parseBoolean(searchString));
 
 		model.addAttribute("tasks", tasks);
-		model.addAttribute("count", count);
+		
+		setUserPanel(model);
 		return "taskIndex";
 	}
 
@@ -103,7 +98,8 @@ public class TaskController {
 			TaskModel tm = new TaskModel(i+1, df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,df.getDate(2017, 1, 1) ), df.getAddress(), userDetails.getUsername());
 			taskRepository.save(tm);
 		}
-
+		
+		setUserPanel(model);
 		return createReturnViewString(returnUrl);
 	}
 
@@ -116,6 +112,8 @@ public class TaskController {
 		model.addAttribute("pageTitle", "Add Task");
 		model.addAttribute("userDetails", userDetails);
 		model.addAttribute("returnUrl", returnUrl);
+		
+		setUserPanel(model);
 		return "taskEdit";
 	}
 	
@@ -149,6 +147,7 @@ public class TaskController {
 			model.addAttribute("message", "Added new task" + newTaskModel.getTitle());
 		}
 
+		setUserPanel(model);
 		return createReturnViewString(returnUrl);
 	}
 	
@@ -171,6 +170,7 @@ public class TaskController {
 			model.addAttribute("task", task);
 			model.addAttribute("pageTitle", "Edit Task");
 			model.addAttribute("returnUrl", returnUrl);
+			setUserPanel(model);
 			return "taskEdit";
 		}
 	}
@@ -187,6 +187,7 @@ public class TaskController {
 				errorMessage += fieldError.getField() + " is invalid<br>";
 			}
 			model.addAttribute("errorMessage", errorMessage);
+			setUserPanel(model);
 			return "forward:/calendar";
 		}
  
@@ -216,6 +217,7 @@ public class TaskController {
 			taskRepository.save(task);
 		}
 
+		setUserPanel(model);
 		return createReturnViewString(returnUrl);
 	}
 	
@@ -226,6 +228,34 @@ public class TaskController {
 			return "forward:/calendar";	
 		}
 	}
+	
+	void setUserPanel(Model model) {
+		
+		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
+		if (student != null) {
+			model.addAttribute("student", student);
+			model.addAttribute("setSearch", "findTask");
+		}
+	    else {
+			model.addAttribute("errorMessage", "Student doesn't exist!");
+		}
+	}
+	
+	 String getUser(Model model) {
+		 
+	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName(); //get logged in username
+	      model.addAttribute("username", name);
+	      return name;
+	  }
+	 
+	 
+	 @ExceptionHandler(Exception.class)
+		public String handleAllException(Exception ex) {
+
+			return "showError";
+
+		}
 	
 
 }
