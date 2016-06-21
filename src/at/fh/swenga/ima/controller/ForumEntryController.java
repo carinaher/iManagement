@@ -73,8 +73,17 @@ public class ForumEntryController {
 	}
 
 	@RequestMapping("/deleteForumEntry")
-	public String deleteData(Model model, @RequestParam int id) {
-		forumEntryRepository.delete(id);
+	public String deleteData(Model model, @RequestParam int id , @AuthenticationPrincipal UserDetails userDetails) {
+		
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		if ( (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !forumEntryRepository.findForumEntryById(id).getUserName().equals(userDetails.getUsername()))) { {
+			model.addAttribute("errorMessage", "Not authorized to delete this Entry");
+		}}else {
+			forumEntryRepository.delete(id);
+
+		}
+ 
+		
 
 		return "forward:/forum";
 	}

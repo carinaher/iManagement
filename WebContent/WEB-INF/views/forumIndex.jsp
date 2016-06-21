@@ -69,7 +69,6 @@
 									<th style="background-color: #B7E97D;">Text</th>
 									<th style="background-color: #B7E97D;">Attachment</th>
 									<th style="background-color: #B7E97D;">Author</th>
-
 									<th style="background-color: #B7E97D;">Action</th>
 
 
