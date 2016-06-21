@@ -1,5 +1,5 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -51,17 +51,6 @@
 				<table class="table">
 					<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="${formAction}?${_csrf.parameterName}=${_csrf.token} ">
 						<fieldset>
-
-
-							<! ----------------  Id ---------------- -->
-							<div class="form-group">
-								<label for="inputId" class="col-md-2 control-label">Id</label>
-								<div class="col-md-10">
-									<input class="form-control" id="inputId" type="text" name="id"
-										${readonly} value="<c:out value="${forumEntrys.id}"/>">
-								</div>
-							</div>
-
 
 							<! ----------------  Topic ---------------- -->
 							<div class="form-group">

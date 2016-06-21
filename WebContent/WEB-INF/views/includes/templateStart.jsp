@@ -1,5 +1,5 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -111,8 +111,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	rel='stylesheet' type='text/css'>
 <!---//webfonts--->
 <!-- Meters graphs -->
-<script src="resources/js/jquery-1.10.2.min.js"></script>
-<!-- Placed js at the end of the document so the pages load faster -->
+
+<link rel='stylesheet' href='resources/fullcalendar/fullcalendar.css' />
+<script src='resources/fullcalendar/jquery.min.js'></script>
+<script src='resources/fullcalendar/moment.min.js'></script>
+<script src='resources/fullcalendar/fullcalendar.min.js'></script>
+
+<!-- <script src="resources/js/jquery-1.10.2.min.js"></script>
+Placed js at the end of the document so the pages load faster -->
 
 </head>
 
@@ -140,6 +146,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a href="student"><i class="lnr lnr-users"></i> <span>Students</span></a></li>
 					<li><a href="task"><i class="lnr lnr-list"></i> <span>Tasks</span></a></li>
 					<li><a href="forum"><i class="lnr lnr-bubble"></i> <span>Forum</span></a></li>
+					<li><a href="calendar"><i class="lnr lnr-calendar-full"></i> <span>Calendar</span></a></li>
+					<li><a href="timetable"><i class="lnr lnr-graduation-hat"></i> <span>Timetable</span></a></li>
 				</ul>
 				<!--sidebar nav end-->
 			</div>

@@ -11,6 +11,7 @@ import at.fh.swenga.ima.model.ForumEntryModel;
 public interface ForumEntryRepository extends JpaRepository<ForumEntryModel, Integer>{
 	
 	public ForumEntryModel findForumEntryById (int id);
+	public ForumEntryModel findForumEntryByTopic (String topic);
 	
 	ForumEntryModel save(ForumEntryModel persisted);
 }

@@ -1,5 +1,5 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -15,15 +15,16 @@
 		<c:set var="legend">Edit Task ${task.id}</c:set>
 		<c:set var="formAction">editTask</c:set>
 		<c:set var="readonly">readonly</c:set>
+		<c:set var="username">${task.userName}</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Task</c:set>
 		<c:set var="formAction">addTask</c:set>
 		<c:set var="readonly"></c:set>
+		<c:set var="username">${userDetails.username}</c:set>
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
-
 
 <div id="page-wrapper">
 	<div class="graphs">
@@ -35,28 +36,28 @@
 					<form class="form-horizontal" method="post" action="${formAction}">
 						<fieldset>
 
+							<c:if test="${not empty task}">
+								<!-- ----------------  Id ---------------- -->
+								<div class="form-group">
+									<label for="inputId" class="col-md-2 control-label">Id</label>
+									<div class="col-md-10">
+										<input class="form-control" id="inputId" type="text" name="id"
+											${readonly} value="<c:out value="${task.id}"/>">
+									</div>
+								</div>
+							</c:if>
 
-							<! ----------------  Id ---------------- -->
+
+							<!-- ----------------  Title ---------------- -->
 							<div class="form-group">
-								<label for="inputId" class="col-md-2 control-label">Id</label>
+								<label for="inputTitle" class="col-md-2 control-label">Title</label>
 								<div class="col-md-10">
-									<input class="form-control" id="inputId" type="text" name="id"
-										${readonly} value="<c:out value="${task.id}"/>">
+									<input class="form-control" id="inputTitle" type="text"
+										name="title" value="<c:out value="${task.title}"/>">
 								</div>
 							</div>
 
-
-							<! ----------------  TaskName ---------------- -->
-							<div class="form-group">
-								<label for="inputTaskName" class="col-md-2 control-label">Task
-									Name</label>
-								<div class="col-md-10">
-									<input class="form-control" id="inputTaskName" type="text"
-										name="taskName" value="<c:out value="${task.taskName}"/>">
-								</div>
-							</div>
-
-							<! ----------------  Description ---------------- -->
+							<!-- ----------------  Description ---------------- -->
 							<div class="form-group">
 								<label for="inputDescription" class="col-md-2 control-label">Description</label>
 								<div class="col-md-10">
@@ -65,8 +66,10 @@
 										value="<c:out value="${task.description}"/>">
 								</div>
 							</div>
+							
+							
 
-							<! ----------------  Status ---------------- -->
+							<!-- ----------------  Status ---------------- -->
 							<div class="form-group">
 								<label for="inputStatus" class="col-md-2 control-label">Status</label>
 								<div class="col-md-10">
@@ -75,19 +78,48 @@
 								</div>
 							</div>
 
-							<! ----------------  dueDate---------------- -->
+							<!-- ----------------  start ---------------- -->
 							<div class="form-group">
-								<label for="inputDueDate" class="col-md-2 control-label">Due
-									Date</label>
+								<label for="inputStart" class="col-md-2 control-label">Start date</label>
 								<div class="col-md-10">
-									<input class="form_datetime" id="inputDueDate"
-										placeholder="Due Date" type="text" readonly name="dueDate"
-										value="<fmt:formatDate value="${task.dueDate}" pattern="dd.MM.yyyy"/>">
+									<input class="form_datetime" id="inputStart"
+										placeholder="Start Date" type="text" name="start"
+										value="<fmt:formatDate value="${task.start}" pattern="dd.MM.yyyy HH:mm"/>">
+								</div>
+							</div>
+
+							<!--  ----------------  end ---------------- -->
+							<div class="form-group">
+								<label for="inputEnd" class="col-md-2 control-label">End date</label>
+								<div class="col-md-10">
+									<input class="form_datetime" id="inputEnd"
+										placeholder="Start Date" type="text" name="end"
+										value="<fmt:formatDate value="${task.end}" pattern="dd.MM.yyyy HH:mm"/>">
+								</div>
+							</div>
+
+							<!-- ----------------  place ---------------- -->
+							<div class="form-group">
+								<label for="inputPlace" class="col-md-2 control-label">Place</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputPlace" type="text"
+										name="place"
+										value="<c:out value="${task.place}"/>">
+								</div>
+							</div>
+
+							<!-- ----------------  userName ---------------- -->
+							<div class="form-group">
+								<label for="inputUserName" class="col-md-2 control-label">userName</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputUserName" type="text"
+										name="userName"
+										value="<c:out value="${username}"/>">
 								</div>
 							</div>
 
 
-							<! ----------------  buttons ---------------- -->
+							<!-- ----------------  buttons ---------------- -->
 							<div class="form-group">
 								<div class="col-md-10 col-md-offset-2">
 									<button type="submit" class="btn btn-primary">Submit</button>
@@ -115,11 +147,11 @@
 	$(function() {
 
 		$(".form_datetime").datetimepicker({
-			format : "dd.mm.yyyy",
+			format : "dd.mm.yyyy hh:ii",
 			autoclose : true,
 			todayBtn : true,
 			pickerPosition : "bottom-left",
-			minView : 2
+			minuteStep: 5	
 		});
 
 	});
