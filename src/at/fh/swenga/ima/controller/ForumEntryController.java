@@ -135,7 +135,7 @@ public class ForumEntryController {
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.POST)
 	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel,
 			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file) {
-
+		try {
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -154,10 +154,11 @@ public class ForumEntryController {
 			forumEntry.setId(editedForumEntryModel.getId());
 			forumEntry.setTopic(editedForumEntryModel.getTopic());
 			forumEntry.setText(editedForumEntryModel.getText());
+			forumEntry.setAttachment(editedForumEntryModel.getAttachment());
 			model.addAttribute("message", "Changed task " + editedForumEntryModel.getId());
 			forumEntryRepository.save(forumEntry);
 		}
-		try {
+		
 			// Already a document available -> delete it
 			if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
