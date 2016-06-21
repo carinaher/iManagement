@@ -32,6 +32,17 @@
 					<form class="form-horizontal" method="post" action="${formAction}">
 						<fieldset>
 
+							<c:if test="${not empty student}">
+								<!-- ----------------  Id ---------------- -->
+								<div class="form-group">
+									<label for="inputId" class="col-md-2 control-label">Id</label>
+									<div class="col-md-10">
+										<input class="form-control" id="inputId" type="text" name="id"
+											${readonly} value="<c:out value="${student.id}"/>">
+									</div>
+								</div>
+							</c:if>
+
 							<!-- ----------------  userName ---------------- -->
 							<div class="form-group">
 								<label for="inputUserName" class="col-md-2 control-label">Username</label>
