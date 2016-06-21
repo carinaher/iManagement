@@ -44,14 +44,14 @@ public class TaskController {
         return json;
 	}
 
-	@RequestMapping(value = { "/calendar", "caledar" })
+	@RequestMapping(value = { "/calendar", "calendar" })
 	public String showCalendar(Model model) {
 		model.addAttribute("pageTitle", "Calendar View");
         return "calendarIndex";
 	}
 	@RequestMapping(value = { "/task", "list" })
-	public String index(Model model) {
-		List<TaskModel> tasks = taskRepository.findAll();
+	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		List<TaskModel> tasks = taskRepository.findByUserName(userDetails.getUsername());
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");

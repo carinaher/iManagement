@@ -16,16 +16,8 @@ public interface StudentRepository extends JpaRepository<StudentModel, Integer> 
 
 	@SuppressWarnings("unchecked")
 	public StudentModel save(StudentModel persisted);
-	
-	public List<StudentModel> findByUserName(String name);
-	
-	public List<StudentModel> findByFirstName(String name);
-	
-	public List<StudentModel> findByLastName(String name);
-
-	public List<StudentModel> findByGithubUser(String name);
-
-	public List<StudentModel> findByGroupId(int ID);
+		
+	public List<StudentModel> findByUserNameContainsOrFirstNameContainsOrLastNameContainsOrGithubUserContainsAllIgnoreCase(String username, String firstname, String lastname, String githubuser);
 
 	public StudentModel findFirstByUserName(String userName);
 }

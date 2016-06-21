@@ -47,63 +47,17 @@ public class StudentController {
 	 * return "index"; }
 	 */
 	
+	
+
 	@RequestMapping(value = { "/findStudent" })
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
-		// @RequestParam => take it
-		// @ModelAttribute => take it and put it back into the model!!
-		List<StudentModel> students = null;
-		int count = 0;
-
-		switch (type) {
-		case "findAll":
-			students = studentRepository.findAll();
-			break;
-		case "findByUserName":
-			students = studentRepository.findByUserName(searchString);
-			break;
-		case "findByFirstName":
-			students = studentRepository.findByFirstName(searchString);
-			break;
-		case "findByLastName":
-			students = studentRepository.findByLastName(searchString);
-			break;
-		case "findByGithubUser":
-			students = studentRepository.findByGithubUser(searchString);
-			break;
-		case "findByGroupId":
-			students = studentRepository.findByGroupId(Integer.parseInt(searchString));
-			break;
-			
-		default:
-			students = studentRepository.findAll();
-		}
+		List<StudentModel> students = new ArrayList<>();
+		students = studentRepository.findByUserNameContainsOrFirstNameContainsOrLastNameContainsOrGithubUserContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
 
 		model.addAttribute("students", students);
-		model.addAttribute("count", count);
 		return "studentIndex";
 	}
 	
-	/*@RequestMapping(value = { "/findStudent" })
-	// search for Requestparameter with the name type and store it in the string
-	// type
-	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
-		List<StudentModel> students = null;
-		int count = 0;
-
-		switch (type) {
-		case "":
-			break;
-
-		default:
-			students = studentRepository.findAll();
-
-		}
-
-		model.addAttribute("students", students);
-		model.addAttribute("count", count);
-		return "studentIndex";
-	}*/
-
 	@RequestMapping(value = { "/findStudentById" })
 	public String findById(@RequestParam("id") StudentModel s, Model model) {
 		List<StudentModel> students = new ArrayList<>();
