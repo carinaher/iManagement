@@ -1,6 +1,7 @@
 package at.fh.swenga.ima.controller;
 
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,25 +44,28 @@ public class ForumEntryController {
 	AttachmentRepository attachmentRepository;
 
 	@RequestMapping(value = { "/forum", "list" })
-	public String index(Model model) {
+	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		List<ForumEntryModel> forumEntrys = forumEntryRepository.findAll();
 		model.addAttribute("forumEntrys", forumEntrys);
+		model.addAttribute("userName", userDetails.getUsername());
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Forum");
+		
 
 		return "forumIndex";
 	}
 
 	@RequestMapping("/fillForumEntrys")
 	@Transactional
-	public String fillData(Model model) {
+	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
 		// Creates always the same data
 		DataFactory df = new DataFactory();
 		Date now = new Date();
 
 		for (int i = 0; i < 10; i++) {
-			ForumEntryModel fem = new ForumEntryModel(df.getFirstName(), df.getRandomText(10, 50));
+			ForumEntryModel fem = new ForumEntryModel(df.getFirstName(), df.getRandomText(10, 50),
+					userDetails.getUsername());
 			forumEntryRepository.save(fem);
 		}
 
@@ -71,13 +80,14 @@ public class ForumEntryController {
 	}
 
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.GET)
-	public String showAddForumEntryForm(Model model) {
+	public String showAddForumEntryForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		model.addAttribute("userDetails", userDetails);
 		return "forumEntryEdit";
 	}
 
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.POST)
 	public String addForumEntry(@Valid @ModelAttribute ForumEntryModel newForumEntryModel, BindingResult bindingResult,
-			Model model, @RequestParam("myFile") MultipartFile file) {
+			Model model, @RequestParam("myFile") MultipartFile file, @AuthenticationPrincipal UserDetails userDetails) {
 
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -86,32 +96,42 @@ public class ForumEntryController {
 			}
 			// put the errors into the model
 			model.addAttribute("errorMessage", errorMessage);
-			return "forward:/forum";
+			return "forumEntryEdit";
 		}
 
 		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(newForumEntryModel.getId());
+
 		try {
 			if (forumEntry != null) {
 				model.addAttribute("errorMessage", "Entry already exists!<br>");
 			} else {
 
-				model.addAttribute("message", "New entry " + newForumEntryModel.getTopic() + " added.");
-
 				// Create a new document and set all available infos
 
+				ForumEntryModel savedForumEntry = forumEntryRepository.save(newForumEntryModel);
 				AttachmentModel attachment = new AttachmentModel();
 				attachment.setContent(file.getBytes());
 				attachment.setContentType(file.getContentType());
 				attachment.setCreated(new Date());
 				attachment.setFilename(file.getOriginalFilename());
 				attachment.setName(file.getName());
-				newForumEntryModel.setAttachment(attachment);
-				forumEntryRepository.save(newForumEntryModel);
-			}
-		} catch (
+				savedForumEntry.setUserName(userDetails.getUsername());
+				savedForumEntry.setAttachment(attachment);
+				forumEntryRepository.save(savedForumEntry);
+				model.addAttribute("message", "New entry " + forumEntry.getTopic() + " added.");
 
-		Exception e) {
+			}
+		} catch (RuntimeException ex) {
+
+			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
+			return "forward:/forum";
+
+		}
+
+		catch (Exception e) {
+
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
+
 		}
 
 		return "forward:/forum";
@@ -119,46 +139,72 @@ public class ForumEntryController {
 	}
 
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.GET)
-	public String showEditForumEntryForm(Model model, @RequestParam int id) {
+	public String showEditForumEntryForm(Model model, @RequestParam int id,
+			@AuthenticationPrincipal UserDetails userDetails) {
 
 		model.addAttribute("entryId", id);
+
 		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(id);
-		if (forumEntry != null) {
-			model.addAttribute("forumEntrys", forumEntry);
-			return "forumEntryEdit";
-		} else {
+
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+		if (forumEntry == null) {
+
 			model.addAttribute("errorMessage", "Couldn't find entry " + id);
 			return "forward:/forum";
+
+		} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				&& !forumEntry.getUserName().equals(userDetails.getUsername())) {
+			// not an admin and not the current user
+			model.addAttribute("errorMessage", "Not authorized view tasks of " + forumEntry.getUserName());
+			return "forward:/forum";
+		}
+
+		else {
+			model.addAttribute("forumEntrys", forumEntry);
+			return "forumEntryEdit";
 		}
 	}
 
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.POST)
 	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel,
-			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file) {
+			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file, @AuthenticationPrincipal UserDetails userDetails) {
 		try {
-		if (bindingResult.hasErrors()) {
-			String errorMessage = "";
-			for (FieldError fieldError : bindingResult.getFieldErrors()) {
-				errorMessage += fieldError.getField() + " is invalid<br>";
+			if (bindingResult.hasErrors()) {
+				String errorMessage = "";
+				for (FieldError fieldError : bindingResult.getFieldErrors()) {
+					errorMessage += fieldError.getField() + " is invalid<br>";
+				}
+				model.addAttribute("errorMessage", errorMessage);
+				return "forward:/forum";
 			}
-			model.addAttribute("errorMessage", errorMessage);
-			return "forward:/forum";
-		}
 
-		ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
+			Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-		if (forumEntry == null) {
-			model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getTopic() + "does not exist!<br>");
-		} else {
-			// student.setId(editedTaskModel.getId());
-			//forumEntry.setId(editedForumEntryModel.getId());
-			forumEntry.setTopic(editedForumEntryModel.getTopic());
-			forumEntry.setText(editedForumEntryModel.getText());
-			forumEntry.setAttachment(editedForumEntryModel.getAttachment());
-			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
-			forumEntryRepository.save(forumEntry);
-		}
-		
+			
+			if (forumEntry == null) {
+				model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getTopic() + "does not exist!<br>");
+			}
+			else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !forumEntry.getUserName().equals(userDetails.getUsername())) {
+				// not an admin and not the current user
+				model.addAttribute("errorMessage", "Not authorized edit tasks of " + forumEntry.getUserName());
+			}  else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !editedForumEntryModel.getUserName().equals(userDetails.getUsername())) {
+				// changed owner to different user
+				model.addAttribute("errorMessage", "Not authorized to change owner to " + editedForumEntryModel.getUserName());
+			} 
+
+			else {
+				// student.setId(editedTaskModel.getId());
+				// forumEntry.setId(editedForumEntryModel.getId());
+				forumEntry.setTopic(editedForumEntryModel.getTopic());
+				forumEntry.setText(editedForumEntryModel.getText());
+				forumEntry.setAttachment(editedForumEntryModel.getAttachment());
+				forumEntry.setUserName(editedForumEntryModel.getUserName());
+
+				forumEntryRepository.save(forumEntry);
+			}
+
 			// Already a document available -> delete it
 			if (forumEntry.getAttachment() != null) {
 				attachmentRepository.delete(forumEntry.getAttachment());
@@ -176,50 +222,24 @@ public class ForumEntryController {
 			attachment.setName(file.getName());
 			forumEntry.setAttachment(attachment);
 			forumEntryRepository.save(forumEntry);
-		} catch (
+			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
 
-		Exception e) {
+		} catch (RuntimeException ex) {
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
+
+			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
+
+		}
+
+		catch (Exception e) {
+
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
+
 		}
 
 		return "forward:/forum";
 	}
 
-	// Upload
-
-	/*
-	 * @RequestMapping(value = "/upload", method = RequestMethod.GET) public
-	 * String showUploadForm(Model model, @RequestParam("id") int entryId) {
-	 * model.addAttribute("entryId", entryId); return "uploadAttachment"; }
-	 * 
-	 * @RequestMapping(value = "/upload", method = RequestMethod.POST) public
-	 * String uploadDocument(Model model, @RequestParam("id") int entryId,
-	 * 
-	 * @RequestParam("myFile") MultipartFile file) {
-	 * 
-	 * try {
-	 * 
-	 * ForumEntryModel forumEntry =
-	 * forumEntryRepository.findForumEntryById(entryId);
-	 * 
-	 * // Already a document available -> delete it if
-	 * (forumEntry.getAttachment() != null) {
-	 * attachmentRepository.delete(forumEntry.getAttachment()); // Don't forget
-	 * to remove the relationship too forumEntry.setAttachment(null); }
-	 * 
-	 * // Create a new document and set all available infos
-	 * 
-	 * AttachmentModel attachment = new AttachmentModel();
-	 * attachment.setContent(file.getBytes());
-	 * attachment.setContentType(file.getContentType());
-	 * attachment.setCreated(new Date());
-	 * attachment.setFilename(file.getOriginalFilename());
-	 * attachment.setName(file.getName()); forumEntry.setAttachment(attachment);
-	 * forumEntryRepository.save(forumEntry); } catch (Exception e) {
-	 * model.addAttribute("errorMessage", "Error:" + e.getMessage()); }
-	 * 
-	 * return "forward:/forum"; }
-	 */
 	@RequestMapping("/download")
 	public void download(@RequestParam("attachmentId") int attachmentId, HttpServletResponse response) {
 		AttachmentModel attachment = attachmentRepository.findOne(attachmentId);

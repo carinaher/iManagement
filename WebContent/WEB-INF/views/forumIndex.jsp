@@ -10,6 +10,7 @@
 <jsp:include page="includes/templateStart.jsp" />
 
 <div class="container" role="main">
+	<br>
 	<!--  Error message ----------------------------------------------------------- -->
 	<c:if test="${not empty errorMessage}">
 		<div class="alert alert-danger" role="alert">${errorMessage}</div>
@@ -39,58 +40,77 @@
 
 						<a href="fillForumEntrys">
 
-							<button type="button" class="btn btn-primary">Fill Forum</button></a>
-							
-							<a href="addForumEntry">
+							<button type="button" class="btn btn-primary">Fill Forum</button>
+						</a> <a href="addForumEntry">
 
-								<button type="button" class="btn btn-primary">New Entry</button></a>
+							<button type="button" class="btn btn-primary">New Entry</button>
+						</a>
 					</p>
-				<br>
+					<br>
 				</div>
 			</div>
-			<c:forEach items="${forumEntrys}" var="entry">
-				<div class="xs tabls">
-					<div class="panel-body1">
-						<table class="table">
+			<div class="xs tabls">
+				<div class="panel-body1">
+					<table class="table">
+						<c:forEach items="${forumEntrys}" var="entry">
+
 							<thead>
 								<tr>
-									<th>Topic</th>
-									<th>Text</th>
-																		<th>Attachment</th>
-									
-									<th>Action</th>
-									
+									<th style="background-color: #FFFFFF"></th>
+									<th style="background-color: #FFFFFF"></th>
+									<th style="background-color: #FFFFFF"></th>
+									<th style="background-color: #FFFFFF"></th>
+
+								</tr>
+								<tr>
+
+
+									<th style="background-color: #B7E97D;">Topic</th>
+									<th style="background-color: #B7E97D;">Text</th>
+									<th style="background-color: #B7E97D;">Attachment</th>
+									<th style="background-color: #B7E97D;">Author</th>
+
+									<th style="background-color: #B7E97D;">Action</th>
+
+
 								</tr>
 							</thead>
 							<tbody>
 
 								<tr>
-									<td>${entry.topic}</td>
-									<td>${entry.text}</td>
-									<td> <c:choose>
+									<td style="background-color: #E6F9D0;">${entry.topic}</td>
+									<td style="background-color: #E6F9D0;">${entry.text}</td>
+									<td style="background-color: #E6F9D0;"><c:choose>
 											<c:when test="${not empty entry.attachment}">
-												<a href="download?attachmentId=${entry.attachment.id}" target="_blank">${entry.attachment.filename}</a>
+												<a href="download?attachmentId=${entry.attachment.id}"
+													target="_blank">${entry.attachment.filename}</a>
 											</c:when>
 											<c:otherwise>
 												-- no Attachment ---
 											</c:otherwise>
 										</c:choose></td>
-									<td><a href="editForumEntry?id=${entry.id}"><button
-												type="button" class="btn btn-s btn-warning">Edit</button></a> <a
-										href="deleteForumEntry?id=${entry.id}"><button type="button"
-												class="btn btn-s btn-danger">Delete</button></a></td>
+									<td style="background-color: #E6F9D0;">${entry.userName}</td>
 									
+									<td style="background-color: #E6F9D0;"><a
+										href="editForumEntry?id=${entry.id}"><button type="button"
+												class="btn btn-s btn-warning">Edit</button></a> <a
+										href="deleteForumEntry?id=${entry.id}"><button
+												type="button" class="btn btn-s btn-danger">Delete</button></a></td>
+
+
+
 
 								</tr>
 
 							</tbody>
-						</table>
+						</c:forEach>
 
-					</div>
+					</table>
 
-					<!-- /.table-responsive -->
 				</div>
-			</c:forEach>
+
+				<!-- /.table-responsive -->
+			</div>
 		</div>
 	</div>
 </div>

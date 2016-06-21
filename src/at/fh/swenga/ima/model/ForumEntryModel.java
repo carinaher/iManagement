@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Forum")
@@ -25,23 +25,24 @@ public class ForumEntryModel {
 
 	@Column(nullable = false)
 	private String topic;
-	@Column( length = 100000 )
+	@Column(length = 100000)
 	private String text;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private AttachmentModel attachment;
 
-
+	@NotNull(message = "{0} is required")
+	private String userName;
 
 	public ForumEntryModel() {
 
 	}
 
-	public ForumEntryModel(String topic, String text) {
+	public ForumEntryModel(String topic, String text, String userName) {
 		super();
 		this.topic = topic;
 		this.text = text;
-
+		this.userName = userName;
 	}
 
 	public int getId() {
@@ -68,7 +69,6 @@ public class ForumEntryModel {
 		this.text = text;
 	}
 
-
 	public AttachmentModel getAttachment() {
 		return attachment;
 	}
@@ -76,4 +76,13 @@ public class ForumEntryModel {
 	public void setAttachment(AttachmentModel attachment) {
 		this.attachment = attachment;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 }

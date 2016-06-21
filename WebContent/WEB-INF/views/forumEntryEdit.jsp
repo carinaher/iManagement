@@ -30,13 +30,13 @@
 		<c:set var="legend">Edit Task ${forumEntrys.id}</c:set>
 		<c:set var="formAction">editForumEntry</c:set>
 		<c:set var="readonly">readonly</c:set>
-		<c:set var="upload">/uploadExistingEntry</c:set>
+		<c:set var="userName">${forumEntrys.userName}</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Entry</c:set>
 		<c:set var="formAction">addForumEntry</c:set>
 		<c:set var="readonly"></c:set>
-		<c:set var="upload">/uploadNewEntry</c:set>
+		<c:set var="userName">${userName}</c:set>
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
@@ -49,18 +49,34 @@
 			<div class="bs-example4" data-example-id="contextual-table">
 
 				<table class="table">
-					<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="${formAction}?${_csrf.parameterName}=${_csrf.token} ">
+					<form class="form-horizontal" enctype="multipart/form-data"
+						method="post"
+						action="${formAction}?${_csrf.parameterName}=${_csrf.token} ">
 						<fieldset>
 
+							<! ----------------  Id ---------------- -->
+
+							<c:if test="${not empty forumEntrys}">
+								<div class="form-group">
+									<label for="inputId" class="col-md-2 control-label">Id</label>
+									<div class="col-md-10">
+										<input class="form-control" id="inputId" type="text" name="id"
+											${readonly} value="<c:out value="${forumEntrys.id}"/>">
+									</div>
+								</div>
+
+							</c:if>
 
 
 							<! ----------------  Topic ---------------- -->
 							<div class="form-group">
+
 								<br> <label for="inputTopic" class="col-md-2 control-label">Topic</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputTopic" type="text"
 										name="topic" value="<c:out value="${forumEntrys.topic}"/>">
 								</div>
+
 							</div>
 
 							<! ----------------  Text ---------------- -->
@@ -76,23 +92,38 @@
 
 							<! ----------------  Attachment ---------------- -->
 							<div class="form-group">
-							<label for="inputFile" class="col-md-2 control-label">Attachment</label>
-							<div class="col-md-10">
-								<input class="form-control" id="inputFile" type="file" name="myFile">
-							</div>
-						</div>
-							<! ----------------  buttons ---------------- -->
-							<div class="form-group">
-								<div class="col-md-10 col-md-offset-2">
-									<br>
-									<button type="submit" class="btn btn-primary">Submit</button>
-									<a href="forum">
-										<button type="button" class="btn btn-default">Cancel</button>
-									</a>
+								<label for="inputFile" class="col-md-2 control-label">Attachment</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputFile" type="file"
+										name="myFile">
+									<p class="help-block">Uploadsize: up to 4MB</p>
 								</div>
 							</div>
-						</fieldset>
+
+							<!-- ----------------  userName ---------------- -->
+							<div class="form-group">
+								<label for="inputUserName" class="col-md-2 control-label">Author</label>
+								<div class="col-md-10">
+									<input class="form-control" id="inputUserName" type="text"
+										name="userName" ${readonly}
+										value="<c:out value="${userName}"/>">
+								</div>
+							</div>
+							<! ----------------  buttons ---------------- --> 
 						
+									<div class="form-group">
+										<div class="col-md-10 col-md-offset-2">
+											<br>
+											<button type="submit" class="btn btn-primary">Submit</button>
+											<a href="forum">
+												<button type="button" class="btn btn-default">Cancel</button>
+											</a>
+										</div>
+									</div>
+
+								
+						</fieldset>
+
 					</form>
 				</table>
 			</div>
