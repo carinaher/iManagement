@@ -6,8 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,27 +29,19 @@ public class StudentController {
 	StudentRepository studentRepository;
 
 	@RequestMapping(value = { "/student", "list" })
-	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-		if (userDetails != null) {
-			model.addAttribute("user", userDetails);
-					
-		StudentModel student = studentRepository.findFirstByUserName(userDetails.getUsername());
-		if (student != null) {
-			model.addAttribute("student", student);
-		}
+	public String index(Model model) {
 		
+		setUserPanel(model);
 		List<StudentModel> students = studentRepository.findAll();
 		
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
 
+
 		return "studentIndex";
 		
-		} else {
-			model.addAttribute("errorMessage", "Student doesn't exist!");
-			return "studentIndex";
-		}
+
 	}
 
 	/*
@@ -208,6 +200,26 @@ public class StudentController {
 	public String handleLogin() {
 		return "login";
 	}
+	
+	public void setUserPanel(Model model) {
+		
+		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
+		if (student != null) {
+			model.addAttribute("student", student);
+		}
+	    else {
+			model.addAttribute("errorMessage", "Student doesn't exist!");
+		}
+	}
+	
+	 public String getUser(Model model) {
+		 
+	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName(); //get logged in username
+	      model.addAttribute("username", name);
+	      return name;
+	 
+	  }
 	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
