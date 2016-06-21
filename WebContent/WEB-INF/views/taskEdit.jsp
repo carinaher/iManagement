@@ -13,13 +13,13 @@
 <c:choose>
 	<c:when test="${not empty task}">
 		<c:set var="legend">Edit Task ${task.id}</c:set>
-		<c:set var="formAction">editTask</c:set>
+		<c:set var="formAction">editTask?returnUrl=${returnUrl}</c:set>
 		<c:set var="readonly">readonly</c:set>
 		<c:set var="username">${task.userName}</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Task</c:set>
-		<c:set var="formAction">addTask</c:set>
+		<c:set var="formAction">addTask?returnUrl=${returnUrl}</c:set>
 		<c:set var="readonly"></c:set>
 		<c:set var="username">${userDetails.username}</c:set>
 	</c:otherwise>
