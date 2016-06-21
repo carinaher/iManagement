@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -28,12 +30,18 @@ public class StudentController {
 
 	@RequestMapping(value = { "/student", "list" })
 	public String index(Model model) {
+		
+		setUserPanel(model);
 		List<StudentModel> students = studentRepository.findAll();
+		
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
 
+
 		return "studentIndex";
+		
+
 	}
 
 	/*
@@ -47,63 +55,17 @@ public class StudentController {
 	 * return "index"; }
 	 */
 	
+	
+
 	@RequestMapping(value = { "/findStudent" })
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
-		// @RequestParam => take it
-		// @ModelAttribute => take it and put it back into the model!!
-		List<StudentModel> students = null;
-		int count = 0;
-
-		switch (type) {
-		case "findAll":
-			students = studentRepository.findAll();
-			break;
-		case "findByUserName":
-			students = studentRepository.findByUserName(searchString);
-			break;
-		case "findByFirstName":
-			students = studentRepository.findByFirstName(searchString);
-			break;
-		case "findByLastName":
-			students = studentRepository.findByLastName(searchString);
-			break;
-		case "findByGithubUser":
-			students = studentRepository.findByGithubUser(searchString);
-			break;
-		case "findByGroupId":
-			students = studentRepository.findByGroupId(Integer.parseInt(searchString));
-			break;
-			
-		default:
-			students = studentRepository.findAll();
-		}
+		List<StudentModel> students = new ArrayList<>();
+		students = studentRepository.findByUserNameContainsOrFirstNameContainsOrLastNameContainsOrGithubUserContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
 
 		model.addAttribute("students", students);
-		model.addAttribute("count", count);
 		return "studentIndex";
 	}
 	
-	/*@RequestMapping(value = { "/findStudent" })
-	// search for Requestparameter with the name type and store it in the string
-	// type
-	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
-		List<StudentModel> students = null;
-		int count = 0;
-
-		switch (type) {
-		case "":
-			break;
-
-		default:
-			students = studentRepository.findAll();
-
-		}
-
-		model.addAttribute("students", students);
-		model.addAttribute("count", count);
-		return "studentIndex";
-	}*/
-
 	@RequestMapping(value = { "/findStudentById" })
 	public String findById(@RequestParam("id") StudentModel s, Model model) {
 		List<StudentModel> students = new ArrayList<>();
@@ -238,6 +200,26 @@ public class StudentController {
 	public String handleLogin() {
 		return "login";
 	}
+	
+	public void setUserPanel(Model model) {
+		
+		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
+		if (student != null) {
+			model.addAttribute("student", student);
+		}
+	    else {
+			model.addAttribute("errorMessage", "Student doesn't exist!");
+		}
+	}
+	
+	 public String getUser(Model model) {
+		 
+	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName(); //get logged in username
+	      model.addAttribute("username", name);
+	      return name;
+	 
+	  }
 	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {

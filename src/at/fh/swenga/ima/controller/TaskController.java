@@ -1,6 +1,5 @@
 package at.fh.swenga.ima.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import at.fh.swenga.ima.dao.TaskRepository;
-import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Controller
@@ -44,14 +42,14 @@ public class TaskController {
         return json;
 	}
 
-	@RequestMapping(value = { "/calendar", "caledar" })
+	@RequestMapping(value = { "/calendar", "calendar" })
 	public String showCalendar(Model model) {
 		model.addAttribute("pageTitle", "Calendar View");
         return "calendarIndex";
 	}
 	@RequestMapping(value = { "/task", "list" })
-	public String index(Model model) {
-		List<TaskModel> tasks = taskRepository.findAll();
+	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		List<TaskModel> tasks = taskRepository.findByUserName(userDetails.getUsername());
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
@@ -92,42 +90,39 @@ public class TaskController {
 
 	@RequestMapping("/fillTasks")
 	@Transactional
-	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
 
-		/*
+		
 		// Creates always the same data
 		DataFactory df = new DataFactory();
 		Date now = new Date();
 
 		for (int i = 0; i < 10; i++) {
-			TaskModel tm = new TaskModel(df.getFirstName(), df.getFirstName(), df.chance(50), df.getDateBetween(now,df.getDate(2017, 1, 1) ));
+			Date startDate = df.getDateBetween(now,df.getDate(2017, 1, 1) );
+			TaskModel tm = new TaskModel(i+1, df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,df.getDate(2017, 1, 1) ), df.getAddress(), userDetails.getUsername());
 			taskRepository.save(tm);
 		}
-		 */
-        
-        List<TaskModel> tasks = new ArrayList<TaskModel>();
-        tasks.add(new TaskModel(1, "Task1 test", "blabla", false, new Date(), new Date(), "Graz", userDetails.getUsername()));
-        tasks.add(new TaskModel(2, "Task2 hello world", "blabla", false, new Date(), new Date(), "Graz", userDetails.getUsername()));
-        tasks.add(new TaskModel(3, "Another test", "blabla", false, new Date(), new Date(), "Graz", userDetails.getUsername()));
-        
-        taskRepository.save(tasks);
 
-		return "forward:/calendar";
+		return createReturnViewString(returnUrl);
 	}
 
 
 	
 
 	@RequestMapping(value = "/addTask", method = RequestMethod.GET)
-	public String showAddTaskkForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+	public String showAddTaskkForm(Model model, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
 		model.addAttribute("pageTitle", "Add Task");
 		model.addAttribute("userDetails", userDetails);
+		model.addAttribute("returnUrl", returnUrl);
 		return "taskEdit";
 	}
 	
 	@RequestMapping(value = "/addTask", method = RequestMethod.POST)
 	public String addTask(@Valid @ModelAttribute TaskModel newTaskModel, BindingResult bindingResult,
-			Model model, @AuthenticationPrincipal UserDetails userDetails) {
+			Model model, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
  
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -153,13 +148,14 @@ public class TaskController {
 			taskRepository.save(savedTaskModel);
 			model.addAttribute("message", "Added new task" + newTaskModel.getTitle());
 		}
- 
-		return "forward:/calendar";
+
+		return createReturnViewString(returnUrl);
 	}
 	
 
-	@RequestMapping(value = { "/editTask", "edit" })
-	public String editTask(Model model, @RequestParam int id, @AuthenticationPrincipal UserDetails userDetails) {
+	@RequestMapping(value = "/editTask", method = RequestMethod.GET)
+	public String editTask(Model model, @RequestParam int id, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
 		TaskModel task = taskRepository.findTaskById(id);
 
 		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
@@ -170,10 +166,11 @@ public class TaskController {
 		} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !task.getUserName().equals(userDetails.getUsername())) {
 			// not an admin and not the current user
 			model.addAttribute("errorMessage", "Not authorized view tasks of " + task.getUserName());
-			return "forward:/calendar";
+			return createReturnViewString(returnUrl);
 		} else {
 			model.addAttribute("task", task);
 			model.addAttribute("pageTitle", "Edit Task");
+			model.addAttribute("returnUrl", returnUrl);
 			return "taskEdit";
 		}
 	}
@@ -181,7 +178,8 @@ public class TaskController {
 	
 	@RequestMapping(value = "/editTask", method = RequestMethod.POST)
 	public String editStudent(@Valid @ModelAttribute TaskModel editedTaskModel, BindingResult bindingResult,
-			Model model, @AuthenticationPrincipal UserDetails userDetails) {
+			Model model, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
  
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -217,8 +215,16 @@ public class TaskController {
 			model.addAttribute("message", "Changed task " + editedTaskModel.getTitle());
 			taskRepository.save(task);
 		}
- 
-		return "forward:/calendar";
+
+		return createReturnViewString(returnUrl);
+	}
+	
+	String createReturnViewString(String returnUrl) {
+		if (returnUrl != null && returnUrl.equals("task")) {
+			return "forward:/task";	
+		} else {
+			return "forward:/calendar";	
+		}
 	}
 	
 

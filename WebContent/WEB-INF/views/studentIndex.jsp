@@ -47,19 +47,7 @@
 										</button>
 									</a>
 								</sec:authorize>
-								<br> <br> <form method="post" action="findStudent"><label for="searchString">Find by:</label> <select
-									name="type">
-									<option value="findAll" selected="selected">findAll</option>
-									<option value="findByUserName">findByUserName</option>
-									<option value="findByFirstName">findByFirstName</option>
-									<option value="findByLastName">findByLastName</option>
-									<option value="findByGithubUser">findByGithubUser</option>
-									<option value="findByGroupId">findByGroupId</option>
-								</select> <input type="text" name="searchString"> <input
-									type="submit" value="Search" class="btn btn-primary"> <input
-									type="hidden" name="${_csrf.parameterName }"
-									value="${_csrf.token }" /></form>
-							<br>
+								
 							</p>
 						</div>
 					</div>

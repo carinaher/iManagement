@@ -35,6 +35,9 @@
 	<c:when test="${isAdmin}">
 		<c:set var="profileImage">resources/images/admin.png</c:set>
 	</c:when>
+	<c:when test="${isStudent}">
+		<c:set var="profileImage">https://github.com/${student.githubUser}.png?size=40</c:set>
+	</c:when>
 	<c:otherwise>
 		<c:set var="profileImage">resources/images/user1.png</c:set>
 	</c:otherwise>
@@ -48,11 +51,13 @@
 	<c:when test="${not empty student}">
 		<c:set var="legend">Edit Student ${student.id}</c:set>
 		<c:set var="formAction">editStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly">readonly</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Student</c:set>
 		<c:set var="formAction">addStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly"></c:set>
 	</c:otherwise>
 </c:choose>
@@ -166,190 +171,33 @@ Placed js at the end of the document so the pages load faster -->
 				<!--notification menu start -->
 				<div class="menu-right">
 					<div class="user-panel-top">
-						<%--			
+									
 						<div class="profile_details_left">
 							<ul class="nofitications-dropdown">
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown" aria-expanded="false"><i
-										class="fa fa-envelope"></i><span class="badge">3</span></a>
-
-									<ul class="dropdown-menu">
-										<li>
-											<div class="notification_header">
-												<h3>You have 3 new messages</h3>
-											</div>
-										</li>
-										<li><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li class="odd"><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li>
-											<div class="notification_bottom">
-												<a href="#">See all messages</a>
-											</div>
-										</li>
-									</ul></li>
-								<li class="login_box" id="loginContainer">
+									
+								<li>
 									<div class="search-box">
-										<div id="sb-search" class="sb-search">
-											<form>
+										<div id="sb-search" class="sb-search">				
+											<form method="post" action="${searchAction}">
 												<input class="sb-search-input"
-													placeholder="Enter your search term..." type="search"
-													id="search"> <input class="sb-search-submit"
-													type="submit" value=""> <span
-													class="sb-icon-search"> </span>
+													placeholder="Enter your search term..." type="text"
+													id="search" name="searchString">
+												  
+													<input class="sb-search-submit" type="submit" value="Search"> 
+													<span class="sb-icon-search"> </span>
+													<input type="hidden" name="${_csrf.parameterName }"
+									value="${_csrf.token }" />
 											</form>
 										</div>
-									</div> <!-- search-scripts --> <script src="js/classie.js"></script>
-									<script src="js/uisearch.js"></script> <script>
-										new UISearch(document
-												.getElementById('sb-search'));
+									</div> <!-- search-scripts --> <script src="resources/js/classie.js"></script>
+									<script src="resources/js/uisearch.js"></script> <script>
+										new UISearch(document.getElementById('sb-search'));
 									</script> <!-- //search-scripts -->
 								</li>
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown" aria-expanded="false"><i
-										class="fa fa-bell"></i><span class="badge blue">3</span></a>
-									<ul class="dropdown-menu">
-										<li>
-											<div class="notification_header">
-												<h3>You have 3 new notification</h3>
-											</div>
-										</li>
-										<li><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li class="odd"><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li><a href="#">
-												<div class="user_img">
-													<img src="images/1.png" alt="">
-												</div>
-												<div class="notification_desc">
-													<p>Lorem ipsum dolor sit amet</p>
-													<p>
-														<span>1 hour ago</span>
-													</p>
-												</div>
-												<div class="clearfix"></div>
-										</a></li>
-										<li>
-											<div class="notification_bottom">
-												<a href="#">See all notification</a>
-											</div>
-										</li>
-									</ul></li>
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown" aria-expanded="false"><i
-										class="fa fa-tasks"></i><span class="badge blue1">22</span></a>
-									<ul class="dropdown-menu">
-										<li>
-											<div class="notification_header">
-												<h3>You have 8 pending task</h3>
-											</div>
-										</li>
-										<li><a href="#">
-												<div class="task-info">
-													<span class="task-desc">Database update</span><span
-														class="percentage">40%</span>
-													<div class="clearfix"></div>
-												</div>
-												<div class="progress progress-striped active">
-													<div class="bar yellow" style="width: 40%;"></div>
-												</div>
-										</a></li>
-										<li><a href="#">
-												<div class="task-info">
-													<span class="task-desc">Dashboard done</span><span
-														class="percentage">90%</span>
-													<div class="clearfix"></div>
-												</div>
-
-												<div class="progress progress-striped active">
-													<div class="bar green" style="width: 90%;"></div>
-												</div>
-										</a></li>
-										<li><a href="#">
-												<div class="task-info">
-													<span class="task-desc">Mobile App</span><span
-														class="percentage">33%</span>
-													<div class="clearfix"></div>
-												</div>
-												<div class="progress progress-striped active">
-													<div class="bar red" style="width: 33%;"></div>
-												</div>
-										</a></li>
-										<li><a href="#">
-												<div class="task-info">
-													<span class="task-desc">Issues fixed</span><span
-														class="percentage">80%</span>
-													<div class="clearfix"></div>
-												</div>
-												<div class="progress progress-striped active">
-													<div class="bar  blue" style="width: 80%;"></div>
-												</div>
-										</a></li>
-										<li>
-											<div class="notification_bottom">
-												<a href="#">See all pending task</a>
-											</div>
-										</li>
-									</ul></li>
-								<div class="clearfix"></div>
 							</ul>
 							
 						</div>
-						--%>
+					
 						<div class="profile_details">
 							<ul>
 								<li class="dropdown profile_details_drop"><a href="#"
@@ -360,8 +208,7 @@ Placed js at the end of the document so the pages load faster -->
 												style="background: url(${profileImage}) no-repeat center">
 											</span>
 											<div class="user-name">
-												<p>${username}<span>${role}</span>
-												</p>
+												<p>${username}<span>${role}</span></p>
 											</div>
 											<i class="lnr lnr-chevron-down"></i> <i
 												class="lnr lnr-chevron-up"></i>
@@ -369,8 +216,7 @@ Placed js at the end of the document so the pages load faster -->
 										</div>
 								</a>
 									<ul class="dropdown-menu drp-mnu">
-										<li><a href="my_profile"><i class="fa fa-cog"></i>
-												Settings</a></li>
+										<li><a href="my_profile"><i class="fa fa-cog"></i>Settings</a></li>
 										<%-- <li><a href="my_profile"><i class="fa fa-user"></i>Profile</a></li> --%>
 										<li>
 											<form class="form-horizontal" method="post" action="logout">
