@@ -103,12 +103,8 @@ public class TaskController {
 			TaskModel tm = new TaskModel(i+1, df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,df.getDate(2017, 1, 1) ), df.getAddress(), userDetails.getUsername());
 			taskRepository.save(tm);
 		}
-		
-		if (returnUrl == null || returnUrl.equals("")) {
-			return "forward:/calendar";	
-		} else {
-			return "forward:/" + returnUrl;
-		}
+
+		return createReturnViewString(returnUrl);
 	}
 
 
@@ -153,11 +149,7 @@ public class TaskController {
 			model.addAttribute("message", "Added new task" + newTaskModel.getTitle());
 		}
 
-		if (returnUrl == null || returnUrl.equals("")) {
-			return "forward:/calendar";	
-		} else {
-			return "forward:/" + returnUrl;
-		}
+		return createReturnViewString(returnUrl);
 	}
 	
 
@@ -174,11 +166,7 @@ public class TaskController {
 		} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !task.getUserName().equals(userDetails.getUsername())) {
 			// not an admin and not the current user
 			model.addAttribute("errorMessage", "Not authorized view tasks of " + task.getUserName());
-			if (returnUrl == null || returnUrl.equals("")) {
-				return "forward:/calendar";	
-			} else {
-				return "forward:/" + returnUrl;
-			}
+			return createReturnViewString(returnUrl);
 		} else {
 			model.addAttribute("task", task);
 			model.addAttribute("pageTitle", "Edit Task");
@@ -228,10 +216,14 @@ public class TaskController {
 			taskRepository.save(task);
 		}
 
-		if (returnUrl == null || returnUrl.equals("")) {
-			return "forward:/calendar";	
+		return createReturnViewString(returnUrl);
+	}
+	
+	String createReturnViewString(String returnUrl) {
+		if (returnUrl != null && returnUrl.equals("task")) {
+			return "forward:/task";	
 		} else {
-			return "forward:/" + returnUrl;
+			return "forward:/calendar";	
 		}
 	}
 	
