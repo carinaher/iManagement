@@ -9,7 +9,7 @@
 <!--  add or edit?  ----------------------------------------------------------- -->
 <c:choose>
 	<c:when test="${not empty userRole}">
-		<c:set var="legend">Edit User Role # ${userRole.userRoleId}</c:set>
+		<c:set var="legend">Edit User Role: # ${userRole.userRoleId}</c:set>
 		<c:set var="formAction">editUserrole</c:set>
 		<c:set var="readonly">readonly</c:set>
 	</c:when>
@@ -33,7 +33,7 @@
 						<fieldset>
 							<!-- ----------------  userRoleId ---------------- -->
 							<div class="form-group">
-								<label for="inputUserRoleId" class="col-md-2 control-label">UserRoleId</label>
+								<label for="inputUserRoleId" class="col-md-2 control-label">User Role ID</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputUserRoleId" type="text"
 										name="userRoleId" value="<c:out value="${userRole.userRoleId}"/>">
@@ -42,7 +42,7 @@
 
 							<!-- ----------------  User (userName) ---------------- -->
 							<div class="form-group">
-								<label for="inputUserName" class="col-md-2 control-label">User (userName)</label>
+								<label for="inputUserName" class="col-md-2 control-label">User (Username)</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputUserName" type="text"
 										name="userName" value="<c:out value="${userRole.user.userName}"/>">

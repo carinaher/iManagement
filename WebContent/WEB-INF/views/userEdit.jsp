@@ -9,7 +9,7 @@
 <!--  add or edit?  ----------------------------------------------------------- -->
 <c:choose>
 	<c:when test="${not empty user}">
-		<c:set var="legend">Edit User ${user.userName}</c:set>
+		<c:set var="legend">Edit User: ${user.userName}</c:set>
 		<c:set var="formAction">editUser</c:set>
 		<c:set var="readonly">readonly</c:set>
 	</c:when>
@@ -33,7 +33,7 @@
 						<fieldset>
 							<!-- ----------------  userName ---------------- -->
 							<div class="form-group">
-								<label for="inputUserName" class="col-md-2 control-label">UserName</label>
+								<label for="inputUserName" class="col-md-2 control-label">User Name</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputUserName" type="text"
 										name="userName" value="<c:out value="${user.userName}"/>">

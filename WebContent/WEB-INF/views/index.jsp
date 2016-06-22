@@ -24,19 +24,6 @@
 <div id="page-wrapper">
 <jsp:include page="includes/messages.jsp" />
 
-
-	<h1>iManagement</h1>
-
-	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<p>
-			<a href="user"><button type="button" class="btn btn-success">User List</button></a>
-		</p>
-		<br>		
-		<p>
-			<a href="userrole"><button type="button" class="btn btn-success">User Role List</button></a>
-		</p>
-	</sec:authorize>
-	<br>
 	
 	<!-- calendar div is automatically populated -->
 	<div id="calendar"></div>
