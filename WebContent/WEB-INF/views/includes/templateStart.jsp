@@ -33,7 +33,7 @@
 <%-- // profile picture --%>
 <c:choose>
 	<c:when test="${isAdmin}">
-		<c:set var="profileImage">resources/images/admin.png</c:set>
+		<c:set var="profileImage">https://avatars0.githubusercontent.com/u/942652?size=70</c:set>
 	</c:when>
 	<c:when test="${isStudent}">
 		<c:set var="profileImage">https://github.com/${student.githubUser}.png?size=40</c:set>
@@ -196,7 +196,7 @@ Placed js at the end of the document so the pages load faster -->
 													placeholder="Enter your search term..." type="text"
 													id="search" name="searchString">
 												  
-													<input class="sb-search-submit" type="submit" value="Search"> 
+													<input class="sb-search-submit" type="submit" value="search"> 
 													<span class="sb-icon-search"> </span>
 													<input type="hidden" name="${_csrf.parameterName }"
 									value="${_csrf.token }" />

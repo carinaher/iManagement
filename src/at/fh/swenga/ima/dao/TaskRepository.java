@@ -22,7 +22,7 @@ public interface TaskRepository extends JpaRepository<TaskModel, Integer> {
 	public List<TaskModel> findByDescription(String name);
 	public List<TaskModel> findByStatus(Boolean TRUE);
 	
-	public List<TaskModel> findByUserNameContainsOrTitleContainsOrDescriptionContainsOrStatusContainsAllIgnoreCase(String username, String firstname, String lastname, Boolean githubuser);
+	public List<TaskModel> findByUserNameContainsOrTitleContainsOrDescriptionContainsOrStatusContainsAllIgnoreCase(String username, String firstname, String lastname, Boolean status);
 	
 	@SuppressWarnings("unchecked")
 	TaskModel save(TaskModel persisted);

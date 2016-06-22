@@ -33,10 +33,6 @@ public class DatabaseFillController {
 		userRoleRepository.save(new UserRole(userRepository.findByUserName("admin"), "ROLE_USER"));
 		userRoleRepository.save(new UserRole(userRepository.findByUserName("admin"), "ROLE_ADMIN"));
 
-		// demo user (no student)
-		userRepository.save(new User("user", "$2a$10$2BZh7qw/FSh23ZCbojA.OOoo7vzg7KaqHUp34l8/i9.ktxzcr3vJm", true));
-		userRoleRepository.save(new UserRole(userRepository.findByUserName("user"), "ROLE_USER"));
-
 		// student roles
 		List<String> studentRoles = new ArrayList<String>();
 		studentRoles.add("folkdani13");
