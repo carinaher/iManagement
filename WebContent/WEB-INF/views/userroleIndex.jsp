@@ -12,11 +12,11 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">User Role Table</h3>
+			<h3 class="blank1">User Roles</h3>
 			<div class="xs tabls">
 				<div class="bs-example4" data-example-id="contextual-table">
 					<div class="row">
-						<div class="col-md-4 col-md-offset-4">
+						<div class="col-md-4">
 							<p>
 								<a href="addUserrole">
 									<button type="button" class="btn btn-primary">
@@ -26,11 +26,12 @@
 							</p>
 						</div>
 					</div>
+					<br>
 					<table class="table">
 						<thead>
 							<tr>
 								<th>User Role Id</th>
-								<th>user (username)</th>
+								<th>User (Username)</th>
 								<th>Role</th>
 								<th>Action</th>
 							</tr>

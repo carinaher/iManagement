@@ -12,20 +12,22 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">User Table</h3>
+			<h3 class="blank1">Users</h3>
 			<div class="xs tabls">
 				<div class="bs-example4" data-example-id="contextual-table">
 					<div class="row">
-						<div class="col-md-4 col-md-offset-4">
+						<div class="col-md-4">
 							<p>
 								<a href="addUser">
 									<button type="button" class="btn btn-primary">
 										<span aria-hidden="true"></span>Add User
 									</button>
+									
 								</a>
 							</p>
 						</div>
 					</div>
+					<br>
 					<table class="table">
 						<thead>
 							<tr>

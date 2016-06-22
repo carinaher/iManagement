@@ -155,10 +155,17 @@ Placed js at the end of the document so the pages load faster -->
 				<ul class="nav nav-pills nav-stacked custom-nav">
 
 					<li><a href="student"><i class="lnr lnr-users"></i> <span>Students</span></a></li>
-					<li><a href="task"><i class="lnr lnr-list"></i> <span>Tasks</span></a></li>
+					<li><a href="task"><i class="lnr lnr-list"></i> <span>ToDo List</span></a></li>
 					<li><a href="forum"><i class="lnr lnr-bubble"></i> <span>Forum</span></a></li>
 					<li><a href="calendar"><i class="lnr lnr-calendar-full"></i> <span>Calendar</span></a></li>
 					<li><a href="timetable"><i class="lnr lnr-graduation-hat"></i> <span>Timetable</span></a></li>
+					
+					<c:if test="${isAdmin}">
+						<hr>
+						<li><a href="user"><i class="lnr lnr-user" style="color: #76B82A"></i> <span>Manage Users</span></a></li>
+						<li><a href="userrole"><i class="lnr lnr-users" style="color: #76B82A"></i> <span>Manage User Roles</span></a></li>
+					</c:if>
+					
 				</ul>
 				<!--sidebar nav end-->
 			</div>
