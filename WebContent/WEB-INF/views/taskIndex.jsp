@@ -53,15 +53,7 @@
 					<table class="table table-todo_list">
 						<thead>
 							<tr>
-								<!-- <th>ID</th>
-								<th>Task Name</th>
-								<th>Description</th>
-								<th>Status</th>
-								<th>Due Date</th>
-								<th>Action</th> -->
-								
-								
-								<th>ID</th>
+
 								<th>Title</th>
 								<th>Description</th>
 								<th>Status</th>
@@ -84,7 +76,7 @@
 								</c:otherwise>
 								</c:choose>
 								
-									<th scope="row">${task.id}</th>
+								
 									<td>${task.title}</td>
 									<td>${task.description}</td>
 									
