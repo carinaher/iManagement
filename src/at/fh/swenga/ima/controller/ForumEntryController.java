@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,7 +43,7 @@ public class ForumEntryController {
 
 	@Autowired
 	StudentRepository studentRepository;
-	
+
 	@Autowired
 	ForumEntryRepository forumEntryRepository;
 
@@ -56,7 +57,7 @@ public class ForumEntryController {
 		model.addAttribute("userName", userDetails.getUsername());
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Forum");
-		
+
 		setUserPanel(model);
 		return "forumIndex";
 	}
@@ -64,15 +65,16 @@ public class ForumEntryController {
 	@RequestMapping(value = { "/findForumEntrys" })
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
 		List<ForumEntryModel> forumEntrys = new ArrayList<>();
-		forumEntrys = forumEntryRepository.findByTopicContainsOrTextContainsOrAttachmentContainsOrUserNameContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
+		forumEntrys = forumEntryRepository
+				.findByTopicContainsOrTextContainsOrAttachmentContainsOrUserNameContainsAllIgnoreCase(searchString,
+						searchString, searchString, searchString);
 
 		model.addAttribute("forumEntrys", forumEntrys);
-		
+
 		setUserPanel(model);
 		return "forumIndex";
 	}
-	
-	
+
 	@RequestMapping("/fillForumEntrys")
 	@Transactional
 	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -81,32 +83,36 @@ public class ForumEntryController {
 		DataFactory df = new DataFactory();
 		Date now = new Date();
 
-		ForumEntryModel fem1 = new ForumEntryModel("First Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+		ForumEntryModel fem1 = new ForumEntryModel("First Topic", "Lorem ipsum dolor sit amet, consetetur ",
+				userDetails.getUsername());
 		forumEntryRepository.save(fem1);
-		
-		ForumEntryModel fem2 = new ForumEntryModel("Second Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+
+		ForumEntryModel fem2 = new ForumEntryModel("Second Topic", "Lorem ipsum dolor sit amet, consetetur ",
+				userDetails.getUsername());
 		forumEntryRepository.save(fem2);
-		
-		ForumEntryModel fem3 = new ForumEntryModel("Third Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+
+		ForumEntryModel fem3 = new ForumEntryModel("Third Topic", "Lorem ipsum dolor sit amet, consetetur ",
+				userDetails.getUsername());
 		forumEntryRepository.save(fem3);
-		
 
 		setUserPanel(model);
 		return "forward:/forum";
 	}
 
 	@RequestMapping("/deleteForumEntry")
-	public String deleteData(Model model, @RequestParam int id , @AuthenticationPrincipal UserDetails userDetails) {
-		
+	public String deleteData(Model model, @RequestParam int id, @AuthenticationPrincipal UserDetails userDetails) {
+
 		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-		if ( (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !forumEntryRepository.findForumEntryById(id).getUserName().equals(userDetails.getUsername()))) { {
-			model.addAttribute("errorMessage", "Not authorized to delete this Entry");
-		}}else {
+		if ((!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				&& !forumEntryRepository.findForumEntryById(id).getUserName().equals(userDetails.getUsername()))) {
+			{
+				model.addAttribute("errorMessage", "Not authorized to delete this Entry");
+			}
+		} else {
 			forumEntryRepository.delete(id);
 
 		}
- 
-		
+
 		setUserPanel(model);
 		return "forward:/forum";
 	}
@@ -149,20 +155,28 @@ public class ForumEntryController {
 				attachment.setFilename(file.getOriginalFilename());
 				attachment.setName(file.getName());
 				savedForumEntry.setUserName(userDetails.getUsername());
-				savedForumEntry.setAttachment(attachment);
 				forumEntryRepository.save(savedForumEntry);
+
+				if (attachment.getFilename() == "") {
+
+					savedForumEntry.setAttachment(null);
+
+				} else {
+
+					savedForumEntry.setAttachment(attachment);
+					forumEntryRepository.save(savedForumEntry);
+
+				}
 				model.addAttribute("message", "New entry " + forumEntry.getTopic() + " added.");
-			
-			
+
 			}
-		} 
-		/*catch (RuntimeException ex) {
+		} catch (RuntimeException ex) {
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
 			setUserPanel(model);
 			return "forward:/forum";
 
-		}*/
+		}
 
 		catch (Exception e) {
 
@@ -192,7 +206,7 @@ public class ForumEntryController {
 		} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
 				&& !forumEntry.getUserName().equals(userDetails.getUsername())) {
 			// not an admin and not the current user
-			model.addAttribute("errorMessage", "Not authorized view tasks of " + forumEntry.getUserName());
+			model.addAttribute("errorMessage", "Not authorized to edit the Entry of " + forumEntry.getUserName());
 			return "forward:/forum";
 		}
 
@@ -205,7 +219,8 @@ public class ForumEntryController {
 
 	@RequestMapping(value = "/editForumEntry", method = RequestMethod.POST)
 	public String editForumEntry(@Valid @ModelAttribute ForumEntryModel editedForumEntryModel,
-			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file, @AuthenticationPrincipal UserDetails userDetails) {
+			BindingResult bindingResult, Model model, @RequestParam("myFile") MultipartFile file,
+			@AuthenticationPrincipal UserDetails userDetails) {
 		try {
 			if (bindingResult.hasErrors()) {
 				String errorMessage = "";
@@ -219,17 +234,18 @@ public class ForumEntryController {
 			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
 			Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-			
 			if (forumEntry == null) {
 				model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getTopic() + "does not exist!<br>");
-			}
-			else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !forumEntry.getUserName().equals(userDetails.getUsername())) {
+			} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+					&& !forumEntry.getUserName().equals(userDetails.getUsername())) {
 				// not an admin and not the current user
 				model.addAttribute("errorMessage", "Not authorized edit tasks of " + forumEntry.getUserName());
-			}  else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !editedForumEntryModel.getUserName().equals(userDetails.getUsername())) {
+			} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+					&& !editedForumEntryModel.getUserName().equals(userDetails.getUsername())) {
 				// changed owner to different user
-				model.addAttribute("errorMessage", "Not authorized to change owner to " + editedForumEntryModel.getUserName());
-			} 
+				model.addAttribute("errorMessage",
+						"Not authorized to change owner to " + editedForumEntryModel.getUserName());
+			}
 
 			else {
 				// student.setId(editedTaskModel.getId());
@@ -242,14 +258,6 @@ public class ForumEntryController {
 				forumEntryRepository.save(forumEntry);
 			}
 
-			// Already a document available -> delete it
-			if (forumEntry.getAttachment() != null) {
-				attachmentRepository.delete(forumEntry.getAttachment());
-				// Don't forget to remove the relationship too
-				forumEntry.setAttachment(null);
-				
-			}
-
 			// Create a new document and set all available infos
 
 			AttachmentModel attachment = new AttachmentModel();
@@ -258,11 +266,25 @@ public class ForumEntryController {
 			attachment.setCreated(new Date());
 			attachment.setFilename(file.getOriginalFilename());
 			attachment.setName(file.getName());
-			forumEntry.setAttachment(attachment);
+			if (attachment.getFilename() == "") {
+				forumEntry.setAttachment(null);
+
+			} else {
+				forumEntry.setAttachment(attachment);
+
+			}
 			forumEntryRepository.save(forumEntry);
 			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
 
-		} catch (RuntimeException ex) {
+			// Already a document available -> delete it
+			if (forumEntry.getAttachment() != null) {
+				attachmentRepository.delete(forumEntry.getAttachment());
+				// Don't forget to remove the relationship too
+				forumEntry.setAttachment(null);
+
+			}
+
+		} catch (GenericJDBCException ex) {
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
 
@@ -270,7 +292,7 @@ public class ForumEntryController {
 
 		catch (Exception e) {
 
-			model.addAttribute("errorMessage", "Error:" + e.getMessage());
+			model.addAttribute("errorMessage", "Error:" + e.getStackTrace());
 
 		}
 		setUserPanel(model);
@@ -298,25 +320,39 @@ public class ForumEntryController {
 	}
 
 	void setUserPanel(Model model) {
-		
+
 		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
 		if (student != null) {
 			model.addAttribute("student", student);
 			model.addAttribute("setSearch", "findForumEntrys");
 		}
 	}
-	
-	 String getUser(Model model) {
-		 
-	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	      String name = auth.getName(); //get logged in username
-	      model.addAttribute("username", name);
-	      return name;
-	  }
-	
+
+	String getUser(Model model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName(); // get logged in username
+		model.addAttribute("username", name);
+		return name;
+	}
+
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 		return "showError";
+	}
+
+	public class FileToBigException extends Exception {
+
+		public FileToBigException() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public FileToBigException(String message) {
+			super(message);
+			// TODO Auto-generated constructor stub
+		}
+
 	}
 
 }
