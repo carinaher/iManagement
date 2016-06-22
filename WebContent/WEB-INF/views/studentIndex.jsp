@@ -29,17 +29,19 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">Student Table</h3>
+			<h3 class="blank1">Student</h3>
 			<div class="xs tabls">
 				<div class="bs-example4" data-example-id="contextual-table">
 					<div class="row">
 						<div class="col-md-15 col-md-offset-0">
 							<p>
-								<a href="fillStudents">
-									<button type="button" class="btn btn-primary">
-										<span aria-hidden="true"></span>Fill List
-									</button>
-								</a>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a href="fillStudents">
+										<button type="button" class="btn btn-primary">
+											<span aria-hidden="true"></span>Fill List
+										</button>
+									</a>
+								</sec:authorize>
 								<sec:authorize access="hasRole('ROLE_ADMIN')">
 									<a href="addStudent">
 										<button type="button" class="btn btn-primary">
@@ -79,11 +81,14 @@
 									<td>${student.year}</td>
 									<td>${student.groupId}</td>
 									<td><sec:authorize access="hasRole('ROLE_ADMIN')">
-											<a href="editStudent?id=${student.id}"><button
-													type="button" class="btn btn-s btn-warning">Edit</button></a>
-										</sec:authorize> <sec:authorize access="hasRole('ROLE_ADMIN')">
-											<a href="deleteStudent?id=${student.id}"><button
-													type="button" class="btn btn-s btn-danger">Delete</button></a>
+											<a href="editStudent?id=${student.id}">
+												<button style="height: 40px; width: 75px;" type="button" class="btn btn-s btn-warning">Edit</button>
+											</a>
+										</sec:authorize>
+											<sec:authorize access="hasRole('ROLE_ADMIN')">
+												<a href="deleteStudent?id=${student.id}">
+												<button style="height: 40px; width: 75px;" type="button" class="btn btn-s btn-danger">Delete</button>
+												</a>
 										</sec:authorize></td>
 								</tr>
 							</c:forEach>
