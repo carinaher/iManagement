@@ -23,7 +23,7 @@
 	<c:otherwise>
 		<c:set var="legend">New Task</c:set>
 		<c:set var="formAction">addTask?returnUrl=${returnUrl}</c:set>
-		<c:set var="readonly"></c:set>
+		<c:set var="readonly">readonly</c:set>
 		<c:set var="username">${userDetails.username}</c:set>
 	</c:otherwise>
 </c:choose>
@@ -75,10 +75,10 @@
 
 							<!-- ----------------  Status ---------------- -->
 							<div class="form-group">
-								<label for="inputStatus" class="col-md-2 control-label">Status</label>
+								<label for="inputStatus" class="col-md-2 control-label">Done? (yes/no)</label>
 								<div class="col-md-10">								
 									<input type="checkbox" ${statusChecked} class="form-control" id="inputStatus"
-										name="statusCheckbox" value="a_checkbox_for_status"> Task is done
+										name="statusCheckbox" value="a_checkbox_for_status">
 								</div>
 							</div>
 
@@ -97,7 +97,7 @@
 								<label for="inputEnd" class="col-md-2 control-label">End date</label>
 								<div class="col-md-10">
 									<input class="form_datetime" id="inputEnd"
-										placeholder="Start Date" type="text" name="end"
+										placeholder="End Date" type="text" name="end"
 										value="<fmt:formatDate value="${task.end}" pattern="dd.MM.yyyy HH:mm"/>">
 								</div>
 							</div>
@@ -112,16 +112,17 @@
 								</div>
 							</div>
 
+							
 							<!-- ----------------  userName ---------------- -->
 							<div class="form-group">
-								<label for="inputUserName" class="col-md-2 control-label">userName</label>
+								<label for="inputUserName" class="col-md-2 control-label">Username</label>
 								<div class="col-md-10">
 									<input class="form-control" id="inputUserName" type="text"
-										name="userName"
+										name="userName" ${readonly} 
 										value="<c:out value="${username}"/>">
 								</div>
 							</div>
-
+							
 
 							<!-- ----------------  buttons ---------------- -->
 							<div class="form-group">

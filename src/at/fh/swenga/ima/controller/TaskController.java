@@ -116,6 +116,13 @@ public class TaskController {
 		return createReturnViewString(returnUrl);
 	}
 	
+	@RequestMapping("/deleteTask")
+	public String deleteData(Model model, @RequestParam int id, @RequestParam(value = "returnUrl", required = false) String returnUrl) {
+		taskRepository.delete(id);
+
+		setUserPanel(model);
+		return createReturnViewString(returnUrl);
+	}
 
 	@RequestMapping(value = "/addTask", method = RequestMethod.GET)
 	public String showAddTaskkForm(Model model, @AuthenticationPrincipal UserDetails userDetails,

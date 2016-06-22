@@ -173,7 +173,7 @@ Placed js at the end of the document so the pages load faster -->
 		<!-- left side end-->
 
 		<!-- main content start-->
-		<div class="main-content main-content4">
+		<div class="main-content">
 			<!-- header-starts -->
 			<div class="header-section">
 
