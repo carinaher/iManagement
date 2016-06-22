@@ -1,6 +1,7 @@
 package at.fh.swenga.ima.controller;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -9,11 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fluttercode.datafactory.impl.DataFactory;
-import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +31,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import at.fh.swenga.ima.dao.AttachmentRepository;
 import at.fh.swenga.ima.dao.ForumEntryRepository;
+import at.fh.swenga.ima.dao.StudentRepository;
 import at.fh.swenga.ima.model.AttachmentModel;
 import at.fh.swenga.ima.model.ForumEntryModel;
-import at.fh.swenga.ima.model.TaskModel;
+import at.fh.swenga.ima.model.StudentModel;
 
 @Controller
 
 public class ForumEntryController {
 
+	@Autowired
+	StudentRepository studentRepository;
+	
 	@Autowired
 	ForumEntryRepository forumEntryRepository;
 
@@ -51,10 +57,22 @@ public class ForumEntryController {
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Forum");
 		
-
+		setUserPanel(model);
 		return "forumIndex";
 	}
 
+	@RequestMapping(value = { "/findForumEntrys" })
+	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
+		List<ForumEntryModel> forumEntrys = new ArrayList<>();
+		forumEntrys = forumEntryRepository.findByTopicContainsOrTextContainsOrAttachmentContainsOrUserNameContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
+
+		model.addAttribute("forumEntrys", forumEntrys);
+		
+		setUserPanel(model);
+		return "forumIndex";
+	}
+	
+	
 	@RequestMapping("/fillForumEntrys")
 	@Transactional
 	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -68,7 +86,7 @@ public class ForumEntryController {
 					userDetails.getUsername());
 			forumEntryRepository.save(fem);
 		}
-
+		setUserPanel(model);
 		return "forward:/forum";
 	}
 
@@ -84,13 +102,14 @@ public class ForumEntryController {
 		}
  
 		
-
+		setUserPanel(model);
 		return "forward:/forum";
 	}
 
 	@RequestMapping(value = "/addForumEntry", method = RequestMethod.GET)
 	public String showAddForumEntryForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		model.addAttribute("userDetails", userDetails);
+		setUserPanel(model);
 		return "forumEntryEdit";
 	}
 
@@ -133,6 +152,7 @@ public class ForumEntryController {
 		} catch (RuntimeException ex) {
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
+			setUserPanel(model);
 			return "forward:/forum";
 
 		}
@@ -142,7 +162,7 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 
 		}
-
+		setUserPanel(model);
 		return "forward:/forum";
 
 	}
@@ -171,6 +191,7 @@ public class ForumEntryController {
 
 		else {
 			model.addAttribute("forumEntrys", forumEntry);
+			setUserPanel(model);
 			return "forumEntryEdit";
 		}
 	}
@@ -245,7 +266,7 @@ public class ForumEntryController {
 			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 
 		}
-
+		setUserPanel(model);
 		return "forward:/forum";
 	}
 
@@ -269,6 +290,23 @@ public class ForumEntryController {
 		}
 	}
 
+	void setUserPanel(Model model) {
+		
+		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
+		if (student != null) {
+			model.addAttribute("student", student);
+			model.addAttribute("setSearch", "findForumEntrys");
+		}
+	}
+	
+	 String getUser(Model model) {
+		 
+	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName(); //get logged in username
+	      model.addAttribute("username", name);
+	      return name;
+	  }
+	
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 		return "showError";
