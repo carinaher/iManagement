@@ -1,17 +1,33 @@
 package at.fh.swenga.ima.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+@NamedQueries(
+		{
+@NamedQuery(name = "TaskModel.findAllTasksForUser", 
+query = "SELECT t FROM TaskModel t WHERE "
+		+ "t.userName IS :loggedInUser AND "
+		+ "t.title LIKE :searchString  OR "
+		+ "t.description LIKE :searchString  OR "
+		+ "t.place LIKE :searchString  "
+		)
+		
+	
+		})
 
 @Entity
 @Table(name = "Task")
