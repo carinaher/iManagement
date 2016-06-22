@@ -25,12 +25,12 @@
 	<div id="page-wrapper">
 		<div class="graphs">
 			<p>
-				<a href="fillTasks">
+				<a href="fillTasks?returnUrl=calendar">
 					<button type="button" class="btn btn-primary">
 						<span aria-hidden="true"></span>Fill Tasks
 					</button>
 				</a>
-				<a href="addTask">
+				<a href="addTask?returnUrl=calendar">
 					<button type="button" class="btn btn-primary">
 						<span aria-hidden="true"></span>Add Task
 					</button>
