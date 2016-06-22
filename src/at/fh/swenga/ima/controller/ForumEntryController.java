@@ -231,16 +231,18 @@ public class ForumEntryController {
 				return "forward:/forum";
 			}
 
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
+			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryById(editedForumEntryModel.getId());
 			Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
 			if (forumEntry == null) {
 				model.addAttribute("errorMessage", "Entry" + editedForumEntryModel.getTopic() + "does not exist!<br>");
-			} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+			} 
+			else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
 					&& !forumEntry.getUserName().equals(userDetails.getUsername())) {
 				// not an admin and not the current user
 				model.addAttribute("errorMessage", "Not authorized edit tasks of " + forumEntry.getUserName());
-			} else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+			}
+			else if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
 					&& !editedForumEntryModel.getUserName().equals(userDetails.getUsername())) {
 				// changed owner to different user
 				model.addAttribute("errorMessage",
@@ -274,6 +276,7 @@ public class ForumEntryController {
 
 			}
 			forumEntryRepository.save(forumEntry);
+			
 			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
 
 			// Already a document available -> delete it
