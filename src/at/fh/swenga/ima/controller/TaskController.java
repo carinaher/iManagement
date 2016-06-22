@@ -116,34 +116,6 @@ public class TaskController {
 		return createReturnViewString(returnUrl);
 	}
 	
-	/*@RequestMapping("/fillTasks")
-	@Transactional
-	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails,
-			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
-
-		
-		// Creates always the same data
-		DataFactory df = new DataFactory();
-		Date now = new Date();
-
-		for (int i = 0; i < 15; i++) {
-			Date startDate = df.getDateBetween(now,df.getDate(2016, 7, 15));
-			LocalDateTime endLocalDateTime = LocalDateTime.from(startDate.toInstant().atZone(ZoneId.of("UTC"))).plusDays(3); // can only increment a LocalDateTime
-			Date endDate = Date.from(endLocalDateTime.toInstant(ZoneOffset.UTC));
-			TaskModel newTaskModel = new TaskModel(df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,endDate ), df.getAddress(), userDetails.getUsername());
-			TaskModel savedTaskModel = taskRepository.save(newTaskModel);
-			savedTaskModel.setUrl("#"); // setter automatically generates a url (with id) to edit this task
-			taskRepository.save(savedTaskModel);
-			model.addAttribute("message", "Created example tasks");
-		}
-
-		
-		setUserPanel(model);
-		return createReturnViewString(returnUrl);
-	}*/
-
-
-	
 
 	@RequestMapping(value = "/addTask", method = RequestMethod.GET)
 	public String showAddTaskkForm(Model model, @AuthenticationPrincipal UserDetails userDetails,
@@ -263,9 +235,7 @@ public class TaskController {
 
 		return createReturnViewString(returnUrl);
 	}
-	
-
-	
+		
 	String createReturnViewString(String returnUrl) {
 		if (returnUrl != null && returnUrl.equals("task")) {
 			return "forward:/task";	
@@ -279,11 +249,8 @@ public class TaskController {
 		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
 		if (student != null) {
 			model.addAttribute("student", student);
-			model.addAttribute("setSearch", "findTask");
 		}
-	    else {
-			model.addAttribute("errorMessage", "Student doesn't exist!");
-		}
+		model.addAttribute("setSearch", "findTask");
 	}
 	
 	 String getUser(Model model) {
