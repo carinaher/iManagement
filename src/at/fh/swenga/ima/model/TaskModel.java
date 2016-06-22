@@ -47,7 +47,7 @@ public class TaskModel {
 	// url for editing is automatically generated
 	private String url;
 
-	public TaskModel(int id, String title, String description, Boolean status, Date start, Date end, String place,
+	public TaskModel(String title, String description, Boolean status, Date start, Date end, String place,
 			String userName) {
 		super();
 		this.id = id;

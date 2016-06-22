@@ -1,5 +1,8 @@
 package at.fh.swenga.ima.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -93,10 +96,15 @@ public class TaskController {
 		DataFactory df = new DataFactory();
 		Date now = new Date();
 
-		for (int i = 0; i < 10; i++) {
-			Date startDate = df.getDateBetween(now,df.getDate(2017, 1, 1) );
-			TaskModel tm = new TaskModel(i+1, df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,df.getDate(2017, 1, 1) ), df.getAddress(), userDetails.getUsername());
-			taskRepository.save(tm);
+		for (int i = 0; i < 15; i++) {
+			Date startDate = df.getDateBetween(now,df.getDate(2016, 7, 15));
+			LocalDateTime endLocalDateTime = LocalDateTime.from(startDate.toInstant().atZone(ZoneId.of("UTC"))).plusDays(3); // can only increment a LocalDateTime
+			Date endDate = Date.from(endLocalDateTime.toInstant(ZoneOffset.UTC));
+			TaskModel newTaskModel = new TaskModel(df.getFirstName(), df.getFirstName(), df.chance(50), startDate, df.getDateBetween(startDate,endDate ), df.getAddress(), userDetails.getUsername());
+			TaskModel savedTaskModel = taskRepository.save(newTaskModel);
+			savedTaskModel.setUrl("#"); // setter automatically generates a url (with id) to edit this task
+			taskRepository.save(savedTaskModel);
+			model.addAttribute("message", "Created example tasks");
 		}
 		
 		setUserPanel(model);
