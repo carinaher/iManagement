@@ -31,9 +31,11 @@ public class MyUserDetailsService implements UserDetailsService {
 		List<User> userList = userDao.findFirstByUserName(username);
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
+			List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+			return buildUserForAuthenticator(user, authorities);
+		} else {
+			throw new UsernameNotFoundException("Bad credentials");
 		}
-		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
-		return buildUserForAuthenticator(user, authorities);
 	}
 	
 	private org.springframework.security.core.userdetails.User buildUserForAuthenticator (
