@@ -118,7 +118,7 @@
 					data. create-drop: create the schema at the beginning of the session & drop 
 					the schema at the end of the session. validate => when the project is finished -->
 
-				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
