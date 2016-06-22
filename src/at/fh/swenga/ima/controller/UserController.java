@@ -20,14 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.ima.dao.StudentRepository;
 import at.fh.swenga.ima.dao.UserRepository;
+import at.fh.swenga.ima.dao.UserRoleRepository;
 import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.User;
+import at.fh.swenga.ima.model.UserRole;
 
 @Controller
 public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	UserRoleRepository userRoleRepository;
 	
 	@Autowired
 	StudentRepository studentRepository;
@@ -46,7 +50,13 @@ public class UserController {
 	
 	@RequestMapping("/deleteUser")
 	public String deleteData(Model model, @RequestParam String userName) {
-		userRepository.delete(userRepository.findByUserName(userName));
+		if (!userName.equals("admin")) {
+			List<UserRole> user_roles = userRoleRepository.findByUserUserName(userName);
+			userRoleRepository.delete(user_roles);
+			userRepository.delete(userRepository.findByUserName(userName));
+		} else {
+			model.addAttribute("errorMessage", "Can't delete admin user!");
+		}
 		setUserPanel(model);
 		return "forward:/user";
 	}
