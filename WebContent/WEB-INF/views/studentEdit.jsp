@@ -47,8 +47,8 @@
 							<div class="form-group">
 								<label for="inputUserName" class="col-md-2 control-label">Username</label>
 								<div class="col-md-10">
-									<input class="form-control" id="inputUserName" type="text"
-										name="userName" value="<c:out value="${student.userName}"/>">
+									<input class="form-control" id="inputUserName" type="text" name="userName" 
+										${readonly} value="<c:out value="${student.userName}"/>">
 								</div>
 							</div>
 
