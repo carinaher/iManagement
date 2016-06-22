@@ -93,7 +93,7 @@ public class TaskController {
 
 		DataFactory df = new DataFactory();
 		Date now = new Date();
-		Date startDate = df.getDateBetween(now, df.getDate(2016, 7, 31));
+		Date startDate = df.getDateBetween(now, df.getDate(2016, 6, 30));
 		LocalDateTime endLocalDateTime = LocalDateTime.from(startDate.toInstant().atZone(ZoneId.of("UTC"))).plusDays(3); // can only increment a LocalDateTime
 		Date endDate = Date.from(endLocalDateTime.toInstant(ZoneOffset.UTC));
 		
@@ -117,8 +117,21 @@ public class TaskController {
 	}
 	
 	@RequestMapping("/deleteTask")
-	public String deleteData(Model model, @RequestParam int id, @RequestParam(value = "returnUrl", required = false) String returnUrl) {
-		taskRepository.delete(id);
+	public String deleteData(Model model, @RequestParam int id, 
+			@RequestParam(value = "returnUrl", required = false) String returnUrl,
+			@AuthenticationPrincipal UserDetails userDetails) {
+		
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		if (!taskRepository.findTaskById(id).getUserName().equals(userDetails.getUsername())) {
+			{
+				model.addAttribute("errorMessage", "Not authorized to delete this Entry");
+				return createReturnViewString(returnUrl);
+			}
+		} else {
+			taskRepository.delete(id);
+
+		}
+
 
 		setUserPanel(model);
 		return createReturnViewString(returnUrl);
