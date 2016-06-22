@@ -35,7 +35,7 @@
 	<c:otherwise>
 		<c:set var="legend">New Entry</c:set>
 		<c:set var="formAction">addForumEntry</c:set>
-		<c:set var="readonly"></c:set>
+		<c:set var="readonly">readonly</c:set>
 		<c:set var="userName">${userName}</c:set>
 	</c:otherwise>
 </c:choose>
@@ -106,7 +106,7 @@
 								<div class="col-md-10">
 									<input class="form-control" id="inputUserName" type="text"
 										name="userName" ${readonly}
-										value="<c:out value="${userName}"/>">
+										value="<c:out value="${username}"/>">
 								</div>
 							</div>
 							<! ----------------  buttons ---------------- --> 
