@@ -170,7 +170,7 @@ public class ForumEntryController {
 				model.addAttribute("message", "New entry " + forumEntry.getTopic() + " added.");
 
 			}
-		} catch (RuntimeException ex) {
+		} catch (GenericJDBCException ex) {
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
 			setUserPanel(model);
@@ -179,9 +179,9 @@ public class ForumEntryController {
 		}
 
 		catch (Exception e) {
-
-			model.addAttribute("errorMessage", "Error:" + e.getMessage());
-
+			if (e.getMessage() != null) {
+				model.addAttribute("errorMessage", "Error:" + e.getMessage());
+			}
 		}
 		setUserPanel(model);
 		return "forward:/forum";
@@ -292,7 +292,7 @@ public class ForumEntryController {
 
 		catch (Exception e) {
 
-			model.addAttribute("errorMessage", "Error:" + e.getStackTrace());
+			model.addAttribute("errorMessage", "Error:" + e.getMessage());
 
 		}
 		setUserPanel(model);
@@ -324,8 +324,9 @@ public class ForumEntryController {
 		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
 		if (student != null) {
 			model.addAttribute("student", student);
-			model.addAttribute("setSearch", "findForumEntrys");
 		}
+		model.addAttribute("setSearch", "findForumEntrys");
+
 	}
 
 	String getUser(Model model) {
@@ -341,18 +342,6 @@ public class ForumEntryController {
 		return "showError";
 	}
 
-	public class FileToBigException extends Exception {
-
-		public FileToBigException() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-
-		public FileToBigException(String message) {
-			super(message);
-			// TODO Auto-generated constructor stub
-		}
-
-	}
+	
 
 }

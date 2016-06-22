@@ -30,6 +30,9 @@
 	</c:if>
 	<!--   message ----------------------------------------------------------- -->
 
+	<sec:authentication var="user" property="principal" />
+
+	<c:set var="username">${user.username}</c:set>
 
 	<div id="page-wrapper">
 		<div class="graphs">
@@ -52,11 +55,12 @@
 			<div class="xs tabls">
 				<div class="panel-body1">
 					<table class="table">
+
 						<c:forEach items="${forumEntrys}" var="entry">
+
 
 							<thead>
 								<tr>
-									<th style="background-color: #FFFFFF"></th>
 									<th style="background-color: #FFFFFF"></th>
 									<th style="background-color: #FFFFFF"></th>
 									<th style="background-color: #FFFFFF"></th>
@@ -64,14 +68,11 @@
 								</tr>
 								<tr>
 
-
 									<th style="background-color: #B7E97D;">Topic</th>
 									<th style="background-color: #B7E97D;">Text</th>
 									<th style="background-color: #B7E97D;">Attachment</th>
 									<th style="background-color: #B7E97D;">Author</th>
 									<th style="background-color: #B7E97D;">Action</th>
-
-
 								</tr>
 							</thead>
 							<tbody>
@@ -88,16 +89,22 @@
 												-- no Attachment ---
 											</c:otherwise>
 										</c:choose></td>
-									<td style="background-color: #E6F9D0;">${entry.userName}</td>
+
+							
 									
-									<td style="background-color: #E6F9D0;"><a
-										href="editForumEntry?id=${entry.id}"><button type="button"
-												class="btn btn-s btn-warning">Edit</button></a> <a
-										href="deleteForumEntry?id=${entry.id}"><button
-												type="button" class="btn btn-s btn-danger">Delete</button></a></td>
-
-
-
+							
+									<td style="background-color: #E6F9D0;">
+										${entry.userName}	</td>
+										
+										
+										<td style="background-color: #E6F9D0;">
+										<sec:authorize
+											access="${entry.userName == username || username == 'admin'}">
+											<a href="editForumEntry?id=${entry.id}"><button
+													type="button" class="btn btn-s btn-warning">Edit</button></a>
+											<a href="deleteForumEntry?id=${entry.id}"><button
+													type="button" class="btn btn-s btn-danger">Delete</button></a></sec:authorize>
+									</td>
 
 								</tr>
 
