@@ -62,6 +62,12 @@
 	</c:otherwise>
 </c:choose>
 <!--/  set user name, role and profile picture  ------------------------------- -->
+
+<%-- set search --%>
+
+<c:set var="searchAction">${setSearch}</c:set>
+
+
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com

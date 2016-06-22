@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import at.fh.swenga.ima.model.StudentModel;
 import at.fh.swenga.ima.model.TaskModel;
 
 @Repository
@@ -20,6 +21,8 @@ public interface TaskRepository extends JpaRepository<TaskModel, Integer> {
 	public List<TaskModel> findByTitle(String name);
 	public List<TaskModel> findByDescription(String name);
 	public List<TaskModel> findByStatus(Boolean TRUE);
+	
+	public List<TaskModel> findByUserNameContainsOrTitleContainsOrDescriptionContainsOrStatusContainsAllIgnoreCase(String username, String firstname, String lastname, Boolean githubuser);
 	
 	@SuppressWarnings("unchecked")
 	TaskModel save(TaskModel persisted);

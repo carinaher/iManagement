@@ -37,8 +37,7 @@ public class StudentController {
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
-
-
+		setUserPanel(model);
 		return "studentIndex";
 		
 
@@ -63,6 +62,9 @@ public class StudentController {
 		students = studentRepository.findByUserNameContainsOrFirstNameContainsOrLastNameContainsOrGithubUserContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
 
 		model.addAttribute("students", students);
+
+		
+		setUserPanel(model);
 		return "studentIndex";
 	}
 	
@@ -71,6 +73,8 @@ public class StudentController {
 		List<StudentModel> students = new ArrayList<>();
 		students.add(s);
 		model.addAttribute("students", students);
+		
+		setUserPanel(model);
 		return "studentIndex";
 	}
 
@@ -109,7 +113,8 @@ public class StudentController {
 		
 		
 		studentRepository.save(students);
-
+		
+		setUserPanel(model);
 		return "forward:/student";
 	}
 
@@ -117,12 +122,15 @@ public class StudentController {
 	public String deleteData(Model model, @RequestParam int id) {
 		studentRepository.delete(id);
 
+		setUserPanel(model);
 		return "forward:/student";
 	}
 
 	@RequestMapping(value = "/addStudent", method = RequestMethod.GET)
 	public String showAddStudentForm(Model model) {
 		model.addAttribute("pageTitle", "Add Student");
+		
+		setUserPanel(model);
 		return "studentEdit";
 	}
 	
@@ -137,6 +145,8 @@ public class StudentController {
 			}
 			// put the errors into the model
 			model.addAttribute("errorMessage", errorMessage);
+			
+			setUserPanel(model);
 			return "forward:/student";
 		}
  
@@ -149,6 +159,7 @@ public class StudentController {
 			model.addAttribute("message", "Added new student " + newStudentModel.getUserName());
 		}
  
+		setUserPanel(model);
 		return "forward:/student";
 	}
 	
@@ -158,9 +169,13 @@ public class StudentController {
 		if (student != null) {
 			model.addAttribute("student", student);
 			model.addAttribute("pageTitle", "Edit Student");
+			
+			setUserPanel(model);
 			return "studentEdit";
 		} else {
 			model.addAttribute("errorMessage", "Couldn't find student " + id);
+			
+			setUserPanel(model);
 			return "forward:/student";
 		}
 	}
@@ -175,6 +190,8 @@ public class StudentController {
 				errorMessage += fieldError.getField() + " is invalid<br>";
 			}
 			model.addAttribute("errorMessage", errorMessage);
+			
+			setUserPanel(model);
 			return "forward:/student";
 		}
  
@@ -192,6 +209,7 @@ public class StudentController {
 			studentRepository.save(student);
 		}
  
+		setUserPanel(model);
 		return "forward:/student";
 	}
 	
@@ -201,24 +219,27 @@ public class StudentController {
 		return "login";
 	}
 	
-	public void setUserPanel(Model model) {
+
+
+	String setUserPanel(Model model) {
 		
 		StudentModel student = studentRepository.findFirstByUserName(getUser(model));
 		if (student != null) {
 			model.addAttribute("student", student);
+			model.addAttribute("setSearch", "findStudent");
 		}
 	    else {
 			model.addAttribute("errorMessage", "Student doesn't exist!");
 		}
+		return "search";
 	}
 	
-	 public String getUser(Model model) {
+	 String getUser(Model model) {
 		 
 	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	      String name = auth.getName(); //get logged in username
 	      model.addAttribute("username", name);
 	      return name;
-	 
 	  }
 	
 	@ExceptionHandler(Exception.class)
