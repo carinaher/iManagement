@@ -51,11 +51,13 @@
 	<c:when test="${not empty student}">
 		<c:set var="legend">Edit Student ${student.id}</c:set>
 		<c:set var="formAction">editStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly">readonly</c:set>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Student</c:set>
 		<c:set var="formAction">addStudent</c:set>
+		<c:set var="searchAction">findStudent</c:set>
 		<c:set var="readonly"></c:set>
 	</c:otherwise>
 </c:choose>

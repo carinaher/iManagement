@@ -31,12 +31,12 @@ public class StudentController {
 	@RequestMapping(value = { "/student", "list" })
 	public String index(Model model) {
 		
+		setUserPanel(model);
 		List<StudentModel> students = studentRepository.findAll();
 		
 		model.addAttribute("students", students);
 		model.addAttribute("type", "findAll");
 		model.addAttribute("pageTitle", "Student List");
-
 		setUserPanel(model);
 		return "studentIndex";
 		
@@ -62,6 +62,7 @@ public class StudentController {
 		students = studentRepository.findByUserNameContainsOrFirstNameContainsOrLastNameContainsOrGithubUserContainsAllIgnoreCase(searchString,searchString,searchString,searchString);
 
 		model.addAttribute("students", students);
+
 		
 		setUserPanel(model);
 		return "studentIndex";
@@ -218,6 +219,8 @@ public class StudentController {
 		return "login";
 	}
 	
+
+
 	String setUserPanel(Model model) {
 		
 		StudentModel student = studentRepository.findFirstByUserName(getUser(model));

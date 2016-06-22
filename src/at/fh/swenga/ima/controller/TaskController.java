@@ -106,6 +106,7 @@ public class TaskController {
 			taskRepository.save(savedTaskModel);
 			model.addAttribute("message", "Created example tasks");
 		}
+
 		
 		setUserPanel(model);
 		return createReturnViewString(returnUrl);
@@ -120,7 +121,6 @@ public class TaskController {
 		model.addAttribute("pageTitle", "Add Task");
 		model.addAttribute("userDetails", userDetails);
 		model.addAttribute("returnUrl", returnUrl);
-		
 		setUserPanel(model);
 		return "taskEdit";
 	}
@@ -181,6 +181,7 @@ public class TaskController {
 			model.addAttribute("task", task);
 			model.addAttribute("pageTitle", "Edit Task");
 			model.addAttribute("returnUrl", returnUrl);
+
 			setUserPanel(model);
 			return "taskEdit";
 		}
@@ -230,9 +231,10 @@ public class TaskController {
 			taskRepository.save(task);
 		}
 
-		setUserPanel(model);
 		return createReturnViewString(returnUrl);
 	}
+	
+
 	
 	String createReturnViewString(String returnUrl) {
 		if (returnUrl != null && returnUrl.equals("task")) {

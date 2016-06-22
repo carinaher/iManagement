@@ -81,11 +81,16 @@ public class ForumEntryController {
 		DataFactory df = new DataFactory();
 		Date now = new Date();
 
-		for (int i = 0; i < 10; i++) {
-			ForumEntryModel fem = new ForumEntryModel(df.getFirstName(), df.getRandomText(10, 50),
-					userDetails.getUsername());
-			forumEntryRepository.save(fem);
-		}
+		ForumEntryModel fem1 = new ForumEntryModel("First Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+		forumEntryRepository.save(fem1);
+		
+		ForumEntryModel fem2 = new ForumEntryModel("Second Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+		forumEntryRepository.save(fem2);
+		
+		ForumEntryModel fem3 = new ForumEntryModel("Third Topic", "Lorem ipsum dolor sit amet, consetetur ", userDetails.getUsername());
+		forumEntryRepository.save(fem3);
+		
+
 		setUserPanel(model);
 		return "forward:/forum";
 	}
@@ -147,15 +152,17 @@ public class ForumEntryController {
 				savedForumEntry.setAttachment(attachment);
 				forumEntryRepository.save(savedForumEntry);
 				model.addAttribute("message", "New entry " + forumEntry.getTopic() + " added.");
-
+			
+			
 			}
-		} catch (RuntimeException ex) {
+		} 
+		/*catch (RuntimeException ex) {
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
 			setUserPanel(model);
 			return "forward:/forum";
 
-		}
+		}*/
 
 		catch (Exception e) {
 
@@ -240,6 +247,7 @@ public class ForumEntryController {
 				attachmentRepository.delete(forumEntry.getAttachment());
 				// Don't forget to remove the relationship too
 				forumEntry.setAttachment(null);
+				
 			}
 
 			// Create a new document and set all available infos
@@ -255,7 +263,6 @@ public class ForumEntryController {
 			model.addAttribute("message", "Changed entry " + editedForumEntryModel.getTopic());
 
 		} catch (RuntimeException ex) {
-			ForumEntryModel forumEntry = forumEntryRepository.findForumEntryByTopic(editedForumEntryModel.getTopic());
 
 			model.addAttribute("errorMessage", "The file you uploaded was bigger than 4MB. Try another.");
 
