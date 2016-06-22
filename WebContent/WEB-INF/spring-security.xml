@@ -11,9 +11,11 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/fillDatabase" access="permitAll" /> <!-- //TODO: remove before submitting -->
 		
+		
 		<intercept-url pattern="/deleteStudent" access="hasRole('ADMIN')" /> 	<!-- nun kann ein User keine Students mehr löschen -->
 		<intercept-url pattern="/editStudent" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Students mehr editieren -->
 		<intercept-url pattern="/addStudent" access="hasRole('ADMIN')" /> 		<!-- nun kann ein User keine Students mehr erstellen -->
+		<intercept-url pattern="/fillStudents" access="hasRole('ADMIN')" /> 	<!-- nun kann ein User keine Students-Liste mehr erstellen -->
 		
 		<intercept-url pattern="/user" access="hasRole('ADMIN')" /> 			<!-- only allow Admins to directly view user Database -->
 		<intercept-url pattern="/addUser" access="hasRole('ADMIN')" /> 			<!-- only allow Admins to add users -->

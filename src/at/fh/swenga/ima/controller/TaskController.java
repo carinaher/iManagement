@@ -62,18 +62,18 @@ public class TaskController {
 		setUserPanel(model);
         return "calendarIndex";
 	}
+	
 	@RequestMapping(value = { "/task", "list" })
 	public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		List<TaskModel> tasks = taskRepository.findByUserName(userDetails.getUsername());
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("type", "findAll");
-		model.addAttribute("pageTitle", "Student List");
+		model.addAttribute("pageTitle", "ToDo List");
 
 		setUserPanel(model);
 		return "taskIndex";
 	}
 	
-
 	@RequestMapping(value = { "/findTask" })
 	public String find(Model model, @RequestParam String searchString, @ModelAttribute("type") String type) {
 		List<TaskModel> tasks = new ArrayList<>();
@@ -87,6 +87,29 @@ public class TaskController {
 	}
 
 	@RequestMapping("/fillTasks")
+	@Transactional
+	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+
+		DataFactory df = new DataFactory();
+		Date now = new Date();
+		Date startDate = df.getDateBetween(now, df.getDate(2016, 7, 31));
+		LocalDateTime endLocalDateTime = LocalDateTime.from(startDate.toInstant().atZone(ZoneId.of("UTC"))).plusDays(3); // can only increment a LocalDateTime
+		Date endDate = Date.from(endLocalDateTime.toInstant(ZoneOffset.UTC));
+		
+		List<TaskModel> tasks = new ArrayList<>();
+		tasks.add(new TaskModel("SWENGA", "Software Engineering Advanced", true, startDate, df.getDateBetween(startDate,endDate ), "FH-Joanneum Graz", userDetails.getUsername()));
+		tasks.add(new TaskModel("HVSYS", "Heterogene vernetzte Systeme", true, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Graz", userDetails.getUsername()));
+		tasks.add(new TaskModel("DMT3", "Digitale Medien Technologien 3", false, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Kapfenberg", userDetails.getUsername()));
+		tasks.add(new TaskModel("GPMGT", "Geschäftsprozessmanagement", true, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Graz", userDetails.getUsername()));
+		tasks.add(new TaskModel("TEAMT", "Teamtraining", false, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Bad Gleichenberg", userDetails.getUsername()));
+				
+		taskRepository.save(tasks);
+		
+		setUserPanel(model);
+		return "forward:/task";
+	}
+	
+	/*@RequestMapping("/fillTasks")
 	@Transactional
 	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails,
 			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
@@ -110,7 +133,7 @@ public class TaskController {
 		
 		setUserPanel(model);
 		return createReturnViewString(returnUrl);
-	}
+	}*/
 
 
 	
