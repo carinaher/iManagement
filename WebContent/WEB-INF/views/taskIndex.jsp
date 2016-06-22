@@ -32,7 +32,7 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">Todo List</h3>
+			<h3 class="blank1">ToDo List</h3>
 			<div class="bs-example4" data-example-id="contextual-table">
 				<div class="row">
 					<div class="col-md-15 col-md-offset-0">
@@ -50,7 +50,7 @@
 				</div>
 				<div class="xs tabls">
 
-					<table class="table">
+					<table class="table table-todo_list">
 						<thead>
 							<tr>
 								<!-- <th>ID</th>
@@ -74,11 +74,32 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${tasks}" var="task">
-								<tr>
+								
+								<c:choose>
+								<c:when test="${task.status}">
+								<tr class="done">
+								</c:when>
+								<c:otherwise>
+								<tr class="not-done">
+								</c:otherwise>
+								</c:choose>
+								
 									<th scope="row">${task.id}</th>
 									<td>${task.title}</td>
 									<td>${task.description}</td>
-									<td>${task.status}</td>
+									
+									<td>
+										<c:choose>
+											<c:when test="${task.status}">
+												done
+											</c:when>
+											<c:otherwise>
+												not done
+											</c:otherwise>
+										</c:choose>
+									</td>
+									
+									
 									<td><fmt:formatDate value="${task.start}"
 											pattern="dd.MM.yyyy" /></td>
 									<td><fmt:formatDate value="${task.end}"

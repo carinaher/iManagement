@@ -4,6 +4,19 @@
 footer { /* full calendar uses up to 6 */
     z-index: 10;
 }
+
+.table-todo_list>tbody>tr>td, .table-todo_list>tbody>tr>th, .table-todo_list>tfoot>tr>td, .table-todo_list>tfoot>tr>th, .table-todo_list>thead>tr>td, .table-todo_list>thead>tr>th {
+    border-bottom: 10px solid white;
+}
+
+tr.done {
+	background-color: #dff0d8;
+}
+tr.not-done {
+	background-color: #f2dede;
+}
+
+
 /*
 Author: W3layout
 Author URL: http://w3layouts.com
@@ -2800,7 +2813,7 @@ canvas#doughnut, canvas#line, canvas#polarArea, #bar, #pie, #radar{
   color: #fff;
   background-color:rgb(6, 217, 149);
   border-color:rgb(6, 217, 149);
-  padding:8.5px 12px;
+  /* padding:8.5px 12px; */
 }
 .tag_01{
   margin-right:5px;
