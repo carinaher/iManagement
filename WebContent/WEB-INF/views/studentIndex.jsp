@@ -36,13 +36,6 @@
 						<div class="col-md-15 col-md-offset-0">
 							<p>
 								<sec:authorize access="hasRole('ROLE_ADMIN')">
-									<a href="fillStudents">
-										<button type="button" class="btn btn-primary">
-											<span aria-hidden="true"></span>Fill List
-										</button>
-									</a>
-								</sec:authorize>
-								<sec:authorize access="hasRole('ROLE_ADMIN')">
 									<a href="addStudent">
 										<button type="button" class="btn btn-primary">
 											<span aria-hidden="true"></span>Add Student
