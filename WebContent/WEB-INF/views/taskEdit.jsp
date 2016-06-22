@@ -16,6 +16,9 @@
 		<c:set var="formAction">editTask?returnUrl=${returnUrl}</c:set>
 		<c:set var="readonly">readonly</c:set>
 		<c:set var="username">${task.userName}</c:set>
+		<c:if test="${task.status}">
+			<c:set var="statusChecked">checked</c:set>
+		</c:if>
 	</c:when>
 	<c:otherwise>
 		<c:set var="legend">New Task</c:set>
@@ -25,6 +28,7 @@
 	</c:otherwise>
 </c:choose>
 <!--  add or edit?  ----------------------------------------------------------- -->
+
 
 <div id="page-wrapper">
 	<div class="graphs">
@@ -72,9 +76,9 @@
 							<!-- ----------------  Status ---------------- -->
 							<div class="form-group">
 								<label for="inputStatus" class="col-md-2 control-label">Status</label>
-								<div class="col-md-10">
-									<input class="form-control" id="inputStatus" type="text"
-										name="status" value="<c:out value="${task.status}"/>">
+								<div class="col-md-10">								
+									<input type="checkbox" ${statusChecked} class="form-control" id="inputStatus"
+										name="statusCheckbox" value="a_checkbox_for_status"> Task is done
 								</div>
 							</div>
 
@@ -149,9 +153,10 @@
 		$(".form_datetime").datetimepicker({
 			format : "dd.mm.yyyy hh:ii",
 			autoclose : true,
-			todayBtn : true,
+			todayBtn : false,
 			pickerPosition : "bottom-left",
-			minuteStep: 5	
+			minuteStep: 5,
+			startDate: new Date()
 		});
 
 	});

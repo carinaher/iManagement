@@ -128,7 +128,8 @@ public class TaskController {
 	@RequestMapping(value = "/addTask", method = RequestMethod.POST)
 	public String addTask(@Valid @ModelAttribute TaskModel newTaskModel, BindingResult bindingResult,
 			Model model, @AuthenticationPrincipal UserDetails userDetails,
-			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
+			@RequestParam(value = "returnUrl", required = false) String returnUrl,
+			@RequestParam(required = false) String statusCheckbox) {
  
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -149,6 +150,8 @@ public class TaskController {
 			// not an admin and not the current user
 			model.addAttribute("errorMessage", "Not authorized to add task for " + newTaskModel.getUserName());
 		} else {
+			if (statusCheckbox == null) newTaskModel.setStatus(false);
+			else newTaskModel.setStatus(true);
 			TaskModel savedTaskModel = taskRepository.save(newTaskModel);
 			savedTaskModel.setUrl("#"); // setter automatically generates a url (with id) to edit this task
 			taskRepository.save(savedTaskModel);
@@ -187,7 +190,8 @@ public class TaskController {
 	@RequestMapping(value = "/editTask", method = RequestMethod.POST)
 	public String editStudent(@Valid @ModelAttribute TaskModel editedTaskModel, BindingResult bindingResult,
 			Model model, @AuthenticationPrincipal UserDetails userDetails,
-			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
+			@RequestParam(value = "returnUrl", required = false) String returnUrl,
+			@RequestParam(required = false) String statusCheckbox) {
  
 		if (bindingResult.hasErrors()) {
 			String errorMessage = "";
@@ -214,7 +218,8 @@ public class TaskController {
 
 			task.setTitle(editedTaskModel.getTitle());
 			task.setDescription(editedTaskModel.getDescription());
-			task.setStatus(editedTaskModel.getStatus());
+			if (statusCheckbox == null) task.setStatus(false);
+			else task.setStatus(true);
 			task.setStart(editedTaskModel.getStart());
 			task.setEnd(editedTaskModel.getEnd());
 			task.setPlace(editedTaskModel.getPlace());

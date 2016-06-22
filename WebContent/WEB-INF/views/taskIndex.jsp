@@ -32,7 +32,7 @@
 
 	<div id="page-wrapper">
 		<div class="graphs">
-			<h3 class="blank1">Tasks Table</h3>
+			<h3 class="blank1">Todo List</h3>
 			<div class="bs-example4" data-example-id="contextual-table">
 				<div class="row">
 					<div class="col-md-15 col-md-offset-0">
