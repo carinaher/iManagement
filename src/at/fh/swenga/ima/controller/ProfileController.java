@@ -115,11 +115,4 @@ public class ProfileController {
 	}
 	
 
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String logout(Model model, HttpServletRequest request, HttpServletResponse response) {
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		new SecurityContextLogoutHandler().logout(request, response, auth);;
-		return "redirect:/login";
-	}
 }
