@@ -88,7 +88,8 @@ public class TaskController {
 
 	@RequestMapping("/fillTasks")
 	@Transactional
-	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+	public String fillData(Model model, @AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "returnUrl", required = false) String returnUrl) {
 
 		DataFactory df = new DataFactory();
 		Date now = new Date();
@@ -103,10 +104,16 @@ public class TaskController {
 		tasks.add(new TaskModel("GPMGT", "Geschäftsprozessmanagement", true, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Graz", userDetails.getUsername()));
 		tasks.add(new TaskModel("TEAMT", "Teamtraining", false, startDate, df.getDateBetween(startDate,endDate ),"FH-Joanneum Bad Gleichenberg", userDetails.getUsername()));
 				
-		taskRepository.save(tasks);
+		
+
+		List<TaskModel> savedTaskModels = taskRepository.save(tasks);
+		savedTaskModels.stream().forEach(t -> t.setUrl("#")); // setter automatically generates a url (with id) to edit this task
+		
+		taskRepository.save(savedTaskModels);
+		model.addAttribute("message", "Created example tasks");
 		
 		setUserPanel(model);
-		return "forward:/task";
+		return createReturnViewString(returnUrl);
 	}
 	
 	@RequestMapping("/deleteTask")
